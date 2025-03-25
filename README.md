@@ -1,4 +1,4 @@
-# ogc-cite-action
+# cite-runner
 
 Simplify testing your OGC implementation server against [CITE](https://github.com/opengeospatial/cite/wiki). This repo
 contains a CITE runner that can be called as a github action. It can also be used standalone, which allows integration
@@ -99,7 +99,7 @@ jobs:
           timeout: 120
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/ogc-cite-action@main
+        uses: OSGEO/cite-runner@main
         with:
           test_suite_identifier: 'ogcapi-features-1.0'
           test_session_arguments: >-
@@ -158,7 +158,7 @@ jobs:
           tail: 500
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/ogc-cite-action@main
+        uses: OSGEO/cite-runner@main
         with:
           test_suite_identifier: ${{ matrix.test-suite.suite-id }}
           test_session_arguments: ${{ matrix.test-suite.arguments }}
@@ -175,12 +175,12 @@ This action's code can also be installed locally:
 - Clone this repository:
 
   ```shell
-  git clone https://github.com/OSGeo/ogc-cite-action.git
+  git clone https://github.com/OSGeo/cite-runner.git
   ```
 - Install the code:
 
   ```shell
-  cd ogc-cite-action
+  cd cite-runner
   poetry install
   ```
 
@@ -199,7 +199,7 @@ This action's code can also be installed locally:
 - Run the action code with
 
   ```shell
-  poetry run ogc-cite-action --help
+  poetry run cite-runner --help
   ```
 
 There are additional commands and options which can be used when running locally, which allow controlling the output 

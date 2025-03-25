@@ -1,4 +1,4 @@
-"""Run teamengine and parse results."""
+"""CLI Utilities for running CITE tests and parsing their results."""
 
 from builtins import print as stdlib_print
 import logging
@@ -11,7 +11,6 @@ import pydantic
 import typer
 from rich import print
 
-import src.ogc_cite_action.config
 from . import (
     config,
     exceptions,
@@ -191,7 +190,7 @@ def execute_test_suite_standalone(
 
 
 def _execute_test_suite(
-        ctx: src.ogc_cite_action.config.CliContext,
+        ctx: config.CliContext,
         teamengine_base_url: str,
         test_suite_identifier: str,
         teamengine_username: pydantic.SecretStr,
@@ -215,7 +214,7 @@ def _execute_test_suite(
                 teamengine_username=teamengine_username,
                 teamengine_password=teamengine_password,
             )
-        except exceptions.OgcCiteActionException:
+        except exceptions.CiteRunnerException:
             logger.exception(f"Unable to collect test suite execution results")
             raise SystemExit(1)
         else:
