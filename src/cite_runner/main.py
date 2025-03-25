@@ -27,36 +27,33 @@ def _parse_pydantic_secret_str(value: str) -> pydantic.SecretStr:
 
 
 _test_suite_identifier_argument = typing.Annotated[
-    str,
-    typer.Argument(help="Identifier of the test suite. Ex: ogcapi-features-1.0")
+    str, typer.Argument(help="Identifier of the test suite. Ex: ogcapi-features-1.0")
 ]
 _teamengine_base_url_argument = typing.Annotated[
     str,
     typer.Argument(
         help="Base URL of teamengine service. Ex: http://localhost:8080/teamengine"
-    )
+    ),
 ]
 _teamengine_username_option = typing.Annotated[
     pydantic.SecretStr,
     typer.Option(
         help="Username for authenticating with teamengine",
         parser=_parse_pydantic_secret_str,
-    )
+    ),
 ]
 _teamengine_password_option = typing.Annotated[
     pydantic.SecretStr,
     typer.Option(
         help="Password for authenticating with teamengine",
         parser=_parse_pydantic_secret_str,
-    )
+    ),
 ]
 
 
 @app.callback()
 def base_callback(
-    ctx: typer.Context,
-    debug: bool = False,
-    network_timeout: int = 120
+    ctx: typer.Context, debug: bool = False, network_timeout: int = 120
 ) -> None:
     config.configure_logging(debug=debug)
     ctx.obj = config.get_context(
@@ -67,31 +64,25 @@ def base_callback(
 
 @app.command("parse-result")
 def parse_test_result(
-        ctx: typer.Context,
-        test_suite_result: typing.Annotated[
-            Path,
-            typer.Argument(
-                exists=True,
-                file_okay=True,
-                dir_okay=False,
-                help="Suite execution result"
-            )
-        ],
-        output_format: models.ParseableOutputFormat = models.ParseableOutputFormat.JSON,
-        treat_skipped_tests_as_failures: bool = True,
-        exit_with_error_on_suite_failed_result: bool = False,
+    ctx: typer.Context,
+    test_suite_result: typing.Annotated[
+        Path,
+        typer.Argument(
+            exists=True, file_okay=True, dir_okay=False, help="Suite execution result"
+        ),
+    ],
+    output_format: models.ParseableOutputFormat = models.ParseableOutputFormat.JSON,
+    treat_skipped_tests_as_failures: bool = True,
+    exit_with_error_on_suite_failed_result: bool = False,
 ):
     parsed = teamengine_runner.parse_test_suite_result(
-        test_suite_result.read_text(),
-        ctx.obj.settings,
-        treat_skipped_tests_as_failures
+        test_suite_result.read_text(), ctx.obj.settings, treat_skipped_tests_as_failures
     )
     serialized = teamengine_runner.serialize_suite_result(
         parsed, output_format, ctx.obj.settings, ctx.obj.jinja_environment
     )
     print(serialized)
-    raise typer.Exit(
-        _get_exit_code(parsed, exit_with_error_on_suite_failed_result))
+    raise typer.Exit(_get_exit_code(parsed, exit_with_error_on_suite_failed_result))
 
 
 @app.command("execute-test-suite")
@@ -107,7 +98,7 @@ def execute_test_suite_from_github_actions(
                 "input must be formatted as key=value. Ex: "
                 "iut=http://localhost:5000 noofcollections=-1"
             )
-        )
+        ),
     ],
     teamengine_username: _teamengine_username_option = "ogctest",
     teamengine_password: _teamengine_password_option = "ogctest",
@@ -158,8 +149,8 @@ def execute_test_suite_standalone(
             help=(
                 "Input name and value separated by a space. "
                 "Ex: --test-suite-input iut http://localhost:5000"
-            )
-        )
+            ),
+        ),
     ] = None,
     output_format: models.OutputFormat = models.OutputFormat.MARKDOWN,
     treat_skipped_tests_as_failures: bool = True,
@@ -181,8 +172,7 @@ def execute_test_suite_standalone(
         treat_skipped_tests_as_failures=treat_skipped_tests_as_failures,
     )
     if output_format == models.OutputFormat.RAW:
-        logger.debug(
-            f"Outputting raw response, as returned by teamengine...")
+        logger.debug("Outputting raw response, as returned by teamengine...")
         stdlib_print(serialized)
     else:
         print(serialized)
@@ -190,21 +180,22 @@ def execute_test_suite_standalone(
 
 
 def _execute_test_suite(
-        ctx: config.CliContext,
-        teamengine_base_url: str,
-        test_suite_identifier: str,
-        teamengine_username: pydantic.SecretStr,
-        teamengine_password: pydantic.SecretStr,
-        test_suite_inputs: dict[str, list[str]],
-        output_format: models.OutputFormat,
-        treat_skipped_tests_as_failures: bool,
+    ctx: config.CliContext,
+    teamengine_base_url: str,
+    test_suite_identifier: str,
+    teamengine_username: pydantic.SecretStr,
+    teamengine_password: pydantic.SecretStr,
+    test_suite_inputs: dict[str, list[str]],
+    output_format: models.OutputFormat,
+    treat_skipped_tests_as_failures: bool,
 ) -> tuple[models.TestSuiteResult, str]:
     logger.debug(f"{locals()=}")
     client = httpx.Client(timeout=ctx.network_timeout_seconds)
     base_url = teamengine_base_url.strip("/")
     if teamengine_runner.wait_for_teamengine_to_be_ready(client, base_url):
         logger.debug(
-            f"Asking teamengine to execute test suite {test_suite_identifier!r}...")
+            f"Asking teamengine to execute test suite {test_suite_identifier!r}..."
+        )
         try:
             raw_result = teamengine_runner.execute_test_suite(
                 client,
@@ -215,33 +206,28 @@ def _execute_test_suite(
                 teamengine_password=teamengine_password,
             )
         except exceptions.CiteRunnerException:
-            logger.exception(f"Unable to collect test suite execution results")
+            logger.exception("Unable to collect test suite execution results")
             raise SystemExit(1)
         else:
             parsed = teamengine_runner.parse_test_suite_result(
-                raw_result, ctx.settings, treat_skipped_tests_as_failures)
+                raw_result, ctx.settings, treat_skipped_tests_as_failures
+            )
             if output_format == models.OutputFormat.RAW:
-                logger.debug(
-                    f"Outputting raw response, as returned by teamengine...")
+                logger.debug("Outputting raw response, as returned by teamengine...")
                 serialized = raw_result
             else:
-                logger.debug(f"Parsing test suite execution results...")
+                logger.debug("Parsing test suite execution results...")
                 format_to_output = models.ParseableOutputFormat(output_format.value)
                 serialized = teamengine_runner.serialize_suite_result(
                     parsed, format_to_output, ctx.settings, ctx.jinja_environment
                 )
             return parsed, serialized
     else:
-        logger.critical(f"teamengine service is not available")
+        logger.critical("teamengine service is not available")
         raise SystemExit(1)
 
 
 def _get_exit_code(
-        parsed: models.TestSuiteResult,
-        exit_with_error_on_suite_failed_result: bool
+    parsed: models.TestSuiteResult, exit_with_error_on_suite_failed_result: bool
 ) -> int:
-    return (
-        0 if parsed.passed else (
-            1 if exit_with_error_on_suite_failed_result else 0
-        )
-    )
+    return 0 if parsed.passed else (1 if exit_with_error_on_suite_failed_result else 0)

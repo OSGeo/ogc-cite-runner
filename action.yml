@@ -18,7 +18,7 @@ inputs:
     description: >
       URL for the teamengine instance to use for running the test suite. If not provided, this will spin up a docker
       container using the [ogccite/teamengine-production:1.0-SNAPSHOT](https://hub.docker.com/r/ogccite/teamengine-production) image.
-      If you specify a custom teamengine URL you may also optonally supply authentication credentials by defining 
+      If you specify a custom teamengine URL you may also optonally supply authentication credentials by defining
       them as secrets - Expected secret names are: `teamengine_username` and `teamengine_password`.
   treat_skipped_tests_as_failures:
     required: false

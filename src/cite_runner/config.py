@@ -14,8 +14,7 @@ from . import models
 
 class CiteRunnerSettings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_prefix="CITE_RUNNER__",
-        env_nested_delimiter="__"
+        env_prefix="CITE_RUNNER__", env_nested_delimiter="__"
     )
     default_json_serializer: str = "cite_runner.serializers.simple.to_json"
     default_markdown_serializer: str = "cite_runner.serializers.simple.to_markdown"
@@ -30,9 +29,7 @@ class CiteRunnerSettings(BaseSettings):
 
 
 class CliContext(pydantic.BaseModel):
-    model_config = pydantic.ConfigDict(
-        arbitrary_types_allowed=True
-    )
+    model_config = pydantic.ConfigDict(arbitrary_types_allowed=True)
 
     debug: bool = False
     jinja_environment: jinja2.Environment = jinja2.Environment()
@@ -44,10 +41,7 @@ def get_settings() -> CiteRunnerSettings:
     return CiteRunnerSettings()
 
 
-def get_context(
-        debug: bool,
-        network_timeout_seconds: int
-) -> CliContext:
+def get_context(debug: bool, network_timeout_seconds: int) -> CliContext:
     settings = get_settings()
     return CliContext(
         debug=debug,
@@ -69,23 +63,18 @@ def _get_jinja_environment(settings: CiteRunnerSettings) -> jinja2.Environment:
             "jinja2_humanize_extension.HumanizeExtension",
         ],
     )
-    env.globals.update({
-        "TestStatus": models.TestStatus,
-    })
+    env.globals.update(
+        {
+            "TestStatus": models.TestStatus,
+        }
+    )
     return env
 
 
-def configure_logging(
-        debug: bool
-) -> None:
+def configure_logging(debug: bool) -> None:
     logging.basicConfig(
         level=logging.DEBUG if debug else logging.WARNING,
-        handlers=[
-            RichHandler(
-                console=Console(stderr=True),
-                rich_tracebacks=True
-            )
-        ],
+        handlers=[RichHandler(console=Console(stderr=True), rich_tracebacks=True)],
     )
     logging.getLogger("httpcore").setLevel(logging.INFO if debug else logging.WARNING)
     logging.getLogger("httpx").setLevel(logging.INFO if debug else logging.WARNING)
