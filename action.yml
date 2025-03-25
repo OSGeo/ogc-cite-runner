@@ -1,6 +1,6 @@
-name: 'Run TEAM Engine'
+name: 'CITE runner'
 
-description: 'Runner for TEAM Engine'
+description: 'Runner for CITE'
 
 branding:
   icon: 'award'

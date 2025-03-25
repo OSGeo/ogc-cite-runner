@@ -33,11 +33,10 @@ class SuiteSerializerProtocol(typing.Protocol):
     def __call__(
             self,
             suite_result: models.TestSuiteResult,
-            settings: config.TeamEngineRunnerSettings,
+            settings: config.CiteRunnerSettings,
             jinja_env: jinja2.Environment,
     ) -> str:
         ...
-
 
 
 def wait_for_teamengine_to_be_ready(
@@ -91,14 +90,14 @@ def execute_test_suite(
     try:
         response.raise_for_status()
     except httpx.HTTPError as exc:
-        raise exceptions.OgcCiteActionException("Could not execute test suite") from exc
+        raise exceptions.CiteRunnerException("Could not execute test suite") from exc
     else:
         return response.text
 
 
 def parse_test_suite_result(
         raw_result: str,
-        settings: config.TeamEngineRunnerSettings,
+        settings: config.CiteRunnerSettings,
         treat_skipped_as_failure: bool,
         test_suite_identifier: str | None = None,
 ) -> models.TestSuiteResult:
@@ -112,7 +111,7 @@ def parse_test_suite_result(
 def serialize_suite_result(
         parsed_suite_result: models.TestSuiteResult,
         output_format: models.ParseableOutputFormat,
-        settings: config.TeamEngineRunnerSettings,
+        settings: config.CiteRunnerSettings,
         jinja_env: jinja2.Environment,
 ) -> str:
     serializer: SuiteSerializerProtocol = _get_suite_result_serializer(
@@ -142,7 +141,7 @@ def _load_python_object(
 
 def _get_suite_result_serializer(
     output_format: models.ParseableOutputFormat,
-    settings: config.TeamEngineRunnerSettings,
+    settings: config.CiteRunnerSettings,
     test_suite_identifier: str | None = None,
 ) -> SuiteSerializerProtocol:
     serializer_python_path = {
@@ -166,7 +165,7 @@ def _get_suite_result_serializer(
 
 
 def _get_suite_result_parser(
-    settings: config.TeamEngineRunnerSettings,
+    settings: config.CiteRunnerSettings,
     test_suite_identifier: str | None = None,
 ) -> SuiteParserProtocol:
     parser_python_path = settings.default_parser
@@ -195,7 +194,7 @@ def _parse_raw_result_as_xml(
     try:
         return etree.fromstring(raw_result.encode(), parser)
     except etree.ParseError as exc:
-        raise exceptions.OgcCiteActionException(
+        raise exceptions.CiteRunnerException(
             "Unable to parse test suite execution result as XML") from exc
 
 

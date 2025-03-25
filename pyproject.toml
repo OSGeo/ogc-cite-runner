@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "ogc-cite-action"
+name = "cite-runner"
 version = "0.1.0"
 description = ""
 authors = ["Ricardo Garcia Silva <ricardo.garcia.silva@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 packages = [
-    { include = "ogc_cite_action", from = "src" }
+    { include = "cite_runner", from = "src" }
 ]
 
 [tool.poetry.dependencies]

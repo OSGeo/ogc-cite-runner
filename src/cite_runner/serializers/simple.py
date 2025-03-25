@@ -1,12 +1,12 @@
 import jinja2
 
 from .. import models
-from ..config import TeamEngineRunnerSettings
+from ..config import CiteRunnerSettings
 
 
 def to_markdown(
         parsed_result: models.TestSuiteResult,
-        settings: TeamEngineRunnerSettings,
+        settings: CiteRunnerSettings,
         jinja_environment: jinja2.Environment,
 ) -> str:
     """Serialize parsed test suite results to markdown"""
@@ -18,7 +18,7 @@ def to_markdown(
 
 def to_json(
         parsed_result: models.TestSuiteResult,
-        settings: TeamEngineRunnerSettings,
+        settings: CiteRunnerSettings,
         jinja_environment: jinja2.Environment,
 ) -> str:
     return parsed_result.model_dump_json(indent=2)
