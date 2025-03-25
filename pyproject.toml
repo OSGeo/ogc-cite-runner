@@ -21,7 +21,7 @@ lxml = "^5.3.1"
 isodate = "^0.7.2"
 
 [tool.poetry.scripts]
-ogc-cite-action = "ogc_cite_action.main:app"
+cite-runner = "cite_runner.main:app"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.31.0"
