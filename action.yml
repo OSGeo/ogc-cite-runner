@@ -82,7 +82,7 @@ runs:
       run: |
         cd ${{ github.action_path }}
         raw_result_output_path=raw-result.xml
-        poetry run ogc-cite-action \
+        poetry run cite-runner \
             --network-timeout=${{ inputs.network_timeout_seconds }} \
             execute-test-suite \
             ${{ inputs.teamengine_url || 'http://localhost:8080/teamengine' }} \
@@ -98,7 +98,7 @@ runs:
       run: |
         cd ${{ github.action_path }}
         md_result_output_path=test-result.md
-        poetry run ogc-cite-action \
+        poetry run cite-runner \
             parse-result \
             --output-format=markdown \
             ${{ fromJSON(inputs.treat_skipped_tests_as_failures) && '--treat-skipped-tests-as-failures' || '' }} \
