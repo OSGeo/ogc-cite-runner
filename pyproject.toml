@@ -26,6 +26,7 @@ cite-runner = "cite_runner.main:app"
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.31.0"
 pytest = "^8.3.5"
+pre-commit = "^4.2.0"
 
 [build-system]
 requires = ["poetry-core"]

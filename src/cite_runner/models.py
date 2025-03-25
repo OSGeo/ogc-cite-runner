@@ -8,7 +8,7 @@ import pydantic
 class OutputFormat(str, enum.Enum):
     JSON = "json"
     MARKDOWN = "markdown"
-    RAW= "raw"
+    RAW = "raw"
 
 
 class ParseableOutputFormat(str, enum.Enum):

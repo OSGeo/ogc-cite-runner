@@ -17,15 +17,21 @@ from ..teamengine_runner import logger
 
 
 def parse_test_suite_result(
-        suite_result: etree.Element,
-        treat_skipped_as_failure: bool,
+    suite_result: etree.Element,
+    treat_skipped_as_failure: bool,
 ) -> models.TestSuiteResult:
     """Parse test suite result from EARL."""
     test_run_el = suite_result.find("./cite:TestRun", namespaces=suite_result.nsmap)
     suite_title = test_run_el.find("dct:title", namespaces=suite_result.nsmap).text
-    suite_identifier = test_run_el.find("dct:identifier", namespaces=suite_result.nsmap).text
-    test_run_start = _parse_to_datetime(test_run_el.find("dct:created", namespaces=suite_result.nsmap).text)
-    test_run_duration = parse_duration(test_run_el.find("dct:extent", namespaces=suite_result.nsmap).text)
+    suite_identifier = test_run_el.find(
+        "dct:identifier", namespaces=suite_result.nsmap
+    ).text
+    test_run_start = _parse_to_datetime(
+        test_run_el.find("dct:created", namespaces=suite_result.nsmap).text
+    )
+    test_run_duration = parse_duration(
+        test_run_el.find("dct:extent", namespaces=suite_result.nsmap).text
+    )
     test_run_end = test_run_start + test_run_duration
     num_passed = int(
         test_run_el.find("cite:testsPassed", namespaces=suite_result.nsmap).text
@@ -39,7 +45,8 @@ def parse_test_suite_result(
     suite_inputs = _parse_test_inputs(test_run_el, suite_result.nsmap)
     conf_classes = _parse_test_requirements(test_run_el, suite_result.nsmap)
     for assertion_el in suite_result.findall(
-            "earl:Assertion", namespaces=suite_result.nsmap):
+        "earl:Assertion", namespaces=suite_result.nsmap
+    ):
         test_case_result = _parse_assertion(assertion_el, suite_result.nsmap)
         for conf_class_result, conf_class_parts in conf_classes:
             if test_case_result.identifier in conf_class_parts:
@@ -77,53 +84,45 @@ def parse_test_suite_result(
 
 
 def _parse_test_inputs(
-        test_run_el: etree.Element,
-        nsmap: dict
+    test_run_el: etree.Element, nsmap: dict
 ) -> list[models.TestSuiteInput]:
     suite_inputs = []
     for test_suite_input_el in test_run_el.findall(
-            "cite:inputs/rdf:Bag/rdf:li", namespaces=nsmap
+        "cite:inputs/rdf:Bag/rdf:li", namespaces=nsmap
     ):
         suite_inputs.append(
             models.TestSuiteInput(
-                name=test_suite_input_el.find(
-                    "dct:title", namespaces=nsmap).text,
+                name=test_suite_input_el.find("dct:title", namespaces=nsmap).text,
                 value=test_suite_input_el.find(
-                    "dct:description", namespaces=nsmap).text,
+                    "dct:description", namespaces=nsmap
+                ).text,
             )
         )
     return suite_inputs
 
 
 def _parse_test_requirements(
-        test_run_el: etree.Element,
-        nsmap: dict
+    test_run_el: etree.Element, nsmap: dict
 ) -> list[tuple[models.ConformanceClassResult, list[str]]]:
     conf_classes = []
     for test_requirement_el in test_run_el.findall(
-            "cite:requirements/rdf:Seq/rdf:li/earl:TestRequirement",
-            namespaces=nsmap
+        "cite:requirements/rdf:Seq/rdf:li/earl:TestRequirement", namespaces=nsmap
     ):
-        title = test_requirement_el.find(
-            "dct:title", namespaces=nsmap).text
+        title = test_requirement_el.find("dct:title", namespaces=nsmap).text
         try:
-            description = test_requirement_el.find("dct:description", namespaces=nsmap).text
+            description = test_requirement_el.find(
+                "dct:description", namespaces=nsmap
+            ).text
         except AttributeError:
             description = ""
         num_failed = int(
-            test_requirement_el.find(
-                "cite:testsFailed", namespaces=nsmap
-            ).text
+            test_requirement_el.find("cite:testsFailed", namespaces=nsmap).text
         )
         num_passed = int(
-            test_requirement_el.find(
-                "cite:testsPassed", namespaces=nsmap
-            ).text
+            test_requirement_el.find("cite:testsPassed", namespaces=nsmap).text
         )
         num_skipped = int(
-            test_requirement_el.find(
-                "cite:testsSkipped", namespaces=nsmap
-            ).text
+            test_requirement_el.find("cite:testsSkipped", namespaces=nsmap).text
         )
         parts = []
         for part_el in test_requirement_el.findall("dct:hasPart", namespaces=nsmap):
@@ -140,21 +139,16 @@ def _parse_test_requirements(
             num_failed_tests=num_failed,
             num_passed_tests=num_passed,
             num_skipped_tests=num_skipped,
-            tests=[]
+            tests=[],
         )
         conf_classes.append((conf_class_result, parts))
     conf_classes.sort(key=lambda item: item[0].title)
     return conf_classes
 
 
-
-def _parse_assertion(
-        assertion_el: etree.Element,
-        nsmap: dict
-) -> models.TestCaseResult:
+def _parse_assertion(assertion_el: etree.Element, nsmap: dict) -> models.TestCaseResult:
     raw_outcome = assertion_el.find(
-        "earl:result/earl:TestResult/earl:outcome",
-        namespaces=nsmap
+        "earl:result/earl:TestResult/earl:outcome", namespaces=nsmap
     ).attrib[f"{{{nsmap['rdf']}}}resource"]
     outcome = raw_outcome.split("earl#")[-1]
     test_status = {
@@ -164,34 +158,37 @@ def _parse_assertion(
     }[outcome]
 
     try:
-        test_identifier = assertion_el.find(
-            "earl:test",
-            namespaces=nsmap
-        ).attrib[f"{{{nsmap['rdf']}}}resource"]
+        test_identifier = assertion_el.find("earl:test", namespaces=nsmap).attrib[
+            f"{{{nsmap['rdf']}}}resource"
+        ]
     except KeyError:
         test_identifier = assertion_el.find(
-            "earl:test/earl:TestCase",
-            namespaces=nsmap
+            "earl:test/earl:TestCase", namespaces=nsmap
         ).attrib[f"{{{nsmap['rdf']}}}about"]
     title = (
         title_el.text
         if (
-               title_el := assertion_el.find(
-                   "earl:test/earl:TestCase/dct:title", namespaces=nsmap)
-           ) is not None else None
+            title_el := assertion_el.find(
+                "earl:test/earl:TestCase/dct:title", namespaces=nsmap
+            )
+        )
+        is not None
+        else None
     )
     description = (
         description_el.text
         if (
-               description_el := assertion_el.find(
-                   "earl:test/earl:TestCase/dct:description", namespaces=nsmap)
-           ) is not None else None
+            description_el := assertion_el.find(
+                "earl:test/earl:TestCase/dct:description", namespaces=nsmap
+            )
+        )
+        is not None
+        else None
     )
     test_detail = None
     if test_status in (models.TestStatus.FAILED, models.TestStatus.SKIPPED):
         test_detail = assertion_el.find(
-            "earl:result/earl:TestResult/dct:description",
-            namespaces=nsmap
+            "earl:result/earl:TestResult/dct:description", namespaces=nsmap
         ).text
     return models.TestCaseResult(
         identifier=test_identifier,
@@ -203,5 +200,6 @@ def _parse_assertion(
 
 
 def _parse_to_datetime(temporal_value: str) -> dt.datetime:
-    return dt.datetime.fromisoformat(
-        temporal_value.strip("Z")).replace(tzinfo=dt.timezone.utc)
+    return dt.datetime.fromisoformat(temporal_value.strip("Z")).replace(
+        tzinfo=dt.timezone.utc
+    )
