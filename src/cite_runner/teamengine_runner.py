@@ -20,9 +20,7 @@ logger = logging.getLogger(__name__)
 
 
 class SuiteParserProtocol(typing.Protocol):
-    def __call__(
-        self, suite_result: etree.Element, treat_skipped_as_failure: bool
-    ) -> models.TestSuiteResult: ...
+    def __call__(self, suite_result: etree.Element) -> models.TestSuiteResult: ...
 
 
 class SuiteSerializerProtocol(typing.Protocol):
@@ -92,14 +90,13 @@ def execute_test_suite(
 def parse_test_suite_result(
     raw_result: str,
     settings: config.CiteRunnerSettings,
-    treat_skipped_as_failure: bool,
     test_suite_identifier: str | None = None,
 ) -> models.TestSuiteResult:
     root_element = _parse_raw_result_as_xml(raw_result)
     parser: SuiteParserProtocol = _get_suite_result_parser(
         settings, test_suite_identifier
     )
-    return parser(root_element, treat_skipped_as_failure=treat_skipped_as_failure)
+    return parser(root_element)
 
 
 def serialize_suite_result(

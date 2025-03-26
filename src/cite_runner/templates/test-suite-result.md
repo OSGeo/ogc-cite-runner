@@ -3,6 +3,9 @@
 
 {%- if result.passed %}
 - **🏅 Test suite has passed!**
+
+  This means that teamengine reported that all core conformance classes have passed.
+
 {%- else %}
 - **❌ Test suite has failed**
 {%- endif %}

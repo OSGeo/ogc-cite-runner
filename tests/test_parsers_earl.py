@@ -4,9 +4,7 @@ from cite_runner.parsers import earl
 def test_parse_test_suite_result_ogcapi_features_1_0(
     ogcapi_features_1_0_response_element,
 ):
-    response = earl.parse_test_suite_result(
-        ogcapi_features_1_0_response_element, treat_skipped_as_failure=True
-    )
+    response = earl.parse_test_suite_result(ogcapi_features_1_0_response_element)
     assert response.suite_title == "ogcapi-features-1.0-1.6"
     assert response.suite_identifier == "s0007"
     assert response.num_tests_total == 282
@@ -30,16 +28,14 @@ def test_parse_test_suite_result_ogcapi_features_1_0(
 def test_parse_test_suite_result_ogcapi_processes_1_0(
     ogcapi_processes_1_0_response_element,
 ):
-    response = earl.parse_test_suite_result(
-        ogcapi_processes_1_0_response_element, treat_skipped_as_failure=True
-    )
+    response = earl.parse_test_suite_result(ogcapi_processes_1_0_response_element)
     assert response.suite_title == "ogcapi-processes-1.0-1.0"
     assert response.suite_identifier == "s0008"
     assert response.num_tests_total == 54
     assert response.num_failed_tests == 0
     assert response.num_skipped_tests == 54
     assert response.num_passed_tests == 0
-    assert not response.passed
+    assert response.passed
     assert len(response.conformance_class_results) == 3
     core_conf_class = response.conformance_class_results[0]
     assert core_conf_class.title == "Core"
