@@ -1,8 +1,7 @@
 nav:
   - Home: index.md
-  - Usage:
-      - github action: usage/running-as-github-action.md
-      - standalone: usage/running-as-standalone-cli.md
+  - github action: running-as-github-action.md
+  - standalone: running-as-standalone-cli.md
   - OGC Test suites: ogc-test-suites.md
   - Development: development.md
 

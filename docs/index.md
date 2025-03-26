@@ -1,15 +1,22 @@
+---
+hide:
+  - navigation
+---
+
 # CITE Runner
 
 A test runner for [OGC CITE].
-
-This project contains both a github action and a standalone CLI application for
-testing your OGC server implementation with the official OGC CITE test suites.
 
 Key features:
 
 - **Runs as a github action**: Can be integrated into existing CI workflows
 - **Runs as a standalone CLI application**: Can be run as a standalone tool
-- **Multiple output formats**: Can output test suite results as markdown, JSON or XML
+- **Multiple output formats**: Can output test suite results as markdown,
+  JSON or XML
+
+This project aims to simplify the running of OGC CITE tests suites so that
+server implementations of OGC standards may ensure their compliance with them
+more frequently.
 
 [OGC CITE]: https://github.com/opengeospatial/cite/wiki
 
@@ -42,3 +49,11 @@ cite-runner execute-test-suite \
     --test-suite-input noofcollections -1 \
     --output-format markdown
 ```
+
+
+## License
+
+cite-runner is published under an [MIT license].
+
+
+[MIT license]: https://github.com/OSGeo/cite-runner/blob/main/LICENSE

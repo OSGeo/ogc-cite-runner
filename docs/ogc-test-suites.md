@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 # Test suites which are known to work
 
 <table>

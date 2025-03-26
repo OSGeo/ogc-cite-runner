@@ -1,4 +1,11 @@
+---
+hide:
+  - navigation
+---
+
 # Running as a github action
+
+## Overview
 
 In order to run cite-runner as a [github action], include it in your workflow
 and specify which test suite to run, alongside any relevant parameters.
