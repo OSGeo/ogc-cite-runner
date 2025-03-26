@@ -152,8 +152,10 @@ def _parse_assertion(assertion_el: etree.Element, nsmap: dict) -> models.TestCas
     ).attrib[f"{{{nsmap['rdf']}}}resource"]
     outcome = raw_outcome.split("earl#")[-1]
     test_status = {
-        "passed": models.TestStatus.PASSED,
+        "cantTell": models.TestStatus.FAILED,
         "failed": models.TestStatus.FAILED,
+        "inapplicable": models.TestStatus.SKIPPED,
+        "passed": models.TestStatus.PASSED,
         "untested": models.TestStatus.SKIPPED,
     }[outcome]
 
