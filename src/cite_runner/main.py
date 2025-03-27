@@ -72,11 +72,10 @@ def parse_test_result(
         ),
     ],
     output_format: models.ParseableOutputFormat = models.ParseableOutputFormat.JSON,
-    treat_skipped_tests_as_failures: bool = True,
     exit_with_error_on_suite_failed_result: bool = False,
 ):
     parsed = teamengine_runner.parse_test_suite_result(
-        test_suite_result.read_text(), ctx.obj.settings, treat_skipped_tests_as_failures
+        test_suite_result.read_text(), ctx.obj.settings
     )
     serialized = teamengine_runner.serialize_suite_result(
         parsed, output_format, ctx.obj.settings, ctx.obj.jinja_environment
@@ -102,7 +101,6 @@ def execute_test_suite_from_github_actions(
     ],
     teamengine_username: _teamengine_username_option = "ogctest",
     teamengine_password: _teamengine_password_option = "ogctest",
-    treat_skipped_tests_as_failures: bool = True,
     exit_with_error_on_suite_failed_result: bool = False,
     output_format: models.OutputFormat = models.OutputFormat.MARKDOWN,
 ):
@@ -125,7 +123,6 @@ def execute_test_suite_from_github_actions(
         teamengine_password=teamengine_password,
         test_suite_inputs=suite_inputs,
         output_format=output_format,
-        treat_skipped_tests_as_failures=treat_skipped_tests_as_failures,
     )
     logger.debug(f"{parsed.passed=}")
     if output_format == models.OutputFormat.RAW:
@@ -153,7 +150,6 @@ def execute_test_suite_standalone(
         ),
     ] = None,
     output_format: models.OutputFormat = models.OutputFormat.MARKDOWN,
-    treat_skipped_tests_as_failures: bool = True,
     exit_with_error_on_suite_failed_result: bool = False,
 ):
     """Execute a CITE test suite."""
@@ -169,7 +165,6 @@ def execute_test_suite_standalone(
         teamengine_password=teamengine_password,
         test_suite_inputs=suite_inputs,
         output_format=output_format,
-        treat_skipped_tests_as_failures=treat_skipped_tests_as_failures,
     )
     if output_format == models.OutputFormat.RAW:
         logger.debug("Outputting raw response, as returned by teamengine...")
@@ -187,7 +182,6 @@ def _execute_test_suite(
     teamengine_password: pydantic.SecretStr,
     test_suite_inputs: dict[str, list[str]],
     output_format: models.OutputFormat,
-    treat_skipped_tests_as_failures: bool,
 ) -> tuple[models.TestSuiteResult, str]:
     logger.debug(f"{locals()=}")
     client = httpx.Client(timeout=ctx.network_timeout_seconds)
@@ -209,9 +203,7 @@ def _execute_test_suite(
             logger.exception("Unable to collect test suite execution results")
             raise SystemExit(1)
         else:
-            parsed = teamengine_runner.parse_test_suite_result(
-                raw_result, ctx.settings, treat_skipped_tests_as_failures
-            )
+            parsed = teamengine_runner.parse_test_suite_result(raw_result, ctx.settings)
             if output_format == models.OutputFormat.RAW:
                 logger.debug("Outputting raw response, as returned by teamengine...")
                 serialized = raw_result

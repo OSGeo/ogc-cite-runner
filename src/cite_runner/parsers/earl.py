@@ -18,11 +18,14 @@ from ..teamengine_runner import logger
 
 def parse_test_suite_result(
     suite_result: etree.Element,
-    treat_skipped_as_failure: bool,
 ) -> models.TestSuiteResult:
     """Parse test suite result from EARL."""
     test_run_el = suite_result.find("./cite:TestRun", namespaces=suite_result.nsmap)
     suite_title = test_run_el.find("dct:title", namespaces=suite_result.nsmap).text
+    raw_passed = test_run_el.find(
+        "cite:areCoreConformanceClassesPassed", namespaces=suite_result.nsmap
+    ).text
+    passed = True if raw_passed.upper() == "TRUE" else False
     suite_identifier = test_run_el.find(
         "dct:identifier", namespaces=suite_result.nsmap
     ).text
@@ -61,12 +64,6 @@ def parse_test_suite_result(
                 f"test case {test_case_result.identifier} is not part of any "
                 f"conformance class"
             )
-    passed = False
-    if num_failed == 0:
-        if num_skipped == 0:
-            passed = True
-        elif not treat_skipped_as_failure:
-            passed = True
     return models.TestSuiteResult(
         suite_identifier=suite_identifier,
         suite_title=suite_title,
