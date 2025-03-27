@@ -29,6 +29,7 @@ class SuiteSerializerProtocol(typing.Protocol):
         suite_result: models.TestSuiteResult,
         settings: config.CiteRunnerSettings,
         jinja_env: jinja2.Environment,
+        serialization_details: models.SerializationDetails,
     ) -> str: ...
 
 
@@ -104,11 +105,12 @@ def serialize_suite_result(
     output_format: models.ParseableOutputFormat,
     settings: config.CiteRunnerSettings,
     jinja_env: jinja2.Environment,
+    serialization_details: models.SerializationDetails,
 ) -> str:
     serializer: SuiteSerializerProtocol = _get_suite_result_serializer(
         output_format, settings, parsed_suite_result.suite_title
     )
-    return serializer(parsed_suite_result, settings, jinja_env)
+    return serializer(parsed_suite_result, settings, jinja_env, serialization_details)
 
 
 def _sanitize_test_suite_identifier(raw_identifier: str) -> str:

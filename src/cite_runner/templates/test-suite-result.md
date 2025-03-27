@@ -14,6 +14,7 @@
 - 🟡 Skipped {{ result.num_skipped_tests }} tests
 - 🟢 Passed {{ result.num_passed_tests }} tests
 
+{%- if serialization_details.include_summary %}
 ##### Additional suite details
 
 {%- for input_ in result.inputs %}
@@ -44,7 +45,9 @@
 {%- endfor %}
 </tbody>
 </table>
+{%- endif %}
 
+{%- if serialization_details.include_failed_detail %}
 {%- if result.num_failed_tests > 0 %}
 
 ---
@@ -82,7 +85,9 @@
 {%- endfor %}
 
 {%- endif %}
+{%- endif %}
 
+{%- if serialization_details.include_skipped_detail %}
 {%- if result.num_skipped_tests > 0 %}
 
 ---
@@ -120,7 +125,9 @@
 {%- endfor %}
 
 {%- endif %}
+{%- endif %}
 
+{%- if serialization_details.include_passed_detail %}
 {%- if result.num_passed_tests > 0 %}
 
 ---
@@ -157,4 +164,5 @@
 
 {%- endfor %}
 
+{%- endif %}
 {%- endif %}

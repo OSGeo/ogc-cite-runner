@@ -22,6 +22,13 @@ class TestStatus(enum.Enum):
     SKIPPED = "SKIPPED"
 
 
+class SerializationDetails(pydantic.BaseModel):
+    include_summary: bool
+    include_failed_detail: bool
+    include_skipped_detail: bool
+    include_passed_detail: bool
+
+
 class TestSuiteInput(pydantic.BaseModel):
     name: str
     value: str
