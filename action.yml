@@ -30,7 +30,7 @@ inputs:
     description: Password for accessing teamengine
   network_timeout_seconds:
     required: false
-    default: 120
+    default: "120"
     description: Timeout value for network requests
   include_failed_test_details:
     required: false
@@ -110,9 +110,9 @@ runs:
             parse-result \
             --output-format=markdown \
             --include-summary \
-            ${{ inputs.include_failed_test_details && '--include-failed-detail \' || '--no-include-failed-detail \'}}
-            ${{ inputs.include_skipped_test_details && '--include-skipped-detail \' || '--no-include-skipped-detail \'}}
-            ${{ inputs.include_passed_test_details && '--include-passed-detail \' || '--no-include-passed-detail \'}}
+            ${{ fromJSON(inputs.include_failed_test_details) && '--include-failed-detail \' || '--no-include-failed-detail \'}}
+            ${{ fromJSON(inputs.include_skipped_test_details) && '--include-skipped-detail \' || '--no-include-skipped-detail \'}}
+            ${{ fromJSON(inputs.include_passed_test_details) && '--include-passed-detail \' || '--no-include-passed-detail \'}}
             ${{ steps.run_executable_test_suite.outputs.RAW_RESULT_OUTPUT_PATH }} 1> ${md_result_output_path}
         echo "MARKDOWN_RESULT_OUTPUT_PATH=${{ github.action_path }}/${md_result_output_path}" >> "${GITHUB_OUTPUT}"
     - name: 'store execution results as artifacts'
