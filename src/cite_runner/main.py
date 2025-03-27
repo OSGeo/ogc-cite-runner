@@ -75,12 +75,25 @@ def parse_test_result(
     ],
     output_format: models.ParseableOutputFormat = _DEFAULT_OUTPUT_FORMAT,
     exit_with_error_on_suite_failed_result: bool = False,
+    include_summary: bool = True,
+    include_failed_detail: bool = True,
+    include_skipped_detail: bool = True,
+    include_passed_detail: bool = False,
 ):
     parsed = teamengine_runner.parse_test_suite_result(
         test_suite_result.read_text(), ctx.obj.settings
     )
     serialized = teamengine_runner.serialize_suite_result(
-        parsed, output_format, ctx.obj.settings, ctx.obj.jinja_environment
+        parsed,
+        output_format,
+        ctx.obj.settings,
+        ctx.obj.jinja_environment,
+        serialization_details=models.SerializationDetails(
+            include_summary=include_summary,
+            include_failed_detail=include_failed_detail,
+            include_skipped_detail=include_skipped_detail,
+            include_passed_detail=include_passed_detail,
+        ),
     )
     print(serialized)
     raise typer.Exit(_get_exit_code(parsed, exit_with_error_on_suite_failed_result))
@@ -105,6 +118,10 @@ def execute_test_suite_from_github_actions(
     teamengine_password: _teamengine_password_option = "ogctest",
     exit_with_error_on_suite_failed_result: bool = False,
     output_format: models.OutputFormat = _DEFAULT_OUTPUT_FORMAT,
+    include_summary: bool = True,
+    include_failed_detail: bool = True,
+    include_skipped_detail: bool = True,
+    include_passed_detail: bool = False,
 ):
     """Execute a CITE test suite via github actions.
 
@@ -124,6 +141,12 @@ def execute_test_suite_from_github_actions(
         teamengine_password=teamengine_password,
         test_suite_inputs=suite_inputs,
         output_format=output_format,
+        serialization_details=models.SerializationDetails(
+            include_summary=include_summary,
+            include_failed_detail=include_failed_detail,
+            include_skipped_detail=include_skipped_detail,
+            include_passed_detail=include_passed_detail,
+        ),
     )
     if output_format == models.OutputFormat.RAW:
         stdlib_print(serialized)
@@ -154,6 +177,10 @@ def execute_test_suite(
         ),
     ] = None,
     output_format: models.OutputFormat = _DEFAULT_OUTPUT_FORMAT,
+    include_summary: bool = True,
+    include_failed_detail: bool = True,
+    include_skipped_detail: bool = True,
+    include_passed_detail: bool = False,
     exit_with_error_on_suite_failed_result: bool = False,
 ):
     """Execute a CITE test suite."""
@@ -169,6 +196,12 @@ def execute_test_suite(
         teamengine_password=teamengine_password,
         test_suite_inputs=suite_inputs,
         output_format=output_format,
+        serialization_details=models.SerializationDetails(
+            include_summary=include_summary,
+            include_failed_detail=include_failed_detail,
+            include_skipped_detail=include_skipped_detail,
+            include_passed_detail=include_passed_detail,
+        ),
     )
     if output_format == models.OutputFormat.RAW:
         logger.debug("Outputting raw response, as returned by teamengine...")
@@ -190,6 +223,7 @@ def _execute_test_suite(
     teamengine_password: pydantic.SecretStr,
     test_suite_inputs: dict[str, list[str]],
     output_format: models.OutputFormat,
+    serialization_details: models.SerializationDetails,
 ) -> tuple[models.TestSuiteResult | None, str]:
     logger.debug(f"{locals()=}")
     client = httpx.Client(timeout=ctx.network_timeout_seconds)
@@ -222,7 +256,11 @@ def _execute_test_suite(
                 )
                 format_to_output = models.ParseableOutputFormat(output_format.value)
                 serialized = teamengine_runner.serialize_suite_result(
-                    parsed, format_to_output, ctx.settings, ctx.jinja_environment
+                    parsed,
+                    format_to_output,
+                    ctx.settings,
+                    ctx.jinja_environment,
+                    serialization_details,
                 )
             return parsed, serialized
     else:
