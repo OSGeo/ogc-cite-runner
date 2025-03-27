@@ -2,12 +2,11 @@
 
 
 {%- if result.passed %}
-- **🏅 Test suite has passed!**
-
-  This means that teamengine reported that all core conformance classes have passed.
+- **🏅 Test suite has passed!** - Teamengine reported that all core conformance classes have passed.
 
 {%- else %}
-- **❌ Test suite has failed**
+- **❌ Test suite has failed** - Teamengine reported that all core conformance classes have failed.
+
 {%- endif %}
 
 - Ran {{ result.num_tests_total }} tests in {{ result.test_run_duration | humanize_precisedelta(minimum_unit="milliseconds") }}

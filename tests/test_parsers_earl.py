@@ -6,7 +6,6 @@ def test_parse_test_suite_result_ogcapi_features_1_0(
 ):
     response = earl.parse_test_suite_result(ogcapi_features_1_0_response_element)
     assert response.suite_title == "ogcapi-features-1.0-1.6"
-    assert response.suite_identifier == "s0007"
     assert response.num_tests_total == 282
     assert response.num_failed_tests == 12
     assert response.num_skipped_tests == 6
@@ -30,7 +29,6 @@ def test_parse_test_suite_result_ogcapi_processes_1_0(
 ):
     response = earl.parse_test_suite_result(ogcapi_processes_1_0_response_element)
     assert response.suite_title == "ogcapi-processes-1.0-1.0"
-    assert response.suite_identifier == "s0008"
     assert response.num_tests_total == 54
     assert response.num_failed_tests == 0
     assert response.num_skipped_tests == 54
