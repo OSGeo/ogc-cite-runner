@@ -19,8 +19,7 @@ jobs:
         uses: actions/setup-python@v5.5.0
         with:
           python-version: "3.10"
-          cache: pip
-          cache-dependency-path: docker/backend/project_requirements.txt
+          cache: poetry
 
       - name: setup poetry
         uses: Gr1N/setup-poetry@v9

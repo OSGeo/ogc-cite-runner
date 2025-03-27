@@ -1,0 +1,58 @@
+name: Build and publish Documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: grab code
+        uses: actions/checkout@v4.2.2
+
+      - name: setup Python
+        uses: actions/setup-python@v5.5.0
+        with:
+          python-version: "3.10"
+          cache: poetry
+
+      - name: setup poetry
+        uses: Gr1N/setup-poetry@v9
+        with:
+          poetry-version: "2.1.1"
+
+      - name: install code with dev dependencies
+        run: poetry install --with docs
+
+      - name: build docs
+        run: poetry run mkdocs build --site-dir built-docs
+
+      - name: upload docs as artifacts
+        uses: actions/upload-pages-artifact@v3.0.1
+        with:
+          path: built-docs/
+
+  deploy-docs:
+    if: github.ref == 'refs/heads/main'
+    needs: build-docs
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: deploy docs to github pages
+        id: deployment
+        uses: actions/deploy-pages@v4.0.5
