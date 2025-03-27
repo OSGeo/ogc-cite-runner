@@ -46,85 +46,104 @@ When run as a github action, cite-runner expects the following inputs to be prov
 
 ### `test_suite_identfier`
 
-Identifier of the test suite to be executed. Test suite identifiers can be
-gotten from the documentation at <http://cite.opengeospatial.org/teamengine/>.
-Example:
+- **required**: Yes
+- **description**: Identifier of the test suite to be executed. Test suite identifiers can be gotten from
+  the documentation at <http://cite.opengeospatial.org/teamengine/>.
 
-```yaml
-test_suite_identifier: 'ogcapi-features-1.0'
-```
+    Example:
+
+    ```yaml
+    test_suite_identifier: 'ogcapi-features-1.0'
+    ```
 
 
 ### `test_session_arguments`
 
-Test session arguments to be passed to teamengine. These depend on the test
-suite that is going to be executed.
+- **required**: Yes
+- **description**: Test session arguments to be passed to teamengine. These depend on the test
+    suite that is going to be executed.
 
-Must be provided as a space-separated list of `key=value` pairs. Examples:
+    Must be provided as a space-separated list of `key=value` pairs. Examples:
 
-- A simple yaml string
-  ```yaml
-  test_session_arguments: 'iut=http://localhost:5001 noofcollections=-1'
-  ```
+    - A simple yaml string
+      ```yaml
+      test_session_arguments: 'iut=http://localhost:5001 noofcollections=-1'
+      ```
 
-- If you prefer to use a multiline string, then  we recommend use of YAML *folded blocks* with the _strip_
-  chomping indicator (AKA put a dash after the folded block indicator, AKA this: `>-`)
-  ```yaml
-  test_session_arguments: >-
-    iut=http://localhost:5001
-    noofcollections=-1
-  ```
+    - If you prefer to use a multiline string, then  we recommend use of YAML *folded blocks* with the _strip_
+      chomping indicator (AKA put a dash after the folded block indicator, AKA this: `>-`)
+      ```yaml
+      test_session_arguments: >-
+        iut=http://localhost:5001
+        noofcollections=-1
+      ```
 
 
 ### `teamengine_url`
 
-**optional** - URL of the teamengine instance to be used for running tests.
+- **required**: No (defaults to not set)
+- **description**: URL of the teamengine instance to be used for running tests.
 
-If this parameter is not specified then the action will spin up a local
-teamengine docker container and use it for testing. This can be used in
-conjunction with `teamengine_username` and `teamengine_password` in order
-to provide authentication credentials.
+    If this parameter is not specified then the action will spin up a local
+    teamengine docker container and use it for testing. This can be used in
+    conjunction with `teamengine_username` and `teamengine_password` in order
+    to provide authentication credentials.
 
-!!! note
-    The value of `teamengine_url` must be the URL of the landing page of
-    the teamengine service, which usually is located at the `/teamengine` path.
+    !!! note
+        The value of `teamengine_url` must be the URL of the landing page of
+        the teamengine service, which usually is located at the `/teamengine` path.
 
-Examples:
+    Examples:
 
-- When you intend for the action to spin up a local docker instance there is
-  no need to supply this argument
+    - When you intend for the action to spin up a local docker instance there is
+      no need to supply this argument
 
-- When using the remote teamengine instance located at `https://my-server`
-  with a pre-existing user `myself` and a password of `something`:
+    - When using the remote teamengine instance located at `https://my-server`
+      with a pre-existing user `myself` and a password of `something`:
 
-  ```yaml
-  teamengine_url: 'https://my-server/teamengine'
-  teamengine_username: 'myself'
-  teamengine_password: 'something'
-  ```
+      ```yaml
+      teamengine_url: 'https://my-server/teamengine'
+      teamengine_username: 'myself'
+      teamengine_password: 'something'
+      ```
 
 
 ### `teamengine_username`
 
-**optional** - Username to be used when logging in to a remote teamengine instance.
-Defaults to `ogctest`, which is a user that is pre-created on the official teamengine docker image.
+- **required**: No (defaults to `ogctest`)
+- **description**: Username to be used when logging in to a remote teamengine instance.
+  Defaults to `ogctest`, which is a user that is pre-created on the official teamengine docker image.
 
 
 ### `teamengine_password`
 
-**optional** - Password to be used when logging in to a remote teamengine instance.
+- **required**: No (defaults to `ogctest`)
+- **description**: Password to be used when logging in to a remote teamengine instance.
   Defaults to `ogctest`, which is the password used for the pre-created user on the official teamengine docker image
-
-
-### `treat_skipped_tests_as_failures`
-
-**optional** - Whether the presence of skipped tests should be interpreted
-as an overall failure of the test suite or not. Defaults to `false`
 
 
 ### `network_timeout_seconds`
 
-**optional** - Timeout value for network requests. Defaults to `120`
+- **required**: No (defaults to `120`)
+- **description**: Timeout value for network requests
+
+
+### `include_failed_test_details`
+
+- **required**: No (defaults to `true`)
+- **description**: Whether the output report should include information about failed tests
+
+
+### `include_skipped_test_details`
+
+- **required**: No (defaults to `true`)
+- **description**: Whether the output report should include information about skipped tests
+
+
+### `include_passed_test_details`
+
+- **required**: false (defaults to `false`)
+- **description**: Whether the output report should include information about passed tests
 
 
 ## Usage
@@ -162,7 +181,6 @@ jobs:
           test_session_arguments: >-
             iut=http://localhost:5001
             noofcollections=-1
-          treat_skipped_tests_as_failures: "true"
 ```
 
 A slightly more complex example, using a matrix to test both `ogcapi-features-1.0`
@@ -219,6 +237,5 @@ jobs:
         with:
           test_suite_identifier: ${{ matrix.test-suite.suite-id }}
           test_session_arguments: ${{ matrix.test-suite.arguments }}
-          treat_skipped_tests_as_failures: "true"
 
 ```
