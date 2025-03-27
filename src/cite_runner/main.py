@@ -26,6 +26,8 @@ def _parse_pydantic_secret_str(value: str) -> pydantic.SecretStr:
     return pydantic.SecretStr(value)
 
 
+_DEFAULT_OUTPUT_FORMAT = models.ParseableOutputFormat.MARKDOWN
+
 _test_suite_identifier_argument = typing.Annotated[
     str, typer.Argument(help="Identifier of the test suite. Ex: ogcapi-features-1.0")
 ]
@@ -71,7 +73,7 @@ def parse_test_result(
             exists=True, file_okay=True, dir_okay=False, help="Suite execution result"
         ),
     ],
-    output_format: models.ParseableOutputFormat = models.ParseableOutputFormat.JSON,
+    output_format: models.ParseableOutputFormat = _DEFAULT_OUTPUT_FORMAT,
     exit_with_error_on_suite_failed_result: bool = False,
 ):
     parsed = teamengine_runner.parse_test_suite_result(
@@ -84,7 +86,7 @@ def parse_test_result(
     raise typer.Exit(_get_exit_code(parsed, exit_with_error_on_suite_failed_result))
 
 
-@app.command("execute-test-suite")
+@app.command()
 def execute_test_suite_from_github_actions(
     ctx: typer.Context,
     teamengine_base_url: _teamengine_base_url_argument,
@@ -102,13 +104,12 @@ def execute_test_suite_from_github_actions(
     teamengine_username: _teamengine_username_option = "ogctest",
     teamengine_password: _teamengine_password_option = "ogctest",
     exit_with_error_on_suite_failed_result: bool = False,
-    output_format: models.OutputFormat = models.OutputFormat.MARKDOWN,
+    output_format: models.OutputFormat = _DEFAULT_OUTPUT_FORMAT,
 ):
     """Execute a CITE test suite via github actions.
 
     This command presents a simpler interface to run the
-    `execute-test-suite-standalone` command, making it easier to run as a
-    github action.
+    `execute-test-suite` command, making it easier to run as a github action.
     """
     suite_inputs = {}
     for raw_suite_input in test_suite_input:
@@ -124,16 +125,19 @@ def execute_test_suite_from_github_actions(
         test_suite_inputs=suite_inputs,
         output_format=output_format,
     )
-    logger.debug(f"{parsed.passed=}")
     if output_format == models.OutputFormat.RAW:
         stdlib_print(serialized)
     else:
         print(serialized)
-    raise typer.Exit(_get_exit_code(parsed, exit_with_error_on_suite_failed_result))
+    raise typer.Exit(
+        0
+        if output_format == models.OutputFormat.RAW
+        else _get_exit_code(parsed, exit_with_error_on_suite_failed_result)
+    )
 
 
 @app.command()
-def execute_test_suite_standalone(
+def execute_test_suite(
     ctx: typer.Context,
     teamengine_base_url: _teamengine_base_url_argument,
     test_suite_identifier: _test_suite_identifier_argument,
@@ -149,7 +153,7 @@ def execute_test_suite_standalone(
             ),
         ),
     ] = None,
-    output_format: models.OutputFormat = models.OutputFormat.MARKDOWN,
+    output_format: models.OutputFormat = _DEFAULT_OUTPUT_FORMAT,
     exit_with_error_on_suite_failed_result: bool = False,
 ):
     """Execute a CITE test suite."""
@@ -171,7 +175,11 @@ def execute_test_suite_standalone(
         stdlib_print(serialized)
     else:
         print(serialized)
-    raise typer.Exit(_get_exit_code(parsed, exit_with_error_on_suite_failed_result))
+    raise typer.Exit(
+        0
+        if output_format == models.OutputFormat.RAW
+        else _get_exit_code(parsed, exit_with_error_on_suite_failed_result)
+    )
 
 
 def _execute_test_suite(
@@ -182,7 +190,7 @@ def _execute_test_suite(
     teamengine_password: pydantic.SecretStr,
     test_suite_inputs: dict[str, list[str]],
     output_format: models.OutputFormat,
-) -> tuple[models.TestSuiteResult, str]:
+) -> tuple[models.TestSuiteResult | None, str]:
     logger.debug(f"{locals()=}")
     client = httpx.Client(timeout=ctx.network_timeout_seconds)
     base_url = teamengine_base_url.strip("/")
@@ -203,12 +211,15 @@ def _execute_test_suite(
             logger.exception("Unable to collect test suite execution results")
             raise SystemExit(1)
         else:
-            parsed = teamengine_runner.parse_test_suite_result(raw_result, ctx.settings)
+            parsed = None
             if output_format == models.OutputFormat.RAW:
                 logger.debug("Outputting raw response, as returned by teamengine...")
                 serialized = raw_result
             else:
                 logger.debug("Parsing test suite execution results...")
+                parsed = teamengine_runner.parse_test_suite_result(
+                    raw_result, ctx.settings
+                )
                 format_to_output = models.ParseableOutputFormat(output_format.value)
                 serialized = teamengine_runner.serialize_suite_result(
                     parsed, format_to_output, ctx.settings, ctx.jinja_environment

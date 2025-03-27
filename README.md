@@ -105,7 +105,6 @@ jobs:
           test_session_arguments: >-
             iut=http://localhost:5001
             noofcollections=-1
-          treat_skipped_tests_as_failures: "true"
 ```
 
 A slightly more complex example, using a matrix to test both `ogcapi-features-1.0`
@@ -162,7 +161,6 @@ jobs:
         with:
           test_suite_identifier: ${{ matrix.test-suite.suite-id }}
           test_session_arguments: ${{ matrix.test-suite.arguments }}
-          treat_skipped_tests_as_failures: "true"
 
 ```
 
