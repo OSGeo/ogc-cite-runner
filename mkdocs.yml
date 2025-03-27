@@ -1,0 +1,31 @@
+nav:
+  - Home: index.md
+  - github action: running-as-github-action.md
+  - standalone: running-as-standalone-cli.md
+  - OGC Test suites: ogc-test-suites.md
+  - Development: development.md
+
+site_name: CITE Runner
+site_url: https://osgeo.github.io/cite-runner
+repo_url: https://github.com/OSGeo/cite-runner
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+theme:
+  name: material
+  palette:
+    primary: pink
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.path
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tracking
+    - toc.follow
+    # - toc.integrate
+    - toc.top
