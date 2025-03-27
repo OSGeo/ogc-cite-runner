@@ -1,7 +1,6 @@
 import logging
 
 import jinja2
-import pydantic
 from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
@@ -28,27 +27,8 @@ class CiteRunnerSettings(BaseSettings):
     simple_serializer_template: str = "test-suite-result.md"
 
 
-class CliContext(pydantic.BaseModel):
-    model_config = pydantic.ConfigDict(arbitrary_types_allowed=True)
-
-    debug: bool = False
-    jinja_environment: jinja2.Environment = jinja2.Environment()
-    network_timeout_seconds: int = 20
-    settings: CiteRunnerSettings
-
-
 def get_settings() -> CiteRunnerSettings:
     return CiteRunnerSettings()
-
-
-def get_context(debug: bool, network_timeout_seconds: int) -> CliContext:
-    settings = get_settings()
-    return CliContext(
-        debug=debug,
-        network_timeout_seconds=network_timeout_seconds,
-        jinja_environment=_get_jinja_environment(settings),
-        settings=settings,
-    )
 
 
 def _get_jinja_environment(settings: CiteRunnerSettings) -> jinja2.Environment:
@@ -71,10 +51,31 @@ def _get_jinja_environment(settings: CiteRunnerSettings) -> jinja2.Environment:
     return env
 
 
-def configure_logging(debug: bool) -> None:
+def configure_logging(rich_console: Console, debug: bool) -> None:
     logging.basicConfig(
         level=logging.DEBUG if debug else logging.WARNING,
-        handlers=[RichHandler(console=Console(stderr=True), rich_tracebacks=True)],
+        handlers=[RichHandler(console=rich_console, rich_tracebacks=True)],
     )
     logging.getLogger("httpcore").setLevel(logging.INFO if debug else logging.WARNING)
     logging.getLogger("httpx").setLevel(logging.INFO if debug else logging.WARNING)
+
+
+def get_console() -> Console:
+    return Console(
+        stderr=True,
+    )
+
+
+def get_context(
+    debug: bool,
+    network_timeout_seconds: int,
+) -> models.CiteRunnerContext:
+    settings = get_settings()
+    console = get_console()
+    return models.CiteRunnerContext(
+        debug=debug,
+        network_timeout_seconds=network_timeout_seconds,
+        jinja_environment=_get_jinja_environment(settings),
+        settings=settings,
+        rich_console=console,
+    )

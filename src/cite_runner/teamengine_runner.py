@@ -7,7 +7,6 @@ import typing
 from lxml import etree
 
 import httpx
-import jinja2
 import pydantic
 
 from . import (
@@ -27,9 +26,8 @@ class SuiteSerializerProtocol(typing.Protocol):
     def __call__(
         self,
         suite_result: models.TestSuiteResult,
-        settings: config.CiteRunnerSettings,
-        jinja_env: jinja2.Environment,
         serialization_details: models.SerializationDetails,
+        context: models.CiteRunnerContext,
     ) -> str: ...
 
 
@@ -103,14 +101,13 @@ def parse_test_suite_result(
 def serialize_suite_result(
     parsed_suite_result: models.TestSuiteResult,
     output_format: models.ParseableOutputFormat,
-    settings: config.CiteRunnerSettings,
-    jinja_env: jinja2.Environment,
     serialization_details: models.SerializationDetails,
+    context: models.CiteRunnerContext,
 ) -> str:
     serializer: SuiteSerializerProtocol = _get_suite_result_serializer(
-        output_format, settings, parsed_suite_result.suite_title
+        output_format, context.settings, parsed_suite_result.suite_title
     )
-    return serializer(parsed_suite_result, settings, jinja_env, serialization_details)
+    return serializer(parsed_suite_result, serialization_details, context)
 
 
 def _sanitize_test_suite_identifier(raw_identifier: str) -> str:
