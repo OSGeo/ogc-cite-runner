@@ -11,11 +11,11 @@ class OutputFormat(str, enum.Enum):
     RAW = "raw"
     CONSOLE = "console"
 
-
-class ParseableOutputFormat(str, enum.Enum):
-    JSON = "json"
-    MARKDOWN = "markdown"
-    CONSOLE = "console"
+    def print_pretty(self) -> bool:
+        return {
+            self.JSON: False,
+            self.RAW: False,
+        }.get(self, True)
 
 
 class TestStatus(enum.Enum):

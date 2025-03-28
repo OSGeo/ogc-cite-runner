@@ -24,4 +24,4 @@ def to_json(
     serialization_details: models.SerializationDetails,
     context: config.CiteRunnerContext,
 ) -> str:
-    return parsed_result.model_dump_json(indent=2)
+    return parsed_result.model_dump_json(warnings="error")

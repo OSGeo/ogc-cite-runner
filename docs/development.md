@@ -27,7 +27,7 @@ into an instance of `models.TestSuiteResult`, its internal data structure.From
 there, it is able to serialize it into either JSON or markdown.
 
 
-### Setting up a develoment environment
+### Setting up a development environment
 
 In a brief nutshell:
 

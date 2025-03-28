@@ -101,7 +101,7 @@ def parse_test_suite_result(
 
 def serialize_suite_result(
     parsed_suite_result: models.TestSuiteResult,
-    output_format: models.ParseableOutputFormat,
+    output_format: models.OutputFormat,
     serialization_details: models.SerializationDetails,
     context: config.CiteRunnerContext,
 ) -> str:
@@ -131,7 +131,7 @@ def _load_python_object(
 
 
 def _get_suite_result_serializer(
-    output_format: models.ParseableOutputFormat,
+    output_format: models.OutputFormat,
     settings: config.CiteRunnerSettings,
     test_suite_identifier: str | None = None,
 ) -> SuiteSerializerProtocol:
