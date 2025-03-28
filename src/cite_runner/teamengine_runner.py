@@ -7,8 +7,8 @@ import typing
 from lxml import etree
 
 import httpx
-import jinja2
 import pydantic
+from rich.console import RenderableType
 
 from . import (
     config,
@@ -27,10 +27,9 @@ class SuiteSerializerProtocol(typing.Protocol):
     def __call__(
         self,
         suite_result: models.TestSuiteResult,
-        settings: config.CiteRunnerSettings,
-        jinja_env: jinja2.Environment,
         serialization_details: models.SerializationDetails,
-    ) -> str: ...
+        context: config.CiteRunnerContext,
+    ) -> RenderableType: ...
 
 
 def wait_for_teamengine_to_be_ready(
@@ -103,14 +102,13 @@ def parse_test_suite_result(
 def serialize_suite_result(
     parsed_suite_result: models.TestSuiteResult,
     output_format: models.ParseableOutputFormat,
-    settings: config.CiteRunnerSettings,
-    jinja_env: jinja2.Environment,
     serialization_details: models.SerializationDetails,
+    context: config.CiteRunnerContext,
 ) -> str:
     serializer: SuiteSerializerProtocol = _get_suite_result_serializer(
-        output_format, settings, parsed_suite_result.suite_title
+        output_format, context.settings, parsed_suite_result.suite_title
     )
-    return serializer(parsed_suite_result, settings, jinja_env, serialization_details)
+    return serializer(parsed_suite_result, serialization_details, context)
 
 
 def _sanitize_test_suite_identifier(raw_identifier: str) -> str:
@@ -140,6 +138,7 @@ def _get_suite_result_serializer(
     serializer_python_path = {
         output_format.JSON: settings.default_json_serializer,
         output_format.MARKDOWN: settings.default_markdown_serializer,
+        output_format.CONSOLE: settings.default_console_serializer,
     }.get(output_format)
     if test_suite_identifier is not None:
         settings_key = "_".join(
@@ -159,6 +158,10 @@ def _get_suite_result_serializer(
                 f"test suite identifier {test_suite_identifier!r} - using "
                 f"default serializer of {serializer_python_path!r}"
             )
+    if serializer_python_path is None:
+        raise NotImplementedError(
+            f"no serializer available for {output_format=} and {test_suite_identifier=}"
+        )
     return _load_python_object(serializer_python_path)
 
 

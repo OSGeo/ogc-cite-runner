@@ -57,11 +57,12 @@ _teamengine_password_option = typing.Annotated[
 def base_callback(
     ctx: typer.Context, debug: bool = False, network_timeout: int = 120
 ) -> None:
-    config.configure_logging(debug=debug)
-    ctx.obj = config.get_context(
+    context = config.get_context(
         debug=debug,
         network_timeout_seconds=network_timeout,
     )
+    config.configure_logging(rich_console=context.rich_console, debug=debug)
+    ctx.obj = context
 
 
 @app.command("parse-result")
@@ -80,22 +81,23 @@ def parse_test_result(
     include_skipped_detail: bool = True,
     include_passed_detail: bool = False,
 ):
+    context: config.CiteRunnerContext = ctx.obj
     parsed = teamengine_runner.parse_test_suite_result(
-        test_suite_result.read_text(), ctx.obj.settings
+        test_suite_result.read_text(), context.settings
     )
     serialized = teamengine_runner.serialize_suite_result(
         parsed,
         output_format,
-        ctx.obj.settings,
-        ctx.obj.jinja_environment,
         serialization_details=models.SerializationDetails(
             include_summary=include_summary,
             include_failed_detail=include_failed_detail,
             include_skipped_detail=include_skipped_detail,
             include_passed_detail=include_passed_detail,
         ),
+        context=ctx.obj,
     )
-    print(serialized)
+
+    context.rich_console.print(serialized)
     raise typer.Exit(_get_exit_code(parsed, exit_with_error_on_suite_failed_result))
 
 
@@ -216,7 +218,7 @@ def execute_test_suite(
 
 
 def _execute_test_suite(
-    ctx: config.CliContext,
+    ctx: config.CiteRunnerContext,
     teamengine_base_url: str,
     test_suite_identifier: str,
     teamengine_username: pydantic.SecretStr,
@@ -258,9 +260,8 @@ def _execute_test_suite(
                 serialized = teamengine_runner.serialize_suite_result(
                     parsed,
                     format_to_output,
-                    ctx.settings,
-                    ctx.jinja_environment,
                     serialization_details,
+                    ctx,
                 )
             return parsed, serialized
     else:

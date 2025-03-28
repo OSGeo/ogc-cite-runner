@@ -9,11 +9,13 @@ class OutputFormat(str, enum.Enum):
     JSON = "json"
     MARKDOWN = "markdown"
     RAW = "raw"
+    CONSOLE = "console"
 
 
 class ParseableOutputFormat(str, enum.Enum):
     JSON = "json"
     MARKDOWN = "markdown"
+    CONSOLE = "console"
 
 
 class TestStatus(enum.Enum):

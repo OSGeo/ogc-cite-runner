@@ -18,6 +18,7 @@ class CiteRunnerSettings(BaseSettings):
     )
     default_json_serializer: str = "cite_runner.serializers.simple.to_json"
     default_markdown_serializer: str = "cite_runner.serializers.simple.to_markdown"
+    default_console_serializer: str = "cite_runner.serializers.console.to_console"
     default_parser: str = "cite_runner.parsers.earl.parse_test_suite_result"
     extra_templates_path: str | None = None
 
@@ -28,27 +29,18 @@ class CiteRunnerSettings(BaseSettings):
     simple_serializer_template: str = "test-suite-result.md"
 
 
-class CliContext(pydantic.BaseModel):
+class CiteRunnerContext(pydantic.BaseModel):
     model_config = pydantic.ConfigDict(arbitrary_types_allowed=True)
 
     debug: bool = False
     jinja_environment: jinja2.Environment = jinja2.Environment()
     network_timeout_seconds: int = 20
+    rich_console: "Console"
     settings: CiteRunnerSettings
 
 
 def get_settings() -> CiteRunnerSettings:
     return CiteRunnerSettings()
-
-
-def get_context(debug: bool, network_timeout_seconds: int) -> CliContext:
-    settings = get_settings()
-    return CliContext(
-        debug=debug,
-        network_timeout_seconds=network_timeout_seconds,
-        jinja_environment=_get_jinja_environment(settings),
-        settings=settings,
-    )
 
 
 def _get_jinja_environment(settings: CiteRunnerSettings) -> jinja2.Environment:
@@ -71,10 +63,31 @@ def _get_jinja_environment(settings: CiteRunnerSettings) -> jinja2.Environment:
     return env
 
 
-def configure_logging(debug: bool) -> None:
+def configure_logging(rich_console: Console, debug: bool) -> None:
     logging.basicConfig(
         level=logging.DEBUG if debug else logging.WARNING,
-        handlers=[RichHandler(console=Console(stderr=True), rich_tracebacks=True)],
+        handlers=[RichHandler(console=rich_console, rich_tracebacks=True)],
     )
     logging.getLogger("httpcore").setLevel(logging.INFO if debug else logging.WARNING)
     logging.getLogger("httpx").setLevel(logging.INFO if debug else logging.WARNING)
+
+
+def get_console() -> Console:
+    return Console(
+        stderr=True,
+    )
+
+
+def get_context(
+    debug: bool,
+    network_timeout_seconds: int,
+) -> CiteRunnerContext:
+    settings = get_settings()
+    console = get_console()
+    return CiteRunnerContext(
+        debug=debug,
+        network_timeout_seconds=network_timeout_seconds,
+        jinja_environment=_get_jinja_environment(settings),
+        settings=settings,
+        rich_console=console,
+    )
