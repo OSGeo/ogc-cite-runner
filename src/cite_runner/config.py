@@ -1,6 +1,7 @@
 import logging
 
 import jinja2
+import pydantic
 from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
@@ -17,6 +18,7 @@ class CiteRunnerSettings(BaseSettings):
     )
     default_json_serializer: str = "cite_runner.serializers.simple.to_json"
     default_markdown_serializer: str = "cite_runner.serializers.simple.to_markdown"
+    default_console_serializer: str = "cite_runner.serializers.console.to_console"
     default_parser: str = "cite_runner.parsers.earl.parse_test_suite_result"
     extra_templates_path: str | None = None
 
@@ -25,6 +27,16 @@ class CiteRunnerSettings(BaseSettings):
     # ogcapi_features_1_0_markdown_serializer: str = (
     #     "cite_runner.teamengine_runner.serialize_test_suite_result")
     simple_serializer_template: str = "test-suite-result.md"
+
+
+class CiteRunnerContext(pydantic.BaseModel):
+    model_config = pydantic.ConfigDict(arbitrary_types_allowed=True)
+
+    debug: bool = False
+    jinja_environment: jinja2.Environment = jinja2.Environment()
+    network_timeout_seconds: int = 20
+    rich_console: "Console"
+    settings: CiteRunnerSettings
 
 
 def get_settings() -> CiteRunnerSettings:
@@ -69,10 +81,10 @@ def get_console() -> Console:
 def get_context(
     debug: bool,
     network_timeout_seconds: int,
-) -> models.CiteRunnerContext:
+) -> CiteRunnerContext:
     settings = get_settings()
     console = get_console()
-    return models.CiteRunnerContext(
+    return CiteRunnerContext(
         debug=debug,
         network_timeout_seconds=network_timeout_seconds,
         jinja_environment=_get_jinja_environment(settings),

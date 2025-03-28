@@ -2,22 +2,20 @@ import datetime as dt
 import enum
 from typing import Generator
 
-import jinja2
 import pydantic
-from rich import Console
-
-from src.cite_runner.config import CiteRunnerSettings
 
 
 class OutputFormat(str, enum.Enum):
     JSON = "json"
     MARKDOWN = "markdown"
     RAW = "raw"
+    CONSOLE = "console"
 
 
 class ParseableOutputFormat(str, enum.Enum):
     JSON = "json"
     MARKDOWN = "markdown"
+    CONSOLE = "console"
 
 
 class TestStatus(enum.Enum):
@@ -83,13 +81,3 @@ class TestSuiteResult(pydantic.BaseModel):
     inputs: list[TestSuiteInput]
     conformance_class_results: list[ConformanceClassResult]
     passed: bool
-
-
-class CiteRunnerContext(pydantic.BaseModel):
-    model_config = pydantic.ConfigDict(arbitrary_types_allowed=True)
-
-    debug: bool = False
-    jinja_environment: jinja2.Environment = jinja2.Environment()
-    network_timeout_seconds: int = 20
-    rich_console: Console
-    settings: CiteRunnerSettings

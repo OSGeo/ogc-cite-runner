@@ -8,6 +8,7 @@ from lxml import etree
 
 import httpx
 import pydantic
+from rich.console import RenderableType
 
 from . import (
     config,
@@ -27,8 +28,8 @@ class SuiteSerializerProtocol(typing.Protocol):
         self,
         suite_result: models.TestSuiteResult,
         serialization_details: models.SerializationDetails,
-        context: models.CiteRunnerContext,
-    ) -> str: ...
+        context: config.CiteRunnerContext,
+    ) -> RenderableType: ...
 
 
 def wait_for_teamengine_to_be_ready(
@@ -102,7 +103,7 @@ def serialize_suite_result(
     parsed_suite_result: models.TestSuiteResult,
     output_format: models.ParseableOutputFormat,
     serialization_details: models.SerializationDetails,
-    context: models.CiteRunnerContext,
+    context: config.CiteRunnerContext,
 ) -> str:
     serializer: SuiteSerializerProtocol = _get_suite_result_serializer(
         output_format, context.settings, parsed_suite_result.suite_title
@@ -137,6 +138,7 @@ def _get_suite_result_serializer(
     serializer_python_path = {
         output_format.JSON: settings.default_json_serializer,
         output_format.MARKDOWN: settings.default_markdown_serializer,
+        output_format.CONSOLE: settings.default_console_serializer,
     }.get(output_format)
     if test_suite_identifier is not None:
         settings_key = "_".join(
@@ -156,6 +158,10 @@ def _get_suite_result_serializer(
                 f"test suite identifier {test_suite_identifier!r} - using "
                 f"default serializer of {serializer_python_path!r}"
             )
+    if serializer_python_path is None:
+        raise NotImplementedError(
+            f"no serializer available for {output_format=} and {test_suite_identifier=}"
+        )
     return _load_python_object(serializer_python_path)
 
 

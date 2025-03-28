@@ -11,7 +11,6 @@ import pydantic
 import typer
 from rich import print
 
-import src.cite_runner.models
 from . import (
     config,
     exceptions,
@@ -82,8 +81,9 @@ def parse_test_result(
     include_skipped_detail: bool = True,
     include_passed_detail: bool = False,
 ):
+    context: config.CiteRunnerContext = ctx.obj
     parsed = teamengine_runner.parse_test_suite_result(
-        test_suite_result.read_text(), ctx.obj.settings
+        test_suite_result.read_text(), context.settings
     )
     serialized = teamengine_runner.serialize_suite_result(
         parsed,
@@ -96,7 +96,8 @@ def parse_test_result(
         ),
         context=ctx.obj,
     )
-    print(serialized)
+
+    context.rich_console.print(serialized)
     raise typer.Exit(_get_exit_code(parsed, exit_with_error_on_suite_failed_result))
 
 
@@ -217,7 +218,7 @@ def execute_test_suite(
 
 
 def _execute_test_suite(
-    ctx: src.cite_runner.models.CiteRunnerContext,
+    ctx: config.CiteRunnerContext,
     teamengine_base_url: str,
     test_suite_identifier: str,
     teamengine_username: pydantic.SecretStr,
