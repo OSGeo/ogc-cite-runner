@@ -9,7 +9,6 @@ import click
 import httpx
 import pydantic
 import typer
-from rich import print
 
 from . import (
     config,
@@ -26,7 +25,7 @@ def _parse_pydantic_secret_str(value: str) -> pydantic.SecretStr:
     return pydantic.SecretStr(value)
 
 
-_DEFAULT_OUTPUT_FORMAT = models.ParseableOutputFormat.MARKDOWN
+_DEFAULT_OUTPUT_FORMAT = models.OutputFormat.MARKDOWN
 
 _test_suite_identifier_argument = typing.Annotated[
     str, typer.Argument(help="Identifier of the test suite. Ex: ogcapi-features-1.0")
@@ -74,7 +73,7 @@ def parse_test_result(
             exists=True, file_okay=True, dir_okay=False, help="Suite execution result"
         ),
     ],
-    output_format: models.ParseableOutputFormat = _DEFAULT_OUTPUT_FORMAT,
+    output_format: models.OutputFormat = _DEFAULT_OUTPUT_FORMAT,
     exit_with_error_on_suite_failed_result: bool = False,
     include_summary: bool = True,
     include_failed_detail: bool = True,
@@ -96,8 +95,10 @@ def parse_test_result(
         ),
         context=ctx.obj,
     )
-
-    context.rich_console.print(serialized)
+    if output_format.print_pretty():
+        context.rich_console.print(serialized)
+    else:
+        stdlib_print(serialized)
     raise typer.Exit(_get_exit_code(parsed, exit_with_error_on_suite_failed_result))
 
 
@@ -150,10 +151,11 @@ def execute_test_suite_from_github_actions(
             include_passed_detail=include_passed_detail,
         ),
     )
-    if output_format == models.OutputFormat.RAW:
-        stdlib_print(serialized)
+    context: config.CiteRunnerContext = ctx.obj
+    if output_format.print_pretty():
+        context.rich_console.print(serialized)
     else:
-        print(serialized)
+        stdlib_print(serialized)
     raise typer.Exit(
         0
         if output_format == models.OutputFormat.RAW
@@ -190,8 +192,9 @@ def execute_test_suite(
     for param_name, param_value in test_suite_input:
         param_values = suite_inputs.setdefault(param_name, [])
         param_values.append(param_value)
+    context: config.CiteRunnerContext = ctx.obj
     parsed, serialized = _execute_test_suite(
-        ctx.obj,
+        context,
         teamengine_base_url=teamengine_base_url,
         test_suite_identifier=test_suite_identifier,
         teamengine_username=teamengine_username,
@@ -207,9 +210,10 @@ def execute_test_suite(
     )
     if output_format == models.OutputFormat.RAW:
         logger.debug("Outputting raw response, as returned by teamengine...")
-        stdlib_print(serialized)
+    if output_format.print_pretty():
+        context.rich_console.print(serialized)
     else:
-        print(serialized)
+        stdlib_print(serialized)
     raise typer.Exit(
         0
         if output_format == models.OutputFormat.RAW
@@ -218,7 +222,7 @@ def execute_test_suite(
 
 
 def _execute_test_suite(
-    ctx: config.CiteRunnerContext,
+    context: config.CiteRunnerContext,
     teamengine_base_url: str,
     test_suite_identifier: str,
     teamengine_username: pydantic.SecretStr,
@@ -228,7 +232,7 @@ def _execute_test_suite(
     serialization_details: models.SerializationDetails,
 ) -> tuple[models.TestSuiteResult | None, str]:
     logger.debug(f"{locals()=}")
-    client = httpx.Client(timeout=ctx.network_timeout_seconds)
+    client = httpx.Client(timeout=context.network_timeout_seconds)
     base_url = teamengine_base_url.strip("/")
     if teamengine_runner.wait_for_teamengine_to_be_ready(client, base_url):
         logger.debug(
@@ -254,14 +258,13 @@ def _execute_test_suite(
             else:
                 logger.debug("Parsing test suite execution results...")
                 parsed = teamengine_runner.parse_test_suite_result(
-                    raw_result, ctx.settings
+                    raw_result, context.settings
                 )
-                format_to_output = models.ParseableOutputFormat(output_format.value)
                 serialized = teamengine_runner.serialize_suite_result(
                     parsed,
-                    format_to_output,
+                    output_format,
                     serialization_details,
-                    ctx,
+                    context,
                 )
             return parsed, serialized
     else:

@@ -73,9 +73,7 @@ def configure_logging(rich_console: Console, debug: bool) -> None:
 
 
 def get_console() -> Console:
-    return Console(
-        stderr=True,
-    )
+    return Console()
 
 
 def get_context(

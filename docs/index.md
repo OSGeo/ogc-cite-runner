@@ -11,7 +11,7 @@ Key features:
 
 - **Runs as a github action**: Can be integrated into existing CI workflows
 - **Runs as a standalone CLI application**: Can be run as a standalone tool
-- **Multiple output formats**: Can output test suite results as markdown,
+- **Multiple output formats**: Can output test suite results as straight to the terminal in markdown,
   JSON or XML
 
 This project aims to simplify the running of OGC CITE tests suites so that
