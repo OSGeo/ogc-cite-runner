@@ -15,16 +15,14 @@ jobs:
       - name: grab code
         uses: actions/checkout@v4.2.2
 
+      - name: install poetry
+        run: pipx install poetry==2.1.1
+
       - name: setup Python
         uses: actions/setup-python@v5.5.0
         with:
           python-version: "3.10"
           cache: poetry
-
-      - name: setup poetry
-        uses: Gr1N/setup-poetry@v9
-        with:
-          poetry-version: "2.1.1"
 
       - name: install code with dev dependencies
         run: poetry install --with ci
