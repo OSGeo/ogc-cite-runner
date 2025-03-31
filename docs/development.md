@@ -42,7 +42,7 @@ In a brief nutshell:
    to work on docs):
 
     ```shell
-    poetry install --with dev --with docs
+    poetry install --with dev --with test --with docs
     ```
 
 5. Optionally (but strongly recommended) enable the [pre-commit] hooks

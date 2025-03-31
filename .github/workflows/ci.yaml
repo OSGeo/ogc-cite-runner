@@ -25,7 +25,7 @@ jobs:
           cache: poetry
 
       - name: install code with dev dependencies
-        run: poetry install --with ci
+        run: poetry install --with ci --with test
 
       - name: run ruff linter
         run: poetry run ruff check
