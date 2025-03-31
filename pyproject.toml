@@ -53,8 +53,14 @@ optional = true
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.31.0"
-pytest = "^8.3.5"
 pre-commit = "^4.2.0"
+
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.5"
 
 
 [tool.poetry.group.ci]
