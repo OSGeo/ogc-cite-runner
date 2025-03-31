@@ -106,7 +106,8 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
 ##### Arguments
 
 - `TEAMENGINE_BASE_URL` - Base URL of the teamengine service. Example: `http://localhost:8080/teamengine`
-- `TEST_SUITE_IDENTIFIER` - Identifier of the test suite as known to teamengine. Example: `ogcapi-features-1.0`
+- `TEST_SUITE_IDENTIFIER` - Identifier of the test suite as known to teamengine. Look up known identifiers in the
+  [section on OGC test suites](ogc-test-suites.md). Example: `ogcapi-features-1.0`
 
 
 ##### Options
@@ -147,7 +148,7 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
     ```shell
     cite-runner execute-test-suite \
         http://localhost:8080/teamengine \
-        ogcapi-processes-1.0 \
+        ogcapi-features-1.0 \
         --test-suite-input iut https://demo.pygeoapi.io/stable \
         --test-suite-input noofcollections -1 \
         --include-passed-detail \
@@ -164,6 +165,7 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
         --test-suite-input iut http://localhost:5000 \
         --test-suite-input noofcollections -1 \
         --include-passed-detail \
+        --output-format json
     | jq '.passed'
     ```
 

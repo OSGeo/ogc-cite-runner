@@ -48,7 +48,7 @@ When run as a github action, cite-runner expects the following inputs to be prov
 
 - **required**: Yes
 - **description**: Identifier of the test suite to be executed. Test suite identifiers can be gotten from
-  the documentation at <http://cite.opengeospatial.org/teamengine/>.
+  the [OGC Test suites section](ogc-test-suites.md).
 
     Example:
 
@@ -85,9 +85,11 @@ When run as a github action, cite-runner expects the following inputs to be prov
 - **description**: URL of the teamengine instance to be used for running tests.
 
     If this parameter is not specified then the action will spin up a local
-    teamengine docker container and use it for testing. This can be used in
-    conjunction with `teamengine_username` and `teamengine_password` in order
-    to provide authentication credentials.
+    teamengine docker container and use it for testing.
+
+    When providing a value for this option, it can be used in conjunction with
+    the `teamengine_username` and `teamengine_password` in order to provide
+    authentication credentials.
 
     !!! note
         The value of `teamengine_url` must be the URL of the landing page of
@@ -96,7 +98,7 @@ When run as a github action, cite-runner expects the following inputs to be prov
     Examples:
 
     - When you intend for the action to spin up a local docker instance there is
-      no need to supply this argument
+      no need to supply this argument. The action will run totally self-contained
 
     - When using the remote teamengine instance located at `https://my-server`
       with a pre-existing user `myself` and a password of `something`:
