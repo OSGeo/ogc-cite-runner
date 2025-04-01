@@ -1,0 +1,38 @@
+:root > * {
+  /* Main theme colors */
+  --md-default-bg-color: #F7F5FB;
+  --md-default-fg-color: #1E152A;
+  --md-primary-fg-color: #302343;
+
+  /* Content link colors */
+  --md-typeset-a-color: #C27C88;
+
+  /* Navigation link colors - both sidebar and header */
+  --md-nav-link-color: #C27C88;
+  --md-nav-link-hover-color: #4A7C7C;
+}
+
+.md-typeset a:hover {
+    color: #4A7C7C
+}
+
+
+/* Additional customization for sidebar navigation links */
+.md-nav__link {
+  color: var(--md-nav-link-color);
+}
+
+.md-nav__link :hover {
+  color: var(--md-nav-link-hover-color);
+}
+
+/* For active navigation items */
+.md-nav__item .md-nav__link--active {
+  color: #302343;
+  font-weight: bold;
+}
+
+/* Header navigation links */
+.md-header__nav-link {
+  color: var(--md-default-bg-color);
+}
