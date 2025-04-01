@@ -1,9 +1,18 @@
 ---
+title: cite-runner
 hide:
   - navigation
 ---
+<style>
+  .md-typeset h1,
+  .md-content__button {
+    display: none;
+  }
+</style>
 
-# CITE Runner
+<figure markdown="span">
+  ![cite-runner-logo](assets/cite-runner-logo.svg)
+</figure>
 
 A test runner for [OGC CITE].
 
@@ -11,7 +20,7 @@ Key features:
 
 - **Runs as a github action**: Can be integrated into existing CI workflows
 - **Runs as a standalone CLI application**: Can be run as a standalone tool
-- **Multiple output formats**: Can output test suite results as straight to the terminal in markdown,
+- **Multiple output formats**: Can output test suite results as straight to the terminal, in markdown,
   JSON or XML
 
 This project aims to simplify the running of OGC CITE tests suites so that
@@ -46,8 +55,7 @@ cite-runner execute-test-suite \
     http://localhost:8080/teamengine \
     ogcapi-features-1.0 \
     --test-suite-input iut http://localhost:5001 \
-    --test-suite-input noofcollections -1 \
-    --output-format markdown
+    --test-suite-input noofcollections -1
 ```
 
 

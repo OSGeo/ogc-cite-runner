@@ -46,8 +46,8 @@ When run as a github action, cite-runner expects the following inputs to be prov
 
 ### `test_suite_identfier`
 
-- **required**: Yes
-- **description**: Identifier of the test suite to be executed. Test suite identifiers can be gotten from
+- **Required**: Yes
+- **Description**: Identifier of the test suite to be executed. Test suite identifiers can be gotten from
   the [OGC Test suites section](ogc-test-suites.md).
 
     Example:
@@ -59,8 +59,8 @@ When run as a github action, cite-runner expects the following inputs to be prov
 
 ### `test_session_arguments`
 
-- **required**: Yes
-- **description**: Test session arguments to be passed to teamengine. These depend on the test
+- **Required**: Yes
+- **Description**: Test session arguments to be passed to teamengine. These depend on the test
     suite that is going to be executed.
 
     Must be provided as a space-separated list of `key=value` pairs. Examples:
@@ -81,8 +81,8 @@ When run as a github action, cite-runner expects the following inputs to be prov
 
 ### `teamengine_url`
 
-- **required**: No (defaults to not set)
-- **description**: URL of the teamengine instance to be used for running tests.
+- **Required**: No (defaults to not set)
+- **Description**: URL of the teamengine instance to be used for running tests.
 
     If this parameter is not specified then the action will spin up a local
     teamengine docker container and use it for testing.
@@ -112,40 +112,40 @@ When run as a github action, cite-runner expects the following inputs to be prov
 
 ### `teamengine_username`
 
-- **required**: No (defaults to `ogctest`)
-- **description**: Username to be used when logging in to a remote teamengine instance.
+- **Required**: No (defaults to `ogctest`)
+- **Description**: Username to be used when logging in to a remote teamengine instance.
   Defaults to `ogctest`, which is a user that is pre-created on the official teamengine docker image.
 
 
 ### `teamengine_password`
 
-- **required**: No (defaults to `ogctest`)
-- **description**: Password to be used when logging in to a remote teamengine instance.
+- **Required**: No (defaults to `ogctest`)
+- **Description**: Password to be used when logging in to a remote teamengine instance.
   Defaults to `ogctest`, which is the password used for the pre-created user on the official teamengine docker image
 
 
 ### `network_timeout_seconds`
 
-- **required**: No (defaults to `120`)
-- **description**: Timeout value for network requests
+- **Required**: No (defaults to `120`)
+- **Description**: Timeout value for network requests
 
 
 ### `include_failed_test_details`
 
-- **required**: No (defaults to `true`)
-- **description**: Whether the output report should include information about failed tests
+- **Required**: No (defaults to `true`)
+- **Description**: Whether the output report should include information about failed tests
 
 
 ### `include_skipped_test_details`
 
-- **required**: No (defaults to `true`)
-- **description**: Whether the output report should include information about skipped tests
+- **Required**: No (defaults to `true`)
+- **Description**: Whether the output report should include information about skipped tests
 
 
 ### `include_passed_test_details`
 
-- **required**: false (defaults to `false`)
-- **description**: Whether the output report should include information about passed tests
+- **Required**: No (defaults to `false`)
+- **Description**: Whether the output report should include information about passed tests
 
 
 ## Usage

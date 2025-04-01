@@ -10,14 +10,19 @@ site_url: https://osgeo.github.io/cite-runner
 repo_url: https://github.com/OSGeo/cite-runner
 markdown_extensions:
   - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
   - pymdownx.details
   - pymdownx.superfences
   - toc:
       permalink: true
 theme:
   name: material
+  logo: assets/cite-runner-logo-no-text-small.svg
   palette:
-    primary: pink
+    primary: custom
+    accent: custom
   features:
     - navigation.instant
     - navigation.instant.progress
@@ -29,3 +34,5 @@ theme:
     - toc.follow
     # - toc.integrate
     - toc.top
+extra_css:
+  - stylesheets/extra.css
