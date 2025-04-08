@@ -35,7 +35,8 @@ class CiteRunnerContext(pydantic.BaseModel):
     debug: bool = False
     jinja_environment: jinja2.Environment = jinja2.Environment()
     network_timeout_seconds: int = 20
-    rich_console: "Console"
+    result_console: Console
+    status_console: Console
     settings: CiteRunnerSettings
 
 
@@ -72,20 +73,16 @@ def configure_logging(rich_console: Console, debug: bool) -> None:
     logging.getLogger("httpx").setLevel(logging.INFO if debug else logging.WARNING)
 
 
-def get_console() -> Console:
-    return Console()
-
-
 def get_context(
     debug: bool,
     network_timeout_seconds: int,
 ) -> CiteRunnerContext:
     settings = get_settings()
-    console = get_console()
     return CiteRunnerContext(
         debug=debug,
         network_timeout_seconds=network_timeout_seconds,
         jinja_environment=_get_jinja_environment(settings),
         settings=settings,
-        rich_console=console,
+        result_console=Console(),
+        status_console=Console(stderr=True),
     )

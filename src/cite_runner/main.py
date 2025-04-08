@@ -60,7 +60,7 @@ def base_callback(
         debug=debug,
         network_timeout_seconds=network_timeout,
     )
-    config.configure_logging(rich_console=context.rich_console, debug=debug)
+    config.configure_logging(rich_console=context.status_console, debug=debug)
     ctx.obj = context
 
 
@@ -81,9 +81,11 @@ def parse_test_result(
     include_passed_detail: bool = False,
 ):
     context: config.CiteRunnerContext = ctx.obj
+    context.status_console.print("Parsing test suite execution results...")
     parsed = teamengine_runner.parse_test_suite_result(
         test_suite_result.read_text(), context.settings
     )
+    context.status_console.print(f"Serializing parsed results to {output_format}...")
     serialized = teamengine_runner.serialize_suite_result(
         parsed,
         output_format,
@@ -96,7 +98,7 @@ def parse_test_result(
         context=ctx.obj,
     )
     if output_format.print_pretty():
-        context.rich_console.print(serialized)
+        context.result_console.print(serialized)
     else:
         stdlib_print(serialized)
     raise typer.Exit(_get_exit_code(parsed, exit_with_error_on_suite_failed_result))
@@ -153,7 +155,7 @@ def execute_test_suite_from_github_actions(
     )
     context: config.CiteRunnerContext = ctx.obj
     if output_format.print_pretty():
-        context.rich_console.print(serialized)
+        context.result_console.print(serialized)
     else:
         stdlib_print(serialized)
     raise typer.Exit(
@@ -211,7 +213,7 @@ def execute_test_suite(
     if output_format == models.OutputFormat.RAW:
         logger.debug("Outputting raw response, as returned by teamengine...")
     if output_format.print_pretty():
-        context.rich_console.print(serialized)
+        context.result_console.print(serialized)
     else:
         stdlib_print(serialized)
     raise typer.Exit(
@@ -234,8 +236,9 @@ def _execute_test_suite(
     logger.debug(f"{locals()=}")
     client = httpx.Client(timeout=context.network_timeout_seconds)
     base_url = teamengine_base_url.strip("/")
+    context.status_console.print("Checking if teamengine is ready...")
     if teamengine_runner.wait_for_teamengine_to_be_ready(client, base_url):
-        logger.debug(
+        context.status_console.print(
             f"Asking teamengine to execute test suite {test_suite_identifier!r}..."
         )
         try:
@@ -251,14 +254,22 @@ def _execute_test_suite(
             logger.exception("Unable to collect test suite execution results")
             raise SystemExit(1)
         else:
+            context.status_console.print(
+                "Received teamengine execution result in EARL format"
+            )
             parsed = None
             if output_format == models.OutputFormat.RAW:
-                logger.debug("Outputting raw response, as returned by teamengine...")
+                context.status_console.print(
+                    "Outputting raw response, as returned by teamengine..."
+                )
                 serialized = raw_result
             else:
-                logger.debug("Parsing test suite execution results...")
+                context.status_console.print("Parsing test suite execution results...")
                 parsed = teamengine_runner.parse_test_suite_result(
                     raw_result, context.settings
+                )
+                context.status_console.print(
+                    f"Serializing parsed results to {output_format}..."
                 )
                 serialized = teamengine_runner.serialize_suite_result(
                     parsed,
