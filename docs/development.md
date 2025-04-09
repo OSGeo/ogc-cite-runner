@@ -35,21 +35,20 @@ In a brief nutshell:
 
 2. Clone you fork to your local environment
 
-3. Install [poetry]
+3. Install [uv]
 
-4. Use poetry to install the cite-runner code locally, also including the
-   `dev` dependency group (and optionally also the `docs` group, if you plan
-   to work on docs):
+4. Use uv to install the cite-runner code locally. This will create a virtualenv and install all
+   dependencies needed for development, including for working on docs:
 
     ```shell
-    poetry install --with dev --with test --with docs
+    uv sync
     ```
 
 5. Optionally (but strongly recommended) enable the [pre-commit] hooks
    provided by cite-runner:
 
     ```shell
-    poetry run pre-commit install
+    uv run pre-commit install
     ```
 
 6. Stand up a docker container with a local teamengine instance:
@@ -72,10 +71,16 @@ In a brief nutshell:
 
 7. Work on the cite-runner code
 
+8. You can run cite-runner via uv with:
+
+    ```shell
+    uv run cite-runner
+    ```
+
 8. If you want to work on documentation, you can start the mkdocs server with:
 
     ```shell
-    poetry run mkdocs serve
+    uv run mkdocs serve
     ```
 
 
@@ -83,8 +88,8 @@ In a brief nutshell:
 [jinja]: https://jinja.palletsprojects.com/en/stable/
 [lxml]: https://lxml.de/
 [mkdocs]: https://www.mkdocs.org/
-[poetry]: https://python-poetry.org/
 [pre-commit]: https://pre-commit.com/
 [pydantic]: https://docs.pydantic.dev/latest/
 [teamengine's web API]: https://opengeospatial.github.io/teamengine/users.html
 [typer]: https://typer.tiangolo.com/
+[uv]: https://docs.astral.sh/uv/

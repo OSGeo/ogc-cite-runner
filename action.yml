@@ -56,24 +56,21 @@ runs:
     - name: 'Add action path to the global path'
       shell: bash
       run: echo "${{ github.action_path }}" >> ${GITHUB_PATH}
+    - name: 'Install uv'
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "0.6.13"
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
     - name: 'Set up Python'
       uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
-    - name: 'Set up poetry'
-      uses: Gr1N/setup-poetry@v9
-      with:
-        poetry-version: '1.8.3'
-    - name: 'Set up cache'
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pypoetry/virtualenvs
-        key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+        python-version-file: "pyproject.toml"
     - name: 'install action code'
       shell: 'bash'
       run: |
         cd ${{ github.action_path }}
-        poetry install
+        uv sync --frozen
     - name: 'Start TEAM engine container'
       if: ${{ !inputs.teamengine_url }}
       shell: 'bash'
@@ -90,7 +87,7 @@ runs:
       run: |
         cd ${{ github.action_path }}
         raw_result_output_path=raw-result.xml
-        poetry run cite-runner \
+        uv run cite-runner \
             --network-timeout=${{ inputs.network_timeout_seconds }} \
             execute-test-suite-from-github-actions \
             ${{ inputs.teamengine_url || 'http://localhost:8080/teamengine' }} \
@@ -106,7 +103,7 @@ runs:
       run: |
         cd ${{ github.action_path }}
         md_result_output_path=test-result.md
-        poetry run cite-runner \
+        uv run cite-runner \
             parse-result \
             --output-format=markdown \
             --include-summary \
