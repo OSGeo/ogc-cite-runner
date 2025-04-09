@@ -15,25 +15,25 @@ hide:
 
     !!! warning
 
-        This also means that for the moment, cite-runner needs to be run through poetry, by means of using
-        `poetry run cite-runner`. As such, please remember to prefix all examples provided below with
-        `poetry run`.
+        This also means that for the moment, cite-runner needs to be run through uv, by means of using
+        `uv run cite-runner`. As such, please remember to prefix all examples provided below with
+        `uv run`.
 
 
-In order to use cite-runner locally you will need to have [git] and [poetry]
+In order to use cite-runner locally you will need to have [git] and [uv]
 installed. Once these are installed, cite-runner can be installed by cloning
-this repository and using poetry to install it:
+this repository and using uv to install it:
 
 ```shell
 git clone https://github.com/OSGeo/cite-runner.git
 cd cite-runner
-poetry install
+uv sync
 ```
 
 You can verify the installation by running
 
 ```shell
-poetry run cite-runner --help
+uv run cite-runner --help
 ```
 
 
@@ -249,7 +249,7 @@ before the command.
 
 [docker image]: https://hub.docker.com/r/ogccite/teamengine-production
 [git]: https://git-scm.com/
-[poetry]: https://python-poetry.org/
 [pygeoapi demo service]: https://demo.pygeoapi.io/stable
 [OGC TEAM Engine]: https://opengeospatial.github.io/teamengine/
 [teamengine EARL output format]: https://opengeospatial.github.io/teamengine/users.html#EARL_.28RDF.2FXML.29
+[uv]: https://docs.astral.sh/uv/

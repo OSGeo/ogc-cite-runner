@@ -169,7 +169,7 @@ jobs:
 
 This action's code can also be installed locally:
 
-- Install [poetry](https://python-poetry.org/docs/)
+- Install [uv](https://docs.astral.sh/uv/)
 - Clone this repository:
 
   ```shell
@@ -179,7 +179,7 @@ This action's code can also be installed locally:
 
   ```shell
   cd cite-runner
-  poetry install
+  uv sync
   ```
 
 - Start your service to be tested. Let's assume it is already running on `http://localhost:5000`
@@ -197,7 +197,7 @@ This action's code can also be installed locally:
 - Run the action code with
 
   ```shell
-  poetry run cite-runner --help
+  uv run cite-runner --help
   ```
 
 There are additional commands and options which can be used when running locally, which allow controlling the output
@@ -265,18 +265,18 @@ format and how the inputs are supplied. Read the online documentation for more d
 After having clone this repository, install the code with dev dependencies by running:
 
 ```shell
-poetry install --with dev
+uv sync
 ```
 
 Enable the pre-commit hooks by running:
 
 ```shell
-poetry run pre-commit install
+uv run pre-commit install
 ```
 
 Optionally, do a first run of pre-commit on all files, which will also initialize
 pre-commit's hooks:
 
 ```shell
-poetry run pre-commit run --all-files
+uv run pre-commit run --all-files
 ```
