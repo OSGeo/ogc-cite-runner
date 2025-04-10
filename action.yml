@@ -61,11 +61,11 @@ runs:
       with:
         version: "0.6.13"
         enable-cache: true
-        cache-dependency-glob: "uv.lock"
+        cache-dependency-glob: "${{ github.action_path }}/uv.lock"
     - name: 'Set up Python'
       uses: actions/setup-python@v5
       with:
-        python-version-file: "pyproject.toml"
+        python-version-file: "${{ github.action_path }}/pyproject.toml"
     - name: 'install action code'
       shell: 'bash'
       run: |
