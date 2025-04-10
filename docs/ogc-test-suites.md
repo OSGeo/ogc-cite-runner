@@ -23,7 +23,11 @@ The official [OGC TEAM Engine documentation] also provides a list of test suites
 <tr>
 <td>cat30</td>
 <td><a href="https://cite.opengeospatial.org/teamengine/about/cat30/3.0.0/site/" target="blank_">OGC Catalogue 3.0 Conformance Test Suite</a></td>
-<td></td>
+<td>
+<ul>
+<li>iut</li>
+</ul>
+</td>
 </tr>
 <tr>
 <td>cdb10</td>
