@@ -137,11 +137,23 @@ When run as a github action, cite-runner expects the following inputs to be prov
 - **Required**: No (defaults to `true`)
 - **Description**: Whether the output report should include information about failed tests
 
+!!! note
+
+    This input is parsed into a boolean with the github actions [fromJSON() function] and is then evaluated
+    with github's [ternary operator]. This means that if you pass it a value of either `true` or `false`
+    everything will work as intended.
+
 
 ### `include_skipped_test_details`
 
 - **Required**: No (defaults to `true`)
 - **Description**: Whether the output report should include information about skipped tests
+
+!!! note
+
+    This input is parsed into a boolean with the github actions [fromJSON() function] and is then evaluated
+    with github's [ternary operator]. This means that if you pass it a value of either `true` or `false`
+    everything will work as intended.
 
 
 ### `include_passed_test_details`
@@ -149,6 +161,27 @@ When run as a github action, cite-runner expects the following inputs to be prov
 - **Required**: No (defaults to `false`)
 - **Description**: Whether the output report should include information about passed tests
 
+!!! note
+
+    This input is parsed into a boolean with the github actions [fromJSON() function] and is then evaluated
+    with github's [ternary operator]. This means that if you pass it a value of either `true` or `false`
+    everything will work as intended.
+
+
+### `exit_with_error_on_suite_failed_result`
+
+- **Required**: No (defaults to `false`)
+- **Description**: Whether the action should exit with an error when a suite is declared as failed.
+
+!!! note
+
+    This input is parsed into a boolean with the github actions [fromJSON() function] and is then evaluated
+    with github's [ternary operator]. This means that if you pass it a value of either `true` or `false`
+    everything will work as intended.
+
+
+[fromJSON() function]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#fromjson
+[ternary operator]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#operators
 
 ## Usage
 
