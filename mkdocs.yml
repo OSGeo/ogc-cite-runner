@@ -20,6 +20,7 @@ markdown_extensions:
 theme:
   name: material
   logo: assets/cite-runner-logo-no-text-small.svg
+  favicon: assets/cite-runner-logo-no-text-small.svg
   palette:
     primary: custom
     accent: custom
@@ -32,7 +33,6 @@ theme:
     - navigation.tabs
     - navigation.tracking
     - toc.follow
-    # - toc.integrate
     - toc.top
 extra_css:
   - stylesheets/extra.css
