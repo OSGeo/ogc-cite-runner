@@ -5,6 +5,8 @@ hide:
 
 # Running as a github action
 
+![github-action-runner](assets/github-action-demo.png)
+
 ## Overview
 
 In order to run cite-runner as a [github action], include it in your workflow
@@ -60,7 +62,7 @@ When run as a github action, cite-runner expects the following inputs to be prov
 ### `test_session_arguments`
 
 - **Required**: Yes
-- **Description**: Test session arguments to be passed to teamengine. These depend on the test
+- **Description**: Test session arguments to be passed to TeamEngine. These depend on the test
     suite that is going to be executed.
 
     Must be provided as a space-separated list of `key=value` pairs. Examples:
@@ -82,10 +84,10 @@ When run as a github action, cite-runner expects the following inputs to be prov
 ### `teamengine_url`
 
 - **Required**: No (defaults to not set)
-- **Description**: URL of the teamengine instance to be used for running tests.
+- **Description**: URL of the TeamEngine instance to be used for running tests.
 
     If this parameter is not specified then the action will spin up a local
-    teamengine docker container and use it for testing.
+    TeamEngine docker container and use it for testing.
 
     When providing a value for this option, it can be used in conjunction with
     the `teamengine_username` and `teamengine_password` in order to provide
@@ -93,14 +95,14 @@ When run as a github action, cite-runner expects the following inputs to be prov
 
     !!! note
         The value of `teamengine_url` must be the URL of the landing page of
-        the teamengine service, which usually is located at the `/teamengine` path.
+        the TeamEngine service, which usually is located at the `/teamengine` path.
 
     Examples:
 
     - When you intend for the action to spin up a local docker instance there is
       no need to supply this argument. The action will run totally self-contained
 
-    - When using the remote teamengine instance located at `https://my-server`
+    - When using the remote TeamEngine instance located at `https://my-server`
       with a pre-existing user `myself` and a password of `something`:
 
       ```yaml
@@ -113,21 +115,21 @@ When run as a github action, cite-runner expects the following inputs to be prov
 ### `teamengine_username`
 
 - **Required**: No (defaults to `ogctest`)
-- **Description**: Username to be used when logging in to a remote teamengine instance.
-  Defaults to `ogctest`, which is a user that is pre-created on the official teamengine docker image.
+- **Description**: Username to be used when logging in to a remote TeamEngine instance.
+  Defaults to `ogctest`, which is a user that is pre-created on the official TeamEngine docker image.
 
 
 ### `teamengine_password`
 
 - **Required**: No (defaults to `ogctest`)
-- **Description**: Password to be used when logging in to a remote teamengine instance.
-  Defaults to `ogctest`, which is the password used for the pre-created user on the official teamengine docker image
+- **Description**: Password to be used when logging in to a remote TeamEngine instance.
+  Defaults to `ogctest`, which is the password used for the pre-created user on the official TeamEngine docker image
 
 
 ### `network_timeout_seconds`
 
 - **Required**: No (defaults to `120`)
-- **Description**: Timeout value for network requests
+- **Description**: Timeout value for network requests, in seconds
 
 
 ### `include_failed_test_details`
@@ -150,7 +152,7 @@ When run as a github action, cite-runner expects the following inputs to be prov
 
 ## Usage
 
-The below examples define a github workflow for testing pygeoapi.
+The below examples define a GitHub workflow for testing pygeoapi.
 
 Simple usage, running the `ogcapi-features-1.0` test suite whenever there is a `push`:
 
@@ -241,3 +243,36 @@ jobs:
           test_session_arguments: ${{ matrix.test-suite.arguments }}
 
 ```
+
+
+## Results
+
+The cite-runner github action stores both:
+
+- Raw suite results, as output directly by OGC TeamEngine. This is an XML file that uses a schema based on the
+  W3C EARL format
+- Parsed suite results, in Markdown format.
+
+These results are saved as [workflow artifacts] and are available for download for further processing.
+
+Additionally, cite-runner also adds the contents of the parsed Markdown file as the job summary, making them directly
+visible in the github workflow run overview page:
+
+![github-workflow-job-sumary](assets/github-action-summary.png)
+
+Furthermore, the full suite execution results are also shown in the job logs:
+
+![github-workflow-log](assets/github-action-log-output.png)
+
+!!! note
+
+    The parsed results which are persisted as a Markdown artifact and shown in the job summary respect
+    the action parameters:
+
+    - `include_failed_test_details`
+    - `include_skipped_test_details`
+    - `include_passed_test_details`
+
+    However, the results shown on the job logs always include the full results.
+
+[workflow artifacts]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/storing-and-sharing-data-from-a-workflow#about-workflow-artifacts
