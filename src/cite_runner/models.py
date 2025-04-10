@@ -19,6 +19,7 @@ class OutputFormat(str, enum.Enum):
 
 
 class TestStatus(enum.Enum):
+    CANT_TELL = "CANT_TELL"
     PASSED = "PASSED"
     FAILED = "FAILED"
     SKIPPED = "SKIPPED"
@@ -54,7 +55,7 @@ class ConformanceClassResult(pydantic.BaseModel):
 
     def gen_failed_tests(self) -> Generator[TestCaseResult, None, None]:
         for test_case in self.tests:
-            if test_case.status == TestStatus.FAILED:
+            if test_case.status in (TestStatus.FAILED, TestStatus.CANT_TELL):
                 yield test_case
 
     def gen_skipped_tests(self) -> Generator[TestCaseResult, None, None]:
