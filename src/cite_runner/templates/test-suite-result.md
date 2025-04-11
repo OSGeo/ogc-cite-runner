@@ -14,6 +14,8 @@
 - 🟡 Skipped {{ result.num_skipped_tests }} tests
 - 🟢 Passed {{ result.num_passed_tests }} tests
 
+ℹ️ - {{ disclaimer }}
+
 {%- if serialization_details.include_summary %}
 ##### Additional suite details
 
