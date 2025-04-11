@@ -63,15 +63,18 @@
 <table>
   <tr>
     <th>Test case</th>
-{%- if test_case.name %}
-    <td>{{ test_case.name }} ({{ test_case.identifier }})</td>
-{% else %}
-    <td>{{ test_case.identifier }}</td>
-{%- endif %}
+    <td>
+        {%- if test_case.name %}
+            {{ test_case.name }} ({{ test_case.identifier }})
+        {%- else %}
+            {{ test_case.identifier }}
+        {%- endif%}
+        {%- if test_case.description %}<p>{{ test_case.description }}</p>{%- endif %}
+    </td>
   </tr>
   <tr>
-    <th>Description</th>
-    <td>{{ test_case.description | default('-', true) }}</td>
+  <th>Status</th>
+  <td>:red_circle: {{ test_case.status.value }}</td>
   </tr>
   <tr>
     <th>Detail</th>
@@ -103,15 +106,18 @@
 <table>
   <tr>
     <th>Test case</th>
-{%- if test_case.name %}
-    <td>{{ test_case.name }} ({{ test_case.identifier }})</td>
-{% else %}
-    <td>{{ test_case.identifier }}</td>
-{%- endif %}
+    <td>
+        {%- if test_case.name %}
+            {{ test_case.name }} ({{ test_case.identifier }})
+        {%- else %}
+            {{ test_case.identifier }}
+        {%- endif%}
+        {%- if test_case.description %}<p>{{ test_case.description }}</p>{%- endif %}
+    </td>
   </tr>
   <tr>
-    <th>Description</th>
-    <td>{{ test_case.description | default('-', true) }}</td>
+  <th>Status</th>
+  <td>:yellow_circle: {{ test_case.status.value }}</td>
   </tr>
   <tr>
     <th>Detail</th>
@@ -143,19 +149,18 @@
 <table>
   <tr>
     <th>Test case</th>
-{%- if test_case.name %}
-    <td>{{ test_case.name }} ({{ test_case.identifier }})</td>
-{% else %}
-    <td>{{ test_case.identifier }}</td>
-{%- endif %}
+    <td>
+        {%- if test_case.name %}
+            {{ test_case.name }} ({{ test_case.identifier }})
+        {%- else %}
+            {{ test_case.identifier }}
+        {%- endif%}
+        {%- if test_case.description %}<p>{{ test_case.description }}</p>{%- endif %}
+    </td>
   </tr>
   <tr>
-    <th>Description</th>
-    <td>{{ test_case.description | default('-', true) }}</td>
-  </tr>
-  <tr>
-    <th>Detail</th>
-    <td>{{ test_case.detail }}</td>
+  <th>Status</th>
+  <td>:green_circle: {{ test_case.status.value }}</td>
   </tr>
 </table>
 {%- endfor %}
