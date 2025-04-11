@@ -31,4 +31,3 @@ def to_json(
     reparsed = json.loads(serialized)
     reparsed["disclaimer"] = context.settings.disclaimer
     return json.dumps(reparsed)
-
