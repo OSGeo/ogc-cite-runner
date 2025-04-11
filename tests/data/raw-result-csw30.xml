@@ -1,0 +1,1001 @@
+<?xml version="1.0" encoding="UTF-8"?><rdf:RDF xmlns:dct="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:http="http://www.w3.org/2011/http#" xmlns:cnt="http://www.w3.org/2011/content#" xmlns:earl="http://www.w3.org/ns/earl#" xmlns:cite="http://cite.opengeospatial.org/">
+  <earl:Assertion rdf:about="assert-5">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy>
+      <earl:Assertor rdf:about="https://github.com/opengeospatial/teamengine">
+        <dct:title xml:lang="en">OGC TEAM Engine</dct:title>
+        <dct:description xml:lang="en">Official test harness of the OGC conformance testing program (CITE).</dct:description>
+      </earl:Assertor>
+    </earl:assertedBy>
+    <earl:subject>
+      <earl:TestSubject rdf:about="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    </earl:subject>
+    <earl:result>
+      <earl:TestResult rdf:about="result-5">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:43.879Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getRecordsWithUnknownTypeName">
+        <dct:title>get Records With Unknown Type Name </dct:title>
+        <dct:description>Requirements: 088</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-21">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-21">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:32.58Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicSearchTests#getMultipleRecordsById">
+        <dct:title>get Multiple Records By Id </dct:title>
+        <dct:description>OGC 12-176, Table 6 - Record search</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-45">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-45">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:52.948Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/opensearch/OpenSearchCoreTests#keywordSearch_emptyResultSet">
+        <dct:title>keyword Search_empty Result Set </dct:title>
+        <dct:description>OGC 12-176, Table 6: Text search</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-33">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-33">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:47.308Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetRecordByIdTests#getFullRecordById">
+        <dct:title>get Full Record By Id </dct:title>
+        <dct:description>Requirements: 123</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-29">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-29">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:35.84Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicSearchTests#multipleTermTextSearch">
+        <dct:title>multiple Term Text Search </dct:title>
+        <dct:description>OGC 12-176, Table 6 - Text search</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-17">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-17">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:48.969Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetRecordByIdTests#getRecordById_noMatch">
+        <dct:title>get Record By Id_no Match </dct:title>
+        <dct:description>Requirements: 127,141</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-6">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-6">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:33.046Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicSearchTests#getRecordsByBBOXAndTitle">
+        <dct:title>get Records By BBOX And Title </dct:title>
+        <dct:description>Requirements: Table 6</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-50">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-50">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:50.438Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/opensearch/OpenSearchDescriptionTests#getOpenSearchDescriptionFromCapabilities">
+        <dct:title>get Open Search Description From Capabilities </dct:title>
+        <dct:description>[CAT-HTTP]: 6.5.6.2, Table 16</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-10">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-10">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:45.374Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getSummaryRecordsInAtomFeed">
+        <dct:title>get Summary Records In Atom Feed </dct:title>
+        <dct:description>Requirements: 80,122</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-34">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-34">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:48.147Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetRecordByIdTests#getRecordByIdWithMissingId">
+        <dct:title>get Record By Id With Missing Id </dct:title>
+        <dct:description>Requirements: 037</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-22">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-22">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:40.545Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesIsMissingServiceParam">
+        <dct:title>get Capabilities Is Missing Service Param </dct:title>
+        <dct:description>Requirements: 010</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-46">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-46">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:51.132Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/opensearch/OpenSearchDescriptionTests#validOpenSearchDescription">
+        <dct:title>valid Open Search Description </dct:title>
+        <dct:description>Requirements: 021; Tests: 021</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-18">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-18">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:35.516Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicSearchTests#getSummaryRecordsByWGS84BBOX">
+        <dct:title>get Summary Records By W G S84 BBOX </dct:title>
+        <dct:description>Requirements: 017; Tests: 017</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-3">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-3">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:34.801Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicSearchTests#getRecordsByBBOXWithUnsupportedCRS">
+        <dct:title>get Records By BBOX With Unsupported CRS </dct:title>
+        <dct:description>Requirements: 017</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-51">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-51">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:56.334Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/opensearch/OpenSearchGeoTests#boundingBoxQuery">
+        <dct:title>bounding Box Query </dct:title>
+        <dct:description>Requirements: 022,023; OGC 10-032r8, A.3</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-23">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-23">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:36.249Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicSearchTests#singleTermTextSearch">
+        <dct:title>single Term Text Search </dct:title>
+        <dct:description>OGC 12-176, Table 6 - Text search</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-11">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-11">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:38.505Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesBySection">
+        <dct:title>get Capabilities By Section </dct:title>
+        <dct:description>Requirements: 044</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-47">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-47">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:56.665Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/opensearch/OpenSearchGeoTests#getResourceById">
+        <dct:title>get Resource By Id </dct:title>
+        <dct:description>OGC 12-176r6, Table 6</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-35">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-35">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:45.77Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getSummaryRecordsInDefaultRepresentation">
+        <dct:title>get Summary Records In Default Representation </dct:title>
+        <dct:description>Requirements: 101</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-19">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-19">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:38.973Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesFromBaseURL">
+        <dct:title>get Capabilities From Base U R L </dct:title>
+        <dct:description>Requirements: 006</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-4">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-4">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:35.165Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicSearchTests#getRecordsBySubjectWithoutResults">
+        <dct:title>get Records By Subject Without Results </dct:title>
+        <dct:description>Requirements: 086</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-52">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-52">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:57.216Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/opensearch/OpenSearchGeoTests#getResourceById_notFound">
+        <dct:title>get Resource By Id_not Found </dct:title>
+        <dct:description>Requirement-141</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-40">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-40">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:44.154Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getRecordsWithUnsupportedSchema">
+        <dct:title>get Records With Unsupported Schema </dct:title>
+        <dct:description>Requirements: 035,037,042</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-12">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-12">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:42.86Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getPartialResults">
+        <dct:title>get Partial Results </dct:title>
+        <dct:description>Requirements: 082,084</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-36">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-36">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:48.403Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetRecordByIdTests#getRecordByIdWithUnsupportedFormat">
+        <dct:title>get Record By Id With Unsupported Format </dct:title>
+        <dct:description>Requirements: 002,035,128</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-24">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-24">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:39.976Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesInSupportedFormat">
+        <dct:title>get Capabilities In Supported Format </dct:title>
+        <dct:description>Requirements: 036,037,042</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-48">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-48">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:53.975Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/opensearch/OpenSearchCoreTests#multipleKeywordSearch">
+        <dct:title>multiple Keyword Search </dct:title>
+        <dct:description>OGC 12-176, Table 6: Text search</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-1">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-1">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:48.662Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetRecordByIdTests#getRecordByIdWithUnsupportedSchema">
+        <dct:title>get Record By Id With Unsupported Schema </dct:title>
+        <dct:description>Requirements: 132,136</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-41">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-41">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:54.818Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/opensearch/OpenSearchCoreTests#singleKeywordSearch">
+        <dct:title>single Keyword Search </dct:title>
+        <dct:description>OGC 12-176, Table 6: Text search</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-25">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-25">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:43.604Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getRecordsInUnsupportedOutputFormat">
+        <dct:title>get Records In Unsupported Output Format </dct:title>
+        <dct:description>Requirements: 035,037,042</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-13">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-13">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:46.135Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicGetRecordsTests#presentTitleProperty">
+        <dct:title>present Title Property </dct:title>
+        <dct:description>Requirements: 093</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-9">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-9">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:41.229Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesWithMixedCaseParamNames">
+        <dct:title>get Capabilities With Mixed Case Param Names </dct:title>
+        <dct:description>Requirements: 011</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-49">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-49">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:50.768Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/opensearch/OpenSearchDescriptionTests#preferOpenSearchDescription">
+        <dct:title>prefer Open Search Description </dct:title>
+        <dct:description>Requirements: 008; Tests: 008</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-37">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-37">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:41.956Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getFullCapabilitiesAcceptVersion3">
+        <dct:title>get Full Capabilities Accept Version3 </dct:title>
+        <dct:description>Requirements: 043,045</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-2">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-2">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:47.023Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetRecordByIdTests#getBriefRecordById">
+        <dct:title>get Brief Record By Id </dct:title>
+        <dct:description>Requirements: 123</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-30">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-30">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:41.522Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesWithUnsupportedVersion">
+        <dct:title>get Capabilities With Unsupported Version </dct:title>
+        <dct:description>Requirements: 036,037,042</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-42">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-42">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:57.842Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/opensearch/OpenSearchGeoTests#invalidBoundingBoxCoords">
+        <dct:title>invalid Bounding Box Coords </dct:title>
+        <dct:description>OGC 10-032r8: 9.3,A.3</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-14">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-14">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:49.256Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetRecordByIdTests#getSummaryRecordById">
+        <dct:title>get Summary Record By Id </dct:title>
+        <dct:description>Requirements: 124,134</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-38">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-38">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:43.187Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getPartialResultsAsAtomFeed">
+        <dct:title>get Partial Results As Atom Feed </dct:title>
+        <dct:description>Requirements: 082,084,122</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-26">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-26">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:47.578Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetRecordByIdTests#getRecordByIdAsAtomEntryUsingAcceptHeader">
+        <dct:title>get Record By Id As Atom Entry Using Accept Header </dct:title>
+        <dct:description>Requirements: 003,139,140</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-7">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-7">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:32.264Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test>
+      <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicSearchTests#getBriefRecordsByBBOX">
+        <dct:title>get Brief Records By BBOX </dct:title>
+        <dct:description>Requirements: 017; Tests: 017</dct:description>
+      </earl:TestCase>
+    </earl:test>
+  </earl:Assertion>
+  <cite:TestRun>
+    <dct:identifier>s0005</dct:identifier>
+    <cite:areCoreConformanceClassesPassed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</cite:areCoreConformanceClassesPassed>
+    <cite:testsSkipped rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</cite:testsSkipped>
+    <cite:requirements>
+      <rdf:Seq>
+        <rdf:li>
+          <earl:TestRequirement rdf:about="Basic-Catalogue">
+            <dct:title>Basic-Catalogue</dct:title>
+            <dct:hasPart>
+              <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesInUnsupportedFormat">
+                <dct:title>get Capabilities In Unsupported Format </dct:title>
+                <dct:description>Requirements: 036,037,042</dct:description>
+              </earl:TestCase>
+            </dct:hasPart>
+            <cite:testsPassed rdf:datatype="http://www.w3.org/2001/XMLSchema#int">40</cite:testsPassed>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesWithUnsupportedVersion"/>
+            <dct:hasPart>
+              <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicGetRecordsTests#elementSetAndElementName">
+                <dct:title>element Set And Element Name </dct:title>
+                <dct:description>Requirements: 099</dct:description>
+              </earl:TestCase>
+            </dct:hasPart>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetRecordByIdTests#getRecordByIdWithUnsupportedSchema"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicGetRecordsTests#presentTitleProperty"/>
+            <cite:isBasic>true</cite:isBasic>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getPartialResults"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetRecordByIdTests#getRecordByIdWithUnsupportedFormat"/>
+            <dct:hasPart>
+              <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicSearchTests#textSearchProducesEmptyResultSet">
+                <dct:title>text Search Produces Empty Result Set </dct:title>
+                <dct:description>OGC 12-176, Table 6 - Text search</dct:description>
+              </earl:TestCase>
+            </dct:hasPart>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetRecordByIdTests#getRecordByIdWithMissingId"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetRecordByIdTests#getRecordByIdAsAtomEntryUsingAcceptHeader"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicSearchTests#getSummaryRecordsByWGS84BBOX"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetRecordByIdTests#getRecordById_noMatch"/>
+            <dct:hasPart>
+              <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetRecordByIdTests#getRecordByIdAsAtomEntryUsingOutputFormat">
+                <dct:title>get Record By Id As Atom Entry Using Output Format </dct:title>
+                <dct:description>Requirements: 002,135,140</dct:description>
+              </earl:TestCase>
+            </dct:hasPart>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesInSupportedFormat"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getPartialResultsAsAtomFeed"/>
+            <dct:hasPart>
+              <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesFromBaseURLAsXML">
+                <dct:title>get Capabilities From Base U R L As XML </dct:title>
+                <dct:description>Requirements: 007</dct:description>
+              </earl:TestCase>
+            </dct:hasPart>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetRecordByIdTests#getFullRecordById"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetRecordByIdTests#getSummaryRecordById"/>
+            <dct:hasPart>
+              <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicGetRecordsTests#presentUnknownRecordProperty">
+                <dct:title>present Unknown Record Property </dct:title>
+                <dct:description>Requirements: 091</dct:description>
+              </earl:TestCase>
+            </dct:hasPart>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicSearchTests#getRecordsByBBOXAndTitle"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getRecordsWithUnsupportedSchema"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesFromBaseURL"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getSummaryRecordsInDefaultRepresentation"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicSearchTests#singleTermTextSearch"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getFullCapabilitiesAcceptVersion3"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesBySection"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getSummaryRecordsInAtomFeed"/>
+            <dct:hasPart>
+              <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicGetRecordsTests#unknownElementSetName">
+                <dct:title>unknown Element Set Name </dct:title>
+                <dct:description>Requirements: 102</dct:description>
+              </earl:TestCase>
+            </dct:hasPart>
+            <dct:hasPart>
+              <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getBriefRecordsWithNamespaceBinding">
+                <dct:title>get Brief Records With Namespace Binding </dct:title>
+                <dct:description>Requirements: 063</dct:description>
+              </earl:TestCase>
+            </dct:hasPart>
+            <cite:testsSkipped rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</cite:testsSkipped>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesIsMissingServiceParam"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicSearchTests#getRecordsBySubjectWithoutResults"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getRecordsInUnsupportedOutputFormat"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesWithMixedCaseParamNames"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicSearchTests#multipleTermTextSearch"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getRecordsWithUnknownTypeName"/>
+            <dct:hasPart>
+              <earl:TestCase rdf:about="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesWithInvalidParamValue">
+                <dct:title>get Capabilities With Invalid Param Value </dct:title>
+                <dct:description>Requirements: 012</dct:description>
+              </earl:TestCase>
+            </dct:hasPart>
+            <cite:testsFailed rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</cite:testsFailed>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicSearchTests#getMultipleRecordsById"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicSearchTests#getRecordsByBBOXWithUnsupportedCRS"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/GetRecordByIdTests#getBriefRecordById"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/basic/BasicSearchTests#getBriefRecordsByBBOX"/>
+          </earl:TestRequirement>
+        </rdf:li>
+        <rdf:li>
+          <earl:TestRequirement rdf:about="OpenSearch">
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/opensearch/OpenSearchDescriptionTests#validOpenSearchDescription"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/opensearch/OpenSearchGeoTests#getResourceById_notFound"/>
+            <cite:testsPassed rdf:datatype="http://www.w3.org/2001/XMLSchema#int">12</cite:testsPassed>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/opensearch/OpenSearchCoreTests#multipleKeywordSearch"/>
+            <dct:title>OpenSearch</dct:title>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/opensearch/OpenSearchGeoTests#boundingBoxQuery"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/opensearch/OpenSearchCoreTests#keywordSearch_emptyResultSet"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/opensearch/OpenSearchCoreTests#singleKeywordSearch"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/opensearch/OpenSearchDescriptionTests#preferOpenSearchDescription"/>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/opensearch/OpenSearchDescriptionTests#getOpenSearchDescriptionFromCapabilities"/>
+            <dct:hasPart>
+              <earl:TestCase rdf:about="org/opengis/cite/cat30/opensearch/OpenSearchCoreTests#executeExampleQueries">
+                <dct:title>execute Example Queries </dct:title>
+                <dct:description>OpenSearchDescription: Query element</dct:description>
+              </earl:TestCase>
+            </dct:hasPart>
+            <cite:testsFailed rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</cite:testsFailed>
+            <dct:hasPart>
+              <earl:TestCase rdf:about="org/opengis/cite/cat30/opensearch/OpenSearchCoreTests#sliceResults">
+                <dct:title>slice Results </dct:title>
+                <dct:description>Requirements: 022,023</dct:description>
+              </earl:TestCase>
+            </dct:hasPart>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/opensearch/OpenSearchGeoTests#invalidBoundingBoxCoords"/>
+            <cite:testsSkipped rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</cite:testsSkipped>
+            <dct:hasPart rdf:resource="org/opengis/cite/cat30/opensearch/OpenSearchGeoTests#getResourceById"/>
+          </earl:TestRequirement>
+        </rdf:li>
+      </rdf:Seq>
+    </cite:requirements>
+    <dct:created>2025-04-10T14:17:57.843Z</dct:created>
+    <dct:extent rdf:datatype="http://www.w3.org/2001/XMLSchema#duration">PT26.993S</dct:extent>
+    <cite:testSuiteType>testng</cite:testSuiteType>
+    <cite:testsFailed rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</cite:testsFailed>
+    <cite:testsPassed rdf:datatype="http://www.w3.org/2001/XMLSchema#int">52</cite:testsPassed>
+    <dct:title>cat30-1.4</dct:title>
+    <cite:inputs>
+      <rdf:Bag>
+        <rdf:li rdf:parseType="Resource">
+          <dct:title>acceptMediaType</dct:title>
+          <dct:description>application/rdf+xml</dct:description>
+        </rdf:li>
+        <rdf:li rdf:parseType="Resource">
+          <dct:title>sourcesId</dct:title>
+          <dct:description>OGC_OGC Catalogue 3.0 Conformance Test Suite_1.4</dct:description>
+        </rdf:li>
+        <rdf:li rdf:parseType="Resource">
+          <dct:title>iut</dct:title>
+          <dct:description>https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities</dct:description>
+        </rdf:li>
+        <rdf:li rdf:parseType="Resource">
+          <dct:title>sessionId</dct:title>
+          <dct:description>s0005</dct:description>
+        </rdf:li>
+        <rdf:li rdf:parseType="Resource">
+          <dct:title>logDir</dct:title>
+          <dct:description>/usr/local/tomcat/te_base/users/ogctest/rest</dct:description>
+        </rdf:li>
+      </rdf:Bag>
+    </cite:inputs>
+  </cite:TestRun>
+  <earl:Assertion rdf:about="assert-43">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-43">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:55.45Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test rdf:resource="org/opengis/cite/cat30/opensearch/OpenSearchCoreTests#sliceResults"/>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-31">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-31">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:42.505Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test rdf:resource="org/opengis/cite/cat30/basic/BasicGetRecordsTests#getBriefRecordsWithNamespaceBinding"/>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-27">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-27">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:47.842Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test rdf:resource="org/opengis/cite/cat30/basic/GetRecordByIdTests#getRecordByIdAsAtomEntryUsingOutputFormat"/>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-15">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-15">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:40.251Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test rdf:resource="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesInUnsupportedFormat"/>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-39">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-39">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:36.602Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test rdf:resource="org/opengis/cite/cat30/basic/BasicSearchTests#textSearchProducesEmptyResultSet"/>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-32">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-32">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:46.435Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test rdf:resource="org/opengis/cite/cat30/basic/BasicGetRecordsTests#presentUnknownRecordProperty"/>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-20">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-20">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:42.216Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test rdf:resource="org/opengis/cite/cat30/basic/BasicGetRecordsTests#elementSetAndElementName"/>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-44">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-44">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:52.061Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test rdf:resource="org/opengis/cite/cat30/opensearch/OpenSearchCoreTests#executeExampleQueries"/>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-8">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-8">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:40.831Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test rdf:resource="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesWithInvalidParamValue"/>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-16">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-16">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:46.692Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test rdf:resource="org/opengis/cite/cat30/basic/BasicGetRecordsTests#unknownElementSetName"/>
+  </earl:Assertion>
+  <earl:Assertion rdf:about="assert-28">
+    <earl:mode rdf:resource="http://www.w3.org/ns/earl#automatic"/>
+    <earl:assertedBy rdf:resource="https://github.com/opengeospatial/teamengine"/>
+    <earl:subject rdf:resource="https://demo.pycsw.org/cite/csw?service=CSW&amp;version=3.0.0&amp;request=GetCapabilities"/>
+    <earl:result>
+      <earl:TestResult rdf:about="result-28">
+        <dct:date rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-10T14:17:39.396Z</dct:date>
+        <earl:outcome rdf:resource="http://www.w3.org/ns/earl#passed"/>
+      </earl:TestResult>
+    </earl:result>
+    <earl:test rdf:resource="org/opengis/cite/cat30/basic/GetCapabilitiesTests#getCapabilitiesFromBaseURLAsXML"/>
+  </earl:Assertion>
+</rdf:RDF>

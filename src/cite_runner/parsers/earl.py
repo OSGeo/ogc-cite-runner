@@ -185,7 +185,11 @@ def _parse_assertion(assertion_el: etree.Element, nsmap: dict) -> models.TestCas
         else None
     )
     test_detail = None
-    if test_status in (models.TestStatus.FAILED, models.TestStatus.SKIPPED):
+    if test_status in (
+        models.TestStatus.CANT_TELL,
+        models.TestStatus.FAILED,
+        models.TestStatus.SKIPPED,
+    ):
         test_detail = assertion_el.find(
             "earl:result/earl:TestResult/dct:description", namespaces=nsmap
         ).text
