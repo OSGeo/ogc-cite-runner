@@ -1,3 +1,5 @@
+import json
+
 from .. import (
     config,
     models,
@@ -16,6 +18,7 @@ def to_markdown(
     return template.render(
         result=parsed_result,
         serialization_details=serialization_details,
+        disclaimer=context.settings.disclaimer,
     )
 
 
@@ -24,4 +27,8 @@ def to_json(
     serialization_details: models.SerializationDetails,
     context: config.CiteRunnerContext,
 ) -> str:
-    return parsed_result.model_dump_json(warnings="error")
+    serialized = parsed_result.model_dump_json(warnings="error")
+    reparsed = json.loads(serialized)
+    reparsed["disclaimer"] = context.settings.disclaimer
+    return json.dumps(reparsed)
+

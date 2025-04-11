@@ -28,7 +28,10 @@ def to_console(
         f"- 🟡 Skipped {parsed_result.num_skipped_tests} tests\n"
         f"- 🟢 Passed {parsed_result.num_passed_tests} tests\n"
     )
-    contents = [overview_message]
+    contents = [
+        Text(context.settings.disclaimer, style="bright_yellow"),
+        overview_message,
+    ]
     if serialization_details.include_summary:
         summary_table = Table(title="Conformance classes", expand=True)
         summary_table.add_column("Class")
