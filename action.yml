@@ -103,7 +103,7 @@ runs:
         echo "RAW_RESULT_OUTPUT_PATH=${{ github.action_path }}/${raw_result_output_path}" >> "${GITHUB_OUTPUT}"
     - name: 'parse execution results'
       id: 'parse_execution_results'
-      shell: bash
+      shell: bash --noprofile --norc -o pipefail {0}
       run: |
         cd ${{ github.action_path }}
         echo "::group::Suite execution results"
