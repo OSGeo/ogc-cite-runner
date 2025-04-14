@@ -1,5 +1,6 @@
 import humanize
 import rich.box
+from rich.padding import Padding
 from rich.panel import Panel
 from rich.table import Table
 from rich.console import (
@@ -29,7 +30,7 @@ def to_console(
         f"- 🟢 Passed {parsed_result.num_passed_tests} tests\n"
     )
     contents = [
-        Text(context.settings.disclaimer, style="bright_yellow"),
+        Padding(Text(context.settings.disclaimer, style="bright_yellow"), (0, 0, 1, 0)),
         overview_message,
     ]
     if serialization_details.include_summary:

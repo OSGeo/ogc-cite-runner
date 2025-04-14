@@ -32,21 +32,21 @@ inputs:
     required: false
     default: "120"
     description: Timeout value for network requests
-  include_failed_test_details:
+  with_failed:
     required: false
-    default: "true"
+    default: "false"
     description: Whether the output report should include information about failed tests
-  include_skipped_test_details:
+  with_skipped:
     required: false
-    default: "true"
+    default: "false"
     description: Whether the output report should include information about skipped tests
-  include_passed_test_details:
+  with_passed:
     required: false
     default: "false"
     description: Whether the output report should include information about passed tests
-  exit_with_error_on_suite_failed_result:
+  exit_with_error:
     required: false
-    default: "false"
+    default: "true"
     description: Whether the action exits with an error if the test suite execution shows a result of failed.
 
 outputs:
@@ -109,12 +109,12 @@ runs:
         echo "::group::Suite execution results"
         uv run cite-runner \
             parse-result \
-            ${{ fromJSON(inputs.exit_with_error_on_suite_failed_result) && '--exit-with-error-on-suite-failed-result \' || '--no-exit-with-error-on-suite-failed-result \'}}
+            ${{ fromJSON(inputs.exit_with_error) && '--exit-with-error \' || '--exit-without-error \'}}
             --output-format=console \
-            --include-summary \
-            --include-failed-detail \
-            --include-skipped-detail \
-            --include-passed-detail \
+            --with-summary \
+            --with-failed \
+            --with-skipped \
+            --with-passed \
             ${{ steps.run_executable_test_suite.outputs.RAW_RESULT_OUTPUT_PATH }}
         echo "CITE_RUNNER_EXIT_CODE=$?" >> "${GITHUB_OUTPUT}"
         echo "::endgroup::"
@@ -128,10 +128,10 @@ runs:
         uv run cite-runner \
             parse-result \
             --output-format=markdown \
-            --include-summary \
-            ${{ fromJSON(inputs.include_failed_test_details) && '--include-failed-detail \' || '--no-include-failed-detail \'}}
-            ${{ fromJSON(inputs.include_skipped_test_details) && '--include-skipped-detail \' || '--no-include-skipped-detail \'}}
-            ${{ fromJSON(inputs.include_passed_test_details) && '--include-passed-detail \' || '--no-include-passed-detail \'}}
+            --with-summary \
+            ${{ fromJSON(inputs.with_failed) && '--with-failed \' || '--without-failed \'}}
+            ${{ fromJSON(inputs.with_skipped) && '--with-skipped \' || '--without-skipped \'}}
+            ${{ fromJSON(inputs.with_passed) && '--with-passed \' || '--without-passed \'}}
             ${{ steps.run_executable_test_suite.outputs.RAW_RESULT_OUTPUT_PATH }} 1> ${md_result_output_path}
         echo "MARKDOWN_RESULT_OUTPUT_PATH=${{ github.action_path }}/${md_result_output_path}" >> "${GITHUB_OUTPUT}"
     - name: 'store execution results as artifacts'
