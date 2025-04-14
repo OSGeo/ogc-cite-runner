@@ -3,25 +3,25 @@ hide:
   - navigation
 ---
 
-# Running as a github action
+# Running as a GitHub action
 
 ![github-action-runner](assets/github-action-demo.png)
 
 ## Overview
 
-In order to run cite-runner as a [github action], include it in your workflow
+In order to run cite-runner as a [GitHub action], include it in your workflow
 and specify which test suite to run, alongside any relevant parameters.
 
 
 !!! tip
 
-    Although cite-runner is not yet published in the [github marketplace] it
-    can still be used in github CI workflows.
+    Although cite-runner is not yet published in the [GitHub marketplace] it
+    can still be used in GitHub CI workflows.
 
-[github action]: https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions
-[github marketplace]: https://github.com/marketplace
+[GitHub action]: https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions
+[GitHub marketplace]: https://github.com/marketplace
 
-Include it as any other github action, by creating a workflow step that
+Include it as any other GitHub action, by creating a workflow step that
 specifies `uses: OSGEO/cite-runner` and provide execution parameters in the
 `with` parameter.
 
@@ -32,18 +32,19 @@ jobs:
   perform-cite-testing:
     runs-on: ubuntu-24.04
     steps:
+
+      # other steps which start your OGC implementation and wait for it to become available
+
       - name: test ogcapi-features compliancy
         uses: OSGEO/cite-runner@main
         with:
           test_suite_identifier: ogcapi-features-1.0
-          test_session_arguments: >-
-            iut=http://localhost:5001
-            noofcollections=-1
+          test_session_arguments: iut=http://localhost:5001
 ```
 
 ## Inputs
 
-When run as a github action, cite-runner expects the following inputs to be provided:
+When run as a GitHub action, cite-runner expects the following inputs to be provided:
 
 
 ### `test_suite_identfier`
@@ -132,60 +133,76 @@ When run as a github action, cite-runner expects the following inputs to be prov
 - **Description**: Timeout value for network requests, in seconds
 
 
-### `include_failed_test_details`
+### `with_failed`
 
-- **Required**: No (defaults to `true`)
-- **Description**: Whether the output report should include information about failed tests
+- **Required**: No (defaults to `'false'`)
+- **Description**: Whether the output report should include information about failed tests.
+
+    Note that regardless of this input's value, the workflow execution logs always include the full test suite
+    execution details, which include any information related to failed tests.
 
 !!! note
 
-    This input is parsed into a boolean with the github actions [fromJSON() function] and is then evaluated
-    with github's [ternary operator]. This means that if you pass it a value of either `true` or `false`
-    everything will work as intended.
+    [GitHub actions inputs] are always interpreted as strings by default. However, this input is parsed into a
+    boolean with the GitHub actions [fromJSON() function] and is then evaluated with GitHub's [ternary operator].
+    This means that if you pass it a value of either `'true'` or `'false'` everything will work as intended.
 
 
-### `include_skipped_test_details`
 
-- **Required**: No (defaults to `true`)
+### `with_skipped`
+
+- **Required**: No (defaults to `false`)
 - **Description**: Whether the output report should include information about skipped tests
 
+    Note that regardless of this input's value, the workflow execution logs always include the full test suite
+    execution details, which include any information related to skipped tests.
+
 !!! note
 
-    This input is parsed into a boolean with the github actions [fromJSON() function] and is then evaluated
-    with github's [ternary operator]. This means that if you pass it a value of either `true` or `false`
-    everything will work as intended.
+    [GitHub actions inputs] are always interpreted as strings by default. However, this input is parsed into a
+    boolean with the GitHub actions [fromJSON() function] and is then evaluated with GitHub's [ternary operator].
+    This means that if you pass it a value of either `'true'` or `'false'` everything will work as intended.
 
 
-### `include_passed_test_details`
+
+### `with_passed`
 
 - **Required**: No (defaults to `false`)
 - **Description**: Whether the output report should include information about passed tests
 
+    Note that regardless of this input's value, the workflow execution logs always include the full test suite
+    execution details, which include any information related to passed tests.
+
 !!! note
 
-    This input is parsed into a boolean with the github actions [fromJSON() function] and is then evaluated
-    with github's [ternary operator]. This means that if you pass it a value of either `true` or `false`
-    everything will work as intended.
+    [GitHub actions inputs] are always interpreted as strings by default. However, this input is parsed into a
+    boolean with the GitHub actions [fromJSON() function] and is then evaluated with GitHub's [ternary operator].
+    This means that if you pass it a value of either `'true'` or `'false'` everything will work as intended.
 
 
-### `exit_with_error_on_suite_failed_result`
 
-- **Required**: No (defaults to `false`)
+### `exit_with_error`
+
+- **Required**: No (defaults to `true`)
 - **Description**: Whether the action should exit with an error when a suite is declared as failed.
 
 !!! note
 
-    This input is parsed into a boolean with the github actions [fromJSON() function] and is then evaluated
-    with github's [ternary operator]. This means that if you pass it a value of either `true` or `false`
-    everything will work as intended.
+    [GitHub actions inputs] are always interpreted as strings by default. However, this input is parsed into a
+    boolean with the GitHub actions [fromJSON() function] and is then evaluated with GitHub's [ternary operator].
+    This means that if you pass it a value of either `'true'` or `'false'` everything will work as intended.
 
 
+
+[GitHub actions inputs]: https://docs.github.com/en/actions/sharing-automations/creating-actions/metadata-syntax-for-github-actions#inputs
 [fromJSON() function]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#fromjson
 [ternary operator]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#operators
 
-## Usage
 
-The below examples define a GitHub workflow for testing pygeoapi.
+## Usage examples
+
+
+### Simple
 
 Simple usage, running the `ogcapi-features-1.0` test suite whenever there is a `push`:
 
@@ -198,27 +215,82 @@ jobs:
   perform-cite-testing:
     runs-on: ubuntu-22.04
     steps:
-      - name: grab code
-        uses: actions/checkout@v4
 
-      - name: start pygeoapi with suitable CITE data and config
-        run: >
-          docker compose -f tests/cite/compose.test-cite.yaml up --detach
-
-      - name: wait for pygeoapi to be usable
-        uses: raschmitt/wait-for-healthy-container@v1.0.1
-        with:
-          container-name: pygeoapi-cite-pygeoapi-1
-          timeout: 120
+      # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
         uses: OSGEO/cite-runner@main
         with:
           test_suite_identifier: 'ogcapi-features-1.0'
+          test_session_arguments: iut=http://localhost:5001
+```
+
+
+### Provide multiple test suite inputs
+
+In this example we test for compliance with the `ogcapi-tiles-1.0` test suite and provide multiple input parameters.
+In order to keep the GitHub workflow file easily readable, inputs are specified by using the YAML `>-` feature mentioned
+above, which allows putting them on individual lines.
+
+```yaml
+on:
+  push:
+
+jobs:
+
+  perform-cite-testing:
+    runs-on: ubuntu-22.04
+    steps:
+
+      # other steps which start your OGC implementation and wait for it to become available
+
+      - name: test ogcapi-features compliancy
+        uses: OSGEO/cite-runner@main
+        with:
+          test_suite_identifier: 'ogcapi-tiles-1.0'
           test_session_arguments: >-
             iut=http://localhost:5001
-            noofcollections=-1
+            tilematrixsetdefinitionuri=http://www.opengis.net/def/tilematrixset/OGC/1.0/WebMercatorQuad
+            urltemplatefortiles=http://localhost:5001/collections/lakes/tiles/WebMercatorQuad/{tileMatrix}/{tileRow}/{tileCol}?f=mvt
+            tilematrix=0
+            mintilerow=0
+            maxtilerow=1
+            mintilecol=0
+            maxtilecol=1
 ```
+
+
+### Customize report and exit status
+
+In this example we ask for inclusion of details on both failed and skipped tests in the generated Markdown report. We
+also tell cite-runner to not exit with an error in case the tests fail. This can be used for cases where you don't
+want CITE failures to be breaking your CI workflow.
+
+
+```yaml
+on:
+  push:
+
+jobs:
+
+  perform-cite-testing:
+    runs-on: ubuntu-22.04
+    steps:
+
+      # other steps which start your OGC implementation and wait for it to become available
+
+      - name: test ogcapi-features compliancy
+        uses: OSGEO/cite-runner@main
+        with:
+          test_suite_identifier: 'ogcapi-features-1.0'
+          test_session_arguments: iut=http://localhost:5001
+          with_failed: "true"
+          with_skipped: "true"
+          exit_with_error: "false"
+```
+
+
+### Test several suites in parallel
 
 A slightly more complex example, using a matrix to test both `ogcapi-features-1.0`
 and `ogcapi-processes-1.0` test suites in parallel:
@@ -227,13 +299,10 @@ and `ogcapi-processes-1.0` test suites in parallel:
 on:
   push:
 
-env:
-  COLUMNS: 120
-
-
 jobs:
 
   perform-cite-testing:
+    continue-on-error: true
     strategy:
       matrix:
         test-suite:
@@ -249,25 +318,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
 
-      - name: grab code
-        uses: actions/checkout@v4
-
-      - name: start pygeoapi with suitable CITE data and config
-        run: >
-          docker compose -f tests/cite/compose.test-cite.yaml up --detach
-
-      - name: wait for pygeoapi to be usable
-        uses: raschmitt/wait-for-healthy-container@v1.0.1
-        with:
-          container-name: pygeoapi-cite-pygeoapi-1
-          timeout: 120
-
-      - name: collect docker logs on failure
-        if: failure()
-        uses: jwalton/gh-docker-logs@v2.2.2
-        with:
-          images: ghcr.io/geopython/pygeoapi
-          tail: 500
+      # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
         uses: OSGEO/cite-runner@main
@@ -280,7 +331,7 @@ jobs:
 
 ## Results
 
-The cite-runner github action stores both:
+The cite-runner GitHub action stores both:
 
 - Raw suite results, as output directly by OGC TeamEngine. This is an XML file that uses a schema based on the
   W3C EARL format
@@ -289,7 +340,7 @@ The cite-runner github action stores both:
 These results are saved as [workflow artifacts] and are available for download for further processing.
 
 Additionally, cite-runner also adds the contents of the parsed Markdown file as the job summary, making them directly
-visible in the github workflow run overview page:
+visible in the GitHub workflow run overview page:
 
 ![github-workflow-job-sumary](assets/github-action-summary.png)
 

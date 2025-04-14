@@ -117,13 +117,13 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
 | `--help` | Show information on how to run the command, including a description of arguments and options |
 | `--teamengine-username` | Username for authenticating with teamengine |
 | `--teamengine-password` | Password for authenticating with teamengine |
-| `--test-suite-input` | Inputs expected by teamengine for running the test suite specified with TEST_SUITE_IDENTIFIER. These vary depending on the test suite.<br><br>This parameter can be specified multiple times.<br><br>Each parameter must be specified as a name and a value, separated by the space character (_i.e._ `--test-suite-input {name} {value}`).<br><br>Example: `--test-suite-input iut http://localhost:5000 --test-suite-input noofcollections -1`|
-| `--output-format` | Format for the cite-runner result. Available options are:<br><ul><li><code>markdown</code> - Return results as a markdown document - This is the default</li><li><code>json</code> - Return results as JSON</li><li><code>console</code> - Return results in a format suitable for reading in the terminal</li><li><code>raw</code> - Return the raw results as provided by teamengine. This is an XML document</li></ul>
-| `--include-summary`/`--no-include-summary` | Whether the output should include a summary. This is enabled by default. Disable it by providing `--no-include-summary` |
-| `--include-failed-detail`/`--no-include-failed-detail` | Whether the output should include a section with details about failed tests. This is enabled by default, disable it by providing `--no-include-summary`.|
-| `--include-skipped-detail`/`--no-include-skipped-detail` | Whether the output should include a section with details about skipped tests. This is enabled by default, disable it by providing `--no-include-summary`.|
-| `--include-passed-detail`/`--no-include-passed-detail` | Whether the output should include a section with details about passed tests. This is disabled by default, enable it by providing `--include-summary`.|
-| `--exit-with-error-on-suite-failed-result`/`--no-exit-with-error-on-suite-failed-result` | Whether the application should exit with an error code when a suite is declared as not failed. This is disabled by default, enable it by providing `--exit-with-error-on-suite-failed-result`|
+| `--suite-input` | Inputs expected by teamengine for running the test suite specified with TEST_SUITE_IDENTIFIER. These vary depending on the test suite.<br><br>This parameter can be specified multiple times.<br><br>Each parameter must be specified as a name and a value, separated by the space character (_i.e._ `--suite-input {name} {value}`).<br><br>Example: `--suite-input iut http://localhost:5000 --suite-input noofcollections -1`|
+| `--output-format` | Format for the cite-runner result. Available options are:<br><ul><li><code>console</code> - Return results in a format suitable for reading in the terminal - This is the default</li><li><code>json</code> - Return results as JSON. This is useful for piping the results to other commands for further processing.</li><li><code>markdown</code> - Return results as a Markdown document.</li><li><code>raw</code> - Return the raw results as provided by teamengine. This is an XML document.</li></ul>
+| `--with-summary`/`--without-summary` | Whether the output should include a summary. This is enabled by default. Disable it by providing `--without-summary` |
+| `--with-failed`/`--without-failed` | Whether the output should include a section with details about failed tests. This is disabled by default, enable it by providing `--with-failed`.|
+| `--with-skipped`/`--without-skipped` | Whether the output should include a section with details about skipped tests. This is disabled by default, enable it by providing `--with-skipped`.|
+| `--with-passed`/`--without-passed` | Whether the output should include a section with details about passed tests. This is disabled by default, enable it by providing `--with-passed`.|
+| `--exit-with-error`/`--exit-without-error` | Whether the application should exit with an error code when a suite is declared as failed. This is enabled by default, disable it by providing `--exit-without-error`|
 
 
 ##### Examples
@@ -135,36 +135,34 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
     cite-runner execute-test-suite \
         http://localhost:8080/teamengine \
         ogcapi-features-1.0 \
-        --test-suite-input iut http://localhost:5000 \
-        --test-suite-input noofcollections -1 \
-        --output-format console \
-        --no-include-skipped-detail \
-        --no-include-failed-detail
+        --suite-input iut http://localhost:5000
     ```
 
 2. Run the test suite for OGC API Features using the [pygeoapi demo service] and then output the
-   full report in markdown format, redirecting the output to the `result.md` file:
+   full report in Markdown format, redirecting the output to the `result.md` file:
 
     ```shell
     cite-runner execute-test-suite \
         http://localhost:8080/teamengine \
         ogcapi-features-1.0 \
-        --test-suite-input iut https://demo.pygeoapi.io/stable \
-        --test-suite-input noofcollections -1 \
-        --include-passed-detail \
+        --suite-input iut https://demo.pygeoapi.io/stable \
+        --suite-input noofcollections -1 \
+        --with-failed \
+        --with-skipped \
+        --with-passed \
+        --output-format markdown \
     > result.md
     ```
 
 3. Run the test suite for OGC API Processes using a service that is running locally on port 5000 and then output the
-   full report in JSON format, piping it to `jq` for further filtering:
+   full report in JSON format, piping it to `jq` for further processing:
 
     ```shell
     cite-runner execute-test-suite \
         http://localhost:8080/teamengine \
         ogcapi-processes-1.0 \
-        --test-suite-input iut http://localhost:5000 \
-        --test-suite-input noofcollections -1 \
-        --include-passed-detail \
+        --suite-input iut http://localhost:5000 \
+        --suite-input noofcollections -1 \
         --output-format json
     | jq '.passed'
     ```
@@ -179,9 +177,18 @@ details from the same test run.
 
 ##### Arguments
 
-- `TEST_SUITE_RESULT` - Path to an XML file containing the raw execution results of a previous cite-runner run. You
-  can also use a raw result file generated by teamengine, as long as it is has been generated with
-  [teamengine EARL output format]
+-   `TEST_SUITE_RESULT` - Path to an XML file containing the raw execution results of a previous cite-runner run. You
+    can also use a raw result file generated by teamengine, as long as it has been generated with the
+    [teamengine EARL output format]. This can also be provided as the command's `stdin`, by using the special
+    argument `-`, as in:
+
+    ```shell
+    cite-runner execute-test-suite \
+        http://localhost:8080/teamengine \
+        ogcapi-features-1.0 \
+        --suite-input iut http://localhost:5000 \
+    | cite-runner parse-result -
+    ```
 
 
 ##### Options
@@ -189,34 +196,41 @@ details from the same test run.
 Accepts a subset of similar [options as the execute-test-suite-command](#options)  namely:
 
 - `--output-format`
-- `--include-summary`/`--no-include-summary`
-- `--include-failed-detail`/`--no-include-failed-detail`
-- `--include-skipped-detail`/`--no-include-skipped-detail`
-- `--include-passed-detail`/`--no-include-passed-detail`
-- `--exit-with-error-on-suite-failed-result`/`--no-exit-with-error-on-suite-failed-result`
+- `--with-summary`/`--without-summary`
+- `--with-failed`/`--without-failed`
+- `--with-skipped`/`--without-skipped`
+- `--with-passed`/`--without-passed`
+- `--exit-with-error`/`--exit-without-error`
 
 
 ##### Examples
 
-1. Parse a previously generated `raw-results.xml` and output results for consumption in the terminal:
+1. Parse a previously generated `raw-results.xml` file and output results for consumption in the terminal:
 
     ```shell
-    cite-runner parse-result raw-results.xml --output-format console
+    cite-runner parse-result raw-results.xml
     ```
 
 2. Run the OGC API Features test suite, then save the raw results in the `raw-results.xml` file and then parse
-   them into a markdown report
+   them into a markdown report:
 
     ```shell
+    RAW_RESULT_PATH=raw-results.xml
+
     cite-runner execute-test-suite \
         http://localhost:8080/teamengine \
         ogcapi-processes-1.0 \
-        --test-suite-input iut http://localhost:5000 \
-        --test-suite-input noofcollections -1 \
+        --suite-input iut http://localhost:5000 \
+        --suite-input noofcollections -1 \
         --output-format raw
-    > raw-results.xml
+    > ${RAW_RESULT_PATH}
 
-    cite-runner parse-result raw-results.xml --include-passed-detail > parsed-results.md
+    cite-runner parse-result ${RAW_RESULT_PATH} \
+        --with-failed \
+        --with-skipped \
+        --with-passed \
+        --output-format markdown \
+    > parsed-results.md
 
     ```
 
