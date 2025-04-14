@@ -128,6 +128,7 @@ runs:
         uv run cite-runner \
             parse-result \
             --output-format=markdown \
+            --exit-without-error \
             --with-summary \
             ${{ fromJSON(inputs.with_failed) && '--with-failed \' || '--without-failed \'}}
             ${{ fromJSON(inputs.with_skipped) && '--with-skipped \' || '--without-skipped \'}}
