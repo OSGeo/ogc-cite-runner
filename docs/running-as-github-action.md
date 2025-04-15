@@ -360,3 +360,58 @@ Furthermore, the full suite execution results are also shown in the job logs:
     However, the results shown on the job logs always include the full results.
 
 [workflow artifacts]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/storing-and-sharing-data-from-a-workflow#about-workflow-artifacts
+
+
+## Implementation details
+
+!!! note
+
+    The information below is ony relevant if you wish to learn about the internals of the cite-runner GitHub action.
+
+The GitHub action is implemented as a [composite action] in which the most relevant steps consist of calling
+cite-runner as a standalone CLI application. Brief overview of the execution flow:
+
+1. Install uv and set up Python
+2. Install cite-runner
+3. If needed, start a TeamEngine docker container
+4. Run cite-runner multiple times
+
+    1. The first execution is where the test suite is actually run. The cite-runner
+       `execute-test-suite-from-github-actions` CLI command is invoked with the `--output-format raw` flag
+       and the raw XML result returned by TeamEngine is stored as `raw-result.xml`
+
+    2. The second execution parses the raw result and outputs a full report to the logs. cite-runner's `parse-result`
+       CLI command is invoked with the `--output-format console` flag. Depending on the value of the `exit_with_error`
+       action input, the cite-runner `--exit-with-error/--exit-without-error` flag is set accordingly and the exit code
+       of cite-runner is stored in a variable
+
+        !!! tip
+
+            This step is performed by using a [custom shell] invocation which consists of:
+
+            ```yaml
+            shell: "bash --noprofile --norc -o pipefail {0}"
+            ```
+
+            The only noteworthy change from GitHub's default bash incantation is the omission of the `-e` flag, which
+            means [set -e] and has the effect of immediately failing the step if one of it's underlying commands exits
+            with a non-zero code.
+
+            The reason why this step does not use `bash -e` is that cite-runner's GitHub action needs to check the
+            exit code of the `cite-runner parse-result` CLI command (which can be non-zero) and also take into
+            account the value of its `exit_with_error` input in order to set the final exit code.
+
+    3. The third execution parses the raw result again and outputs a Markdown report, which is used for the GitHub
+       step summary. cite-runner's `parse-result` CLI command is thus invoked with the `--output-format markdown`
+       flag. The contents of the Markdown report are generated in accordance with the values of the
+       action's `with_failed`, `with_skipped` and `with_passed` input values.
+
+5. Store both the raw execution result and the generated Markdown report as GitHub job artifacts, making them available
+   for download
+6. If needed, stop the previously started TeamEngine container
+7. Finally, set the action exit code. This is done by retrieving the exit code that had been stored in 4.2 and using it
+   to set the overall action exit code.
+
+[composite action]: https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-composite-action
+[custom shell]: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell
+[set -e]: https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#The-Set-Builtin

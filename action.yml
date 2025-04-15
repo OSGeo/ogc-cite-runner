@@ -51,33 +51,33 @@ inputs:
 
 outputs:
   results:
-    description: 'Test results'
-    value: '${{ steps.parse_execution_results.outputs.MARKDOWN_RESULT_OUTPUT_PATH }}'
+    description: "Test results"
+    value: '${{ steps.run_cite_runner.outputs.MARKDOWN_RESULT_OUTPUT_PATH }}'
 
 runs:
   using: 'composite'
   steps:
-    - name: 'Add action path to the global path'
+    - name: "Add action path to the global path"
       shell: bash
       run: echo "${{ github.action_path }}" >> ${GITHUB_PATH}
-    - name: 'Install uv'
+    - name: "Install uv"
       uses: astral-sh/setup-uv@v5
       with:
         version: "0.6.13"
         enable-cache: true
         cache-dependency-glob: "${{ github.action_path }}/uv.lock"
-    - name: 'Set up Python'
+    - name: "Set up Python"
       uses: actions/setup-python@v5
       with:
         python-version-file: "${{ github.action_path }}/pyproject.toml"
-    - name: 'install action code'
-      shell: 'bash'
+    - name: "Install cite-runner"
+      shell: "bash"
       run: |
         cd ${{ github.action_path }}
         uv sync --frozen
-    - name: 'Start TEAM engine container'
+    - name: "Start TEAM engine container"
       if: ${{ !inputs.teamengine_url }}
-      shell: 'bash'
+      shell: "bash"
       run: >
         docker run
         --detach
@@ -85,12 +85,12 @@ runs:
         --name teamengine
         --network host
         ogccite/teamengine-production:1.0-SNAPSHOT
-    - name: 'Run executable test suite'
-      id: 'run_executable_test_suite'
-      shell: bash
+    - name: "Run cite-runner"
+      id: "run_cite_runner"
+      shell: "bash --noprofile --norc -o pipefail {0}"
       run: |
         cd ${{ github.action_path }}
-        raw_result_output_path=raw-result.xml
+        RAW_PATH=raw-result.xml
         uv run cite-runner \
             --network-timeout=${{ inputs.network_timeout_seconds }} \
             execute-test-suite-from-github-actions \
@@ -99,62 +99,45 @@ runs:
             --output-format=raw \
             --teamengine-username=${{ inputs.teamengine_username }} \
             --teamengine-password=${{ inputs.teamengine_password }} \
-            $(echo -e ${{ inputs.test_session_arguments }}) 1> ${raw_result_output_path}
-        echo "RAW_RESULT_OUTPUT_PATH=${{ github.action_path }}/${raw_result_output_path}" >> "${GITHUB_OUTPUT}"
-    - name: 'parse execution results'
-      id: 'parse_execution_results'
-      shell: bash --noprofile --norc -o pipefail {0}
-      run: |
-        cd ${{ github.action_path }}
-        echo "::group::Suite execution results"
-        uv run cite-runner \
-            parse-result \
+            $(echo -e ${{ inputs.test_session_arguments }}) 1> ${RAW_PATH}
+        echo "RAW_RESULT_OUTPUT_PATH=${{ github.action_path }}/${RAW_PATH}" >> "${GITHUB_OUTPUT}"
+        echo "::group::cite-runner suite execution results"
+        uv run cite-runner parse-result \
+            --output-format console \
             ${{ fromJSON(inputs.exit_with_error) && '--exit-with-error \' || '--exit-without-error \'}}
-            --output-format=console \
             --with-summary \
             --with-failed \
             --with-skipped \
             --with-passed \
-            ${{ steps.run_executable_test_suite.outputs.RAW_RESULT_OUTPUT_PATH }}
+            ${RAW_PATH}
         echo "CITE_RUNNER_EXIT_CODE=$?" >> "${GITHUB_OUTPUT}"
         echo "::endgroup::"
-        exit 0
-    - name: 'save execution results'
-      id: 'save_execution_results'
-      shell: bash
-      run: |
-        cd ${{ github.action_path }}
-        md_result_output_path=test-result.md
-        uv run cite-runner \
-            parse-result \
-            --output-format=markdown \
-            --exit-without-error \
+        MARKDOWN_PATH=test-result.md
+        uv run cite-runner parse-result \
+            --output-format markdown \
             --with-summary \
             ${{ fromJSON(inputs.with_failed) && '--with-failed \' || '--without-failed \'}}
             ${{ fromJSON(inputs.with_skipped) && '--with-skipped \' || '--without-skipped \'}}
             ${{ fromJSON(inputs.with_passed) && '--with-passed \' || '--without-passed \'}}
-            ${{ steps.run_executable_test_suite.outputs.RAW_RESULT_OUTPUT_PATH }} 1> ${md_result_output_path}
-        echo "MARKDOWN_RESULT_OUTPUT_PATH=${{ github.action_path }}/${md_result_output_path}" >> "${GITHUB_OUTPUT}"
-    - name: 'store execution results as artifacts'
+            ${RAW_PATH} 1> ${MARKDOWN_PATH}
+        cat ${MARKDOWN_PATH} >> ${GITHUB_STEP_SUMMARY}
+        echo "MARKDOWN_RESULT_OUTPUT_PATH=${{ github.action_path }}/${MARKDOWN_PATH}" >> "${GITHUB_OUTPUT}"
+    - name: "Store execution results as artifacts"
       if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
       with:
         name: 'execution-results-${{ inputs.test_suite_identifier }}'
         path: |
-          ${{ steps.run_executable_test_suite.outputs.RAW_RESULT_OUTPUT_PATH }}
-          ${{ steps.save_execution_results.outputs.MARKDOWN_RESULT_OUTPUT_PATH }}
-    - name: 'Display markdown execution results'
-      shell: bash
-      run: |
-        cat ${{ steps.save_execution_results.outputs.MARKDOWN_RESULT_OUTPUT_PATH }} >> ${GITHUB_STEP_SUMMARY}
-    - name: 'Stop TEAM engine container'
+          ${{ steps.run_cite_runner.outputs.RAW_RESULT_OUTPUT_PATH }}
+          ${{ steps.run_cite_runner.outputs.MARKDOWN_RESULT_OUTPUT_PATH }}
+    - name: "Stop TEAM engine container"
       if: ${{ !cancelled() && !inputs.teamengine_url }}
-      shell: 'bash'
+      shell: "bash"
       run: docker stop teamengine
-    - name: 'Set action exit code'
-      shell: 'bash'
+    - name: "Set action exit code"
+      shell: "bash"
       run: |
-        if [ ${{ steps.parse_execution_results.outputs.CITE_RUNNER_EXIT_CODE}} -eq 0 ]; then
+        if [ ${{ steps.run_cite_runner.outputs.CITE_RUNNER_EXIT_CODE}} -eq 0 ]; then
             echo "::notice::Test suite has passed"
             exit 0
         else
