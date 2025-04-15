@@ -27,6 +27,7 @@ class CiteRunnerSettings(BaseSettings):
     # ogcapi_features_1_0_markdown_serializer: str = (
     #     "cite_runner.teamengine_runner.serialize_test_suite_result")
     simple_serializer_template: str = "test-suite-result.md"
+    docs_url: str = "https://osgeo.github.io/cite-runner/"
     disclaimer: str = (
         "cite-runner is not affiliated with the OGC. Having a CITE test suite be declared as passed by cite-runner "
         "does not mean the implementation under test is OGC certified nor does it mean that it is guaranteed to pass "

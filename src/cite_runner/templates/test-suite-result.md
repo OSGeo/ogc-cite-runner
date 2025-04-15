@@ -1,5 +1,7 @@
 # Test suite {{ result.suite_title }} {% if result.passed %}🏅{% else %}❌{% endif %}
 
+<{{ docs_url }}>
+
 
 {%- if result.passed %}
 - **🏅 Test suite has passed!** - Teamengine reported that all core conformance classes have passed.
@@ -15,6 +17,7 @@
 - 🟢 Passed {{ result.num_passed_tests }} tests
 
 ℹ️ - {{ disclaimer }}
+
 
 {%- if serialization_details.include_summary %}
 ##### Additional suite details

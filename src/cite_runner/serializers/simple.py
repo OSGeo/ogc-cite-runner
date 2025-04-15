@@ -19,6 +19,7 @@ def to_markdown(
         result=parsed_result,
         serialization_details=serialization_details,
         disclaimer=context.settings.disclaimer,
+        docs_url=context.settings.docs_url,
     )
 
 
@@ -29,5 +30,8 @@ def to_json(
 ) -> str:
     serialized = parsed_result.model_dump_json(warnings="error")
     reparsed = json.loads(serialized)
-    reparsed["disclaimer"] = context.settings.disclaimer
+    reparsed["cite_runner"] = {
+        "disclaimer": context.settings.disclaimer,
+        "url": context.settings.docs_url,
+    }
     return json.dumps(reparsed)
