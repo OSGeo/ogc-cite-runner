@@ -27,6 +27,8 @@ jobs:
     steps:
       - name: "Grab code"
         uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: "0"
 
       - name: "Install uv"
         uses: astral-sh/setup-uv@v5
