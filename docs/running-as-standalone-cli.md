@@ -57,7 +57,7 @@ docker run \
 
 !!! warning
 
-    You can only run the `host` networking driver on Linux machines. For more details, please refer to the [official docker documentation]: https://docs.docker.com/engine/network/tutorials/host/#prerequisites
+    You can only run the `host` networking driver on Linux machines. For more details, please refer to the [official docker documentation](https://docs.docker.com/engine/network/tutorials/host/#prerequisites)
 
 This will spawn a teamengine instance, which will be running locally on port `8080` - it will thus be accessible
 at:
