@@ -21,6 +21,11 @@ jobs:
 #      name: testpypi
 #      url: https://test.pypi.org/p/cite-runner
     steps:
+      - name: "Grab code"
+        uses: actions/checkout@v4.2.2
+        with:
+          sparse-checkout: 'CHANGELOG.md'
+          sparse-checkout-cone-mode: 'false'
       - name: "Download artifact"
         uses: actions/download-artifact@v4
         with:

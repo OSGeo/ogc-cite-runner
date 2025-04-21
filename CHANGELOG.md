@@ -8,12 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
-## [v0.1.0]
+## [v0.1.1] - 2025-04-21
+
+### Fixed
+
+- Fix automated GitHub releases
+
+
+## [v0.1.0] - 2025-04-21
 
 ### Added
 
 - First release
 
 
-[unreleased]: https://github.com/OSGeo/cite-runner/compare/v0.1.0...HEAD
-[v0.1.0]: https://github.com/OSGeo/releases/tag/v0.1.0
+[unreleased]: https://github.com/OSGeo/cite-runner/compare/v0.1.1...HEAD
+[v0.1.1]: https://github.com/OSGeo/cite-runner/releases/tag/v0.1.1
+[v0.1.0]: https://github.com/OSGeo/cite-runner/releases/tag/v0.1.0
