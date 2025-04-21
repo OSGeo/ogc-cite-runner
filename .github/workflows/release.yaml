@@ -15,11 +15,11 @@ jobs:
   release:
     needs: call_run_ci
     runs-on: ubuntu-24.04
-#    permissions:
-#      id-token: write
-#    environment:
-#      name: testpypi
-#      url: https://test.pypi.org/p/cite-runner
+    permissions:
+      id-token: write
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/cite-runner
     steps:
       - name: "Grab code"
         uses: actions/checkout@v4.2.2
@@ -39,8 +39,8 @@ jobs:
           generate_release_notes: true
           body_path: CHANGELOG.md
           append_body: true
-#      - name: "Publish to testpypi"
-#        uses: pypa/gh-action-pypi-publish@v1.12.4
-#        with:
-#          attestations: "true"
-#          repository-url: "https://test.pypi.org/legacy/"
+      - name: "Publish to testpypi"
+        uses: pypa/gh-action-pypi-publish@v1.12.4
+        with:
+          attestations: "true"
+          repository-url: "https://test.pypi.org/legacy/"
