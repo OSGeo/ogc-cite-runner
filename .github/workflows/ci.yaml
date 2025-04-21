@@ -60,6 +60,7 @@ jobs:
       - name: "Upload built package as artifact"
         id: upload_package_artifact
         uses: actions/upload-artifact@v4
+        if: ${{ github.event_name != 'pull_request' }}
         with:
           name: "${{ env.ARTIFACT_NAME }}"
           path: dist/
