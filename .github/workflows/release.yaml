@@ -19,8 +19,8 @@ jobs:
       id-token: write
       contents: write
     environment:
-      name: testpypi
-      url: https://test.pypi.org/p/cite-runner
+      name: pypi
+      url: https://pypi.org/p/cite-runner
     steps:
       - name: "Grab code"
         uses: actions/checkout@v4.2.2
@@ -40,8 +40,7 @@ jobs:
           generate_release_notes: true
           body_path: CHANGELOG.md
           append_body: true
-      - name: "Publish to testpypi"
+      - name: "Publish to PyPI"
         uses: pypa/gh-action-pypi-publish@v1.12.4
         with:
           attestations: "true"
-          repository-url: "https://test.pypi.org/legacy/"
