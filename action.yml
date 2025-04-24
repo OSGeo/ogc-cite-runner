@@ -72,9 +72,7 @@ runs:
         python-version-file: "${{ github.action_path }}/pyproject.toml"
     - name: "ensure full git repo is present"
       shell: "bash"
-      run: |
-        cd ${{ github.action_path }}
-        git fetch --unshallow
+      run: git fetch --unshallow
     - name: "Install cite-runner"
       shell: "bash"
       run: |
