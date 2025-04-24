@@ -65,19 +65,17 @@ runs:
       with:
         version: "0.6.13"
         enable-cache: true
-        cache-dependency-glob: "${{ github.action_path }}/uv.lock"
+        cache-dependency-glob: "uv.lock"
     - name: "Set up Python"
       uses: actions/setup-python@v5
       with:
-        python-version-file: "${{ github.action_path }}/pyproject.toml"
+        python-version-file: "pyproject.toml"
     - name: "ensure full git repo is present"
       shell: "bash"
       run: git fetch --unshallow
     - name: "Install cite-runner"
       shell: "bash"
-      run: |
-        cd ${{ github.action_path }}
-        uv sync --frozen
+      run: uv sync --frozen
     - name: "Start TEAM engine container"
       if: ${{ !inputs.teamengine_url }}
       shell: "bash"
@@ -92,7 +90,6 @@ runs:
       id: "run_cite_runner"
       shell: "bash --noprofile --norc -o pipefail {0}"
       run: |
-        cd ${{ github.action_path }}
         RAW_PATH=raw-result.xml
         uv run cite-runner \
             --network-timeout=${{ inputs.network_timeout_seconds }} \
@@ -103,7 +100,7 @@ runs:
             --teamengine-username=${{ inputs.teamengine_username }} \
             --teamengine-password=${{ inputs.teamengine_password }} \
             $(echo -e ${{ inputs.test_session_arguments }}) 1> ${RAW_PATH}
-        echo "RAW_RESULT_OUTPUT_PATH=${{ github.action_path }}/${RAW_PATH}" >> "${GITHUB_OUTPUT}"
+        echo "RAW_RESULT_OUTPUT_PATH=${RAW_PATH}" >> "${GITHUB_OUTPUT}"
         echo "::group::cite-runner suite execution results"
         uv run cite-runner parse-result \
             --output-format console \
@@ -124,7 +121,7 @@ runs:
             ${{ fromJSON(inputs.with_passed) && '--with-passed \' || '--without-passed \'}}
             ${RAW_PATH} 1> ${MARKDOWN_PATH}
         cat ${MARKDOWN_PATH} >> ${GITHUB_STEP_SUMMARY}
-        echo "MARKDOWN_RESULT_OUTPUT_PATH=${{ github.action_path }}/${MARKDOWN_PATH}" >> "${GITHUB_OUTPUT}"
+        echo "MARKDOWN_RESULT_OUTPUT_PATH=${MARKDOWN_PATH}" >> "${GITHUB_OUTPUT}"
     - name: "Store execution results as artifacts"
       if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
