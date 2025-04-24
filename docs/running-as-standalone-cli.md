@@ -8,42 +8,38 @@ hide:
 
 ## Installation
 
-!!! info
+cite-runner is available on the [Python Package Index (PyPI):material-open-in-new:]{: target="blank_" }
+so all common installation methods are available.
 
-    cite-runner will likely be available on the Python Package Index in the
-    near future. That is not the case yet.
+=== "pipx"
 
-    !!! warning
+    The recommended way of installing cite-runner is by using [pipx:material-open-in-new:]{: target="blank_" },
+    which will install cite-runner and make it available globally on your system in a fully isolated environment.
 
-        This also means that for the moment, cite-runner needs to be run through uv, by means of using
-        `uv run cite-runner`. As such, please remember to prefix all examples provided below with
-        `uv run`.
+    ```shell
+    pipx install cite-runner
+    ```
 
+=== "pip"
 
-In order to use cite-runner locally you will need to have [git] and [uv]
-installed. Once these are installed, cite-runner can be installed by cloning
-this repository and using uv to install it:
+    You can also use [pip:material-open-in-new:]{: target="blank_" } to install cite-runner, in which case we
+    recommend starting by creating a virtualenv, activating it, and finally installing cite-runner
 
-```shell
-git clone https://github.com/OSGeo/cite-runner.git
-cd cite-runner
-uv sync
-```
+    ```shell
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install cite-runner
+    ```
 
-You can verify the installation by running
-
-```shell
-uv run cite-runner --help
-```
 
 
 #### Starting a local teamengine instance
 
-cite-runner is a local runner for executing [OGC TEAM Engine] (aka teamengine). teamengine is the OGC application used
-for running test suites. As such, in order to use cite-runner, you also need to have an instance of
-teamengine at hand.
+cite-runner is a local runner for executing [OGC TEAM Engine:material-open-in-new:]{: target="blank_" } (aka
+teamengine). teamengine is the OGC application used for running test suites. As such, in order to use cite-runner,
+you also need to have an instance of teamengine at hand.
 
-One way of running teamengine is by pulling its [docker image] and
+One way of running teamengine is by pulling its [docker image:material-open-in-new:]{: target="blank_" } and
 running it locally. You can achieve this by running:
 
 ```shell
@@ -57,7 +53,8 @@ docker run \
 
 !!! warning
 
-    You can only run the `host` networking driver on Linux machines. For more details, please refer to the [official docker documentation](https://docs.docker.com/engine/network/tutorials/host/#prerequisites)
+    You can only run the `host` networking driver on Linux machines. For more details, please refer to the
+    [official docker documentation:material-open-in-new:]{: target="blank_" }.
 
 This will spawn a teamengine instance, which will be running locally on port `8080` - it will thus be accessible
 at:
@@ -142,7 +139,7 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
         --suite-input iut http://localhost:5000
     ```
 
-2. Run the test suite for OGC API Features using the [pygeoapi demo service] and then output the
+2. Run the test suite for OGC API Features using the [pygeoapi demo service:material-open-in-new:]{: target="blank_" } and then output the
    full report in Markdown format, redirecting the output to the `result.md` file:
 
     ```shell
@@ -265,9 +262,11 @@ before the command.
 
 
 
-[docker image]: https://hub.docker.com/r/ogccite/teamengine-production
-[git]: https://git-scm.com/
-[pygeoapi demo service]: https://demo.pygeoapi.io/stable
-[OGC TEAM Engine]: https://opengeospatial.github.io/teamengine/
-[teamengine EARL output format]: https://opengeospatial.github.io/teamengine/users.html#EARL_.28RDF.2FXML.29
-[uv]: https://docs.astral.sh/uv/
+[docker image:material-open-in-new:]: https://hub.docker.com/r/ogccite/teamengine-production
+[pygeoapi demo service:material-open-in-new:]: https://demo.pygeoapi.io/stable
+[official docker documentation:material-open-in-new:]: https://docs.docker.com/engine/network/tutorials/host/#prerequisites
+[OGC TEAM Engine:material-open-in-new:]: https://opengeospatial.github.io/teamengine/
+[Python Package Index (PyPI):material-open-in-new:]: https://pypi.org/project/cite-runner/
+[pipx:material-open-in-new:]: https://pypa.github.io/pipx/
+[pip:material-open-in-new:]: https://pip.pypa.io/en/stable/
+[teamengine EARL output format:material-open-in-new:]: https://opengeospatial.github.io/teamengine/users.html#EARL_.28RDF.2FXML.29
