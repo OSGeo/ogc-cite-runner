@@ -76,6 +76,7 @@ runs:
       shell: "bash"
       run: |
         cd ${{ github.action_path }}
+        env
         uv sync --frozen
     - name: "Start TEAM engine container"
       if: ${{ !inputs.teamengine_url }}
