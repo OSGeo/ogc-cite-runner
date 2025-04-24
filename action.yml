@@ -71,9 +71,10 @@ runs:
       with:
         python-version-file: "${{ github.action_path }}/pyproject.toml"
     - name: "Install cite-runner"
+      env:
+        SETUPTOOLS_SCM_PRETEND_VERSION_FOR_CITE_RUNNER: ${{ github.action_ref }}
       shell: "bash"
       run: |
-        export SETUPTOOLS_SCM_PRETEND_VERSION_FOR_CITE_RUNNER=${{ env.action_ref }}
         cd ${{ github.action_path }}
         uv sync --frozen
     - name: "Start TEAM engine container"
