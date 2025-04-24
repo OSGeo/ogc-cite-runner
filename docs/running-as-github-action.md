@@ -9,17 +9,17 @@ hide:
 
 ## Overview
 
-In order to run cite-runner as a [GitHub action], include it in your workflow
+In order to run cite-runner as a [GitHub action:material-open-in-new:]{: target="blank_" }, include it in your workflow
 and specify which test suite to run, alongside any relevant parameters.
 
 
 !!! tip
 
-    Although cite-runner is not yet published in the [GitHub marketplace] it
+    Although cite-runner is not yet published in the [GitHub marketplace:material-open-in-new:]{: target="blank_" } it
     can still be used in GitHub CI workflows.
 
-[GitHub action]: https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions
-[GitHub marketplace]: https://github.com/marketplace
+[GitHub action:material-open-in-new:]: https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions
+[GitHub marketplace:material-open-in-new:]: https://github.com/marketplace
 
 Include it as any other GitHub action, by creating a workflow step that
 specifies `uses: OSGEO/cite-runner` and provide execution parameters in the
@@ -36,7 +36,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@main
+        uses: OSGEO/cite-runner@v0.1.4
         with:
           test_suite_identifier: ogcapi-features-1.0
           test_session_arguments: iut=http://localhost:5001
@@ -143,9 +143,11 @@ When run as a GitHub action, cite-runner expects the following inputs to be prov
 
 !!! note
 
-    [GitHub actions inputs] are always interpreted as strings by default. However, this input is parsed into a
-    boolean with the GitHub actions [fromJSON() function] and is then evaluated with GitHub's [ternary operator].
-    This means that if you pass it a value of either `'true'` or `'false'` everything will work as intended.
+    [GitHub actions inputs:material-open-in-new:]{: target="blank_" } are always interpreted as strings by default.
+    However, this input is parsed into a boolean with the GitHub actions
+    [fromJSON() function:material-open-in-new:]{: target="blank_" } and is then evaluated with
+    GitHub's [ternary operator:material-open-in-new:]{: target="blank_" }. This means that if you pass it a value of
+    either `'true'` or `'false'` everything will work as intended.
 
 
 
@@ -159,9 +161,11 @@ When run as a GitHub action, cite-runner expects the following inputs to be prov
 
 !!! note
 
-    [GitHub actions inputs] are always interpreted as strings by default. However, this input is parsed into a
-    boolean with the GitHub actions [fromJSON() function] and is then evaluated with GitHub's [ternary operator].
-    This means that if you pass it a value of either `'true'` or `'false'` everything will work as intended.
+    [GitHub actions inputs:material-open-in-new:]{: target="blank_" } are always interpreted as strings by default.
+    However, this input is parsed into a boolean with the GitHub actions
+    [fromJSON() function:material-open-in-new:]{: target="blank_" } and is then evaluated with
+    GitHub's [ternary operator:material-open-in-new:]{: target="blank_" }. This means that if you pass it a value of
+    either `'true'` or `'false'` everything will work as intended.
 
 
 
@@ -175,9 +179,11 @@ When run as a GitHub action, cite-runner expects the following inputs to be prov
 
 !!! note
 
-    [GitHub actions inputs] are always interpreted as strings by default. However, this input is parsed into a
-    boolean with the GitHub actions [fromJSON() function] and is then evaluated with GitHub's [ternary operator].
-    This means that if you pass it a value of either `'true'` or `'false'` everything will work as intended.
+    [GitHub actions inputs:material-open-in-new:]{: target="blank_" } are always interpreted as strings by default.
+    However, this input is parsed into a boolean with the GitHub actions
+    [fromJSON() function:material-open-in-new:]{: target="blank_" } and is then evaluated with
+    GitHub's [ternary operator:material-open-in-new:]{: target="blank_" }. This means that if you pass it a value of
+    either `'true'` or `'false'` everything will work as intended.
 
 
 
@@ -188,15 +194,17 @@ When run as a GitHub action, cite-runner expects the following inputs to be prov
 
 !!! note
 
-    [GitHub actions inputs] are always interpreted as strings by default. However, this input is parsed into a
-    boolean with the GitHub actions [fromJSON() function] and is then evaluated with GitHub's [ternary operator].
-    This means that if you pass it a value of either `'true'` or `'false'` everything will work as intended.
+    [GitHub actions inputs:material-open-in-new:]{: target="blank_" } are always interpreted as strings by default.
+    However, this input is parsed into a boolean with the GitHub actions
+    [fromJSON() function:material-open-in-new:]{: target="blank_" } and is then evaluated with
+    GitHub's [ternary operator:material-open-in-new:]{: target="blank_" }. This means that if you pass it a value of
+    either `'true'` or `'false'` everything will work as intended.
 
 
 
-[GitHub actions inputs]: https://docs.github.com/en/actions/sharing-automations/creating-actions/metadata-syntax-for-github-actions#inputs
-[fromJSON() function]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#fromjson
-[ternary operator]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#operators
+[GitHub actions inputs:material-open-in-new:]: https://docs.github.com/en/actions/sharing-automations/creating-actions/metadata-syntax-for-github-actions#inputs
+[fromJSON() function:material-open-in-new:]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#fromjson
+[ternary operator:material-open-in-new:]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#operators
 
 
 ## Usage examples
@@ -219,7 +227,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@main
+        uses: OSGEO/cite-runner@v0.1.4
         with:
           test_suite_identifier: 'ogcapi-features-1.0'
           test_session_arguments: iut=http://localhost:5001
@@ -245,7 +253,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@main
+        uses: OSGEO/cite-runner@v0.1.4
         with:
           test_suite_identifier: 'ogcapi-tiles-1.0'
           test_session_arguments: >-
@@ -280,7 +288,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@main
+        uses: OSGEO/cite-runner@v0.1.4
         with:
           test_suite_identifier: 'ogcapi-features-1.0'
           test_session_arguments: iut=http://localhost:5001
@@ -321,7 +329,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@main
+        uses: OSGEO/cite-runner@v0.1.4
         with:
           test_suite_identifier: ${{ matrix.test-suite.suite-id }}
           test_session_arguments: ${{ matrix.test-suite.arguments }}
@@ -337,7 +345,8 @@ The cite-runner GitHub action stores both:
   W3C EARL format
 - Parsed suite results, in Markdown format.
 
-These results are saved as [workflow artifacts] and are available for download for further processing.
+These results are saved as [workflow artifacts:material-open-in-new:]{: target="blank_" } and are available for
+download for further processing.
 
 Additionally, cite-runner also adds the contents of the parsed Markdown file as the job summary, making them directly
 visible in the GitHub workflow run overview page:
@@ -359,7 +368,7 @@ Furthermore, the full suite execution results are also shown in the job logs:
 
     However, the results shown on the job logs always include the full results.
 
-[workflow artifacts]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/storing-and-sharing-data-from-a-workflow#about-workflow-artifacts
+[workflow artifacts:material-open-in-new:]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/storing-and-sharing-data-from-a-workflow#about-workflow-artifacts
 
 
 ## Implementation details
@@ -368,8 +377,8 @@ Furthermore, the full suite execution results are also shown in the job logs:
 
     The information below is ony relevant if you wish to learn about the internals of the cite-runner GitHub action.
 
-The GitHub action is implemented as a [composite action] in which the most relevant steps consist of calling
-cite-runner as a standalone CLI application. Brief overview of the execution flow:
+The GitHub action is implemented as a [composite action:material-open-in-new:]{: target="blank_" } in which the most
+relevant steps consist of calling cite-runner as a standalone CLI application. Brief overview of the execution flow:
 
 1. Install uv and set up Python
 2. Install cite-runner
@@ -387,15 +396,16 @@ cite-runner as a standalone CLI application. Brief overview of the execution flo
 
         !!! tip
 
-            This step is performed by using a [custom shell] invocation which consists of:
+            This step is performed by using a [custom shell:material-open-in-new:]{: target="blank_" } invocation
+            which consists of:
 
             ```yaml
             shell: "bash --noprofile --norc -o pipefail {0}"
             ```
 
             The only noteworthy change from GitHub's default bash incantation is the omission of the `-e` flag, which
-            means [set -e] and has the effect of immediately failing the step if one of it's underlying commands exits
-            with a non-zero code.
+            means [set -e:material-open-in-new:]{: target="blank_" } and has the effect of immediately failing the
+            step if one of it's underlying commands exits with a non-zero code.
 
             The reason why this step does not use `bash -e` is that cite-runner's GitHub action needs to check the
             exit code of the `cite-runner parse-result` CLI command (which can be non-zero) and also take into
@@ -412,6 +422,6 @@ cite-runner as a standalone CLI application. Brief overview of the execution flo
 7. Finally, set the action exit code. This is done by retrieving the exit code that had been stored in 4.2 and using it
    to set the overall action exit code.
 
-[composite action]: https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-composite-action
-[custom shell]: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell
-[set -e]: https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#The-Set-Builtin
+[composite action:material-open-in-new:]: https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-composite-action
+[custom shell:material-open-in-new:]: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell
+[set -e:material-open-in-new:]: https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#The-Set-Builtin

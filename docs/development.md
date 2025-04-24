@@ -9,16 +9,16 @@ cite-runner is implemented in Python.
 
 The standalone application depends on the following third-party projects:
 
-- [typer] for CLI commands
-- [pydantic] for models
-- [jinja] for output format templates
-- [httpx] for making network requests
-- [lxml] for parsing teamengine responses
-- [mkdocs] for documentation
+- [typer:material-open-in-new:]{: target="blank_" } for CLI commands
+- [pydantic:material-open-in-new:]{: target="blank_" } for models
+- [jinja:material-open-in-new:]{: target="blank_" } for output format templates
+- [httpx:material-open-in-new:]{: target="blank_" } for making network requests
+- [lxml:material-open-in-new:]{: target="blank_" } for parsing teamengine responses
+- [mkdocs:material-open-in-new:]{: target="blank_" } for documentation
 
 ### Brief implementation overview
 
-cite-runner runs CITE tests suites by calling [teamengine's web API]. It
+cite-runner runs CITE tests suites by calling [teamengine's web API:material-open-in-new:]{: target="blank_" }. It
 requests test suite results in the EARL (AKA the W3C Evaluation and Report
 Language) format, which is XML-based.
 
@@ -33,9 +33,9 @@ In a brief nutshell:
 
 1. Fork the cite-runner repository
 
-2. Clone you fork to your local environment
+2. Clone your fork to your local environment
 
-3. Install [uv]
+3. Install [uv:material-open-in-new:]{: target="blank_" }
 
 4. Use uv to install the cite-runner code locally. This will create a virtualenv and install all
    dependencies needed for development, including for working on docs:
@@ -44,7 +44,7 @@ In a brief nutshell:
     uv sync
     ```
 
-5. Optionally (but strongly recommended) enable the [pre-commit] hooks
+5. Optionally (but strongly recommended) enable the [pre-commit:material-open-in-new:]{: target="blank_" } hooks
    provided by cite-runner:
 
     ```shell
@@ -84,12 +84,29 @@ In a brief nutshell:
     ```
 
 
-[httpx]: https://www.python-httpx.org/
-[jinja]: https://jinja.palletsprojects.com/en/stable/
-[lxml]: https://lxml.de/
-[mkdocs]: https://www.mkdocs.org/
-[pre-commit]: https://pre-commit.com/
-[pydantic]: https://docs.pydantic.dev/latest/
-[teamengine's web API]: https://opengeospatial.github.io/teamengine/users.html
-[typer]: https://typer.tiangolo.com/
-[uv]: https://docs.astral.sh/uv/
+## Release management
+
+cite-runner releases are managed with a [GitHub actions workflow:material-open-in-new:]{: target="_blank" }, which is
+set up to run whenever a new tag named `v*` is pushed to the repository. This workflow will:
+
+- Call the CI workflow, which takes care of testing and building the application
+- Create a GitHub release
+- Publish the built application to PyPI
+
+!!! note
+
+    The release workflow is not fully automated, requiring the cite-runner maintainers to explicitly provide
+    approval of new runs. This is intentional.
+
+
+
+[GitHub actions workflow:material-open-in-new:]: https://github.com/OSGeo/cite-runner/blob/main/.github/workflows/release.yaml
+[httpx:material-open-in-new:]: https://www.python-httpx.org/
+[jinja:material-open-in-new:]: https://jinja.palletsprojects.com/en/stable/
+[lxml:material-open-in-new:]: https://lxml.de/
+[mkdocs:material-open-in-new:]: https://www.mkdocs.org/
+[pre-commit:material-open-in-new:]: https://pre-commit.com/
+[pydantic:material-open-in-new:]: https://docs.pydantic.dev/latest/
+[teamengine's web API:material-open-in-new:]: https://opengeospatial.github.io/teamengine/users.html
+[typer:material-open-in-new:]: https://typer.tiangolo.com/
+[uv:material-open-in-new:]: https://docs.astral.sh/uv/
