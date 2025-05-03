@@ -1,0 +1,10 @@
+name: Continuous Integration
+
+env:
+  COLUMNS: 120
+
+jobs:
+  run_ci:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: "launch test server"
