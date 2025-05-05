@@ -77,7 +77,23 @@ In a brief nutshell:
     uv run cite-runner
     ```
 
-8. If you want to work on documentation, you can start the mkdocs server with:
+9. Run tests with:
+
+    ```shell
+    uv run pytest
+    ```
+
+9. If you want to test running cite-runner as a GitHub action, install [act:material-open-in-new:]{: target="blank_" }
+   and run:
+
+    ```shell
+    act \
+        --rm \
+        --workflows .github/workflows/test-action.yaml \
+        -P ubuntu-24.04=ghcr.io/catthehacker/ubuntu:act-24.04
+    ```
+
+10. If you want to work on documentation, you can start the mkdocs server with:
 
     ```shell
     uv run mkdocs serve
@@ -100,6 +116,7 @@ set up to run whenever a new tag named `v*` is pushed to the repository. This wo
 
 
 
+[act:material-open-in-new:]: https://nektosact.com/introduction.html
 [GitHub actions workflow:material-open-in-new:]: https://github.com/OSGeo/cite-runner/blob/main/.github/workflows/release.yaml
 [httpx:material-open-in-new:]: https://www.python-httpx.org/
 [jinja:material-open-in-new:]: https://jinja.palletsprojects.com/en/stable/

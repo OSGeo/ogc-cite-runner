@@ -72,7 +72,9 @@ runs:
         python-version-file: "${{ github.action_path }}/pyproject.toml"
     - name: "Install cite-runner"
       env:
-        SETUPTOOLS_SCM_PRETEND_VERSION_FOR_CITE_RUNNER: ${{ github.action_ref }}
+#        GITHUB_CONTEXT: ${{ toJSON(github) }}
+#        ENV_CONTEXT: ${{ toJSON(env) }}
+        SETUPTOOLS_SCM_PRETEND_VERSION_FOR_CITE_RUNNER: ${{ env.GITHUB_ACTION_REF }}
       shell: "bash"
       run: |
         cd ${{ github.action_path }}

@@ -117,7 +117,6 @@ class DataCatalog:
                 title="Test Collection 1",
                 description="This is a test collection",
                 keywords="test, collection, 1",
-                links="https://example.com/test-collection-1",
                 extent="100, 100",
                 item_type="test-item-type",
                 crs="EPSG:4326",
