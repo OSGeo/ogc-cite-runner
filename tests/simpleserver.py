@@ -1,7 +1,7 @@
 """A simple HTTP server for testing CITE runner's GitHub action.
 
-This is server that purposedly does not fully implement OGC API Features. The intention
-is to use this to test cite-runner's ability to be called as a GitHub action.
+This is a server that purposedly does not fully implement OGC API Features. The
+intention is to use this to test cite-runner's ability to be called as a GitHub action.
 """
 
 import argparse

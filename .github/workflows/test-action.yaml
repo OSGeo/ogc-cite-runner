@@ -16,7 +16,7 @@ jobs:
   test_cite_runner_github_action:
     runs-on: ubuntu-24.04
     env:
-      SIMPLESERVER_PORT: 8000
+      SIMPLESERVER_PORT: 9082
     steps:
       - name: "Grab code"
         uses: actions/checkout@v4.2.2
@@ -26,7 +26,7 @@ jobs:
           python-version-file: "pyproject.toml"
       - name: "Launch simple test server"
         run: |
-          python tests/simpleserver.py --bind-port ${{ env.SIMPLESERVER_PORT }} > /dev/null &
+          python tests/simpleserver.py --bind-address 0.0.0.0 --bind-port ${{ env.SIMPLESERVER_PORT }} > /dev/null &
           echo $! > simpleserver.pid
           sleep 3
           if ps --pid $(cat simpleserver.pid) > /dev/null; then
@@ -39,7 +39,7 @@ jobs:
         uses: ./
         with:
           test_suite_identifier: ogcapi-features-1.0
-          test_session_arguments: iut=http://localhost:${{ env.SIMPLESERVER_PORT }}
+          test_session_arguments: iut=http://host.docker.internal:${{ env.SIMPLESERVER_PORT }}
       - name: "Shut down simple test server"
         if: always()
         run: |

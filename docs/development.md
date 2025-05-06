@@ -57,17 +57,20 @@ In a brief nutshell:
     docker run \
         --rm \
         --name=teamengine \
-        --network=host \
+        --add-host=host.docker.internal:host-gateway \
+        --publish=9080:8080 \
         ogccite/teamengine-production:1.0-SNAPSHOT
     ```
 
-    You should now be able to use `http:localhost:8080/teamengine` in
-    cite-runner
+    You should now be able to use `http:localhost:9080/teamengine` in
+    cite-runner.
 
-    !!! warning
+    !!! note
 
-        teamengine will try to run on your local port `8080`, which could
-        potentially already be occupied by another application.
+        Using docker's `--add-host=host.docker.internal:host-gateway` is necessary when running
+        docker engine, as discussed in the [docker engine docs:material-open-in-new:]{: target="blank_" }. If
+        you are using docker desktop you can omit this flag.
+
 
 7. Work on the cite-runner code
 
@@ -76,6 +79,19 @@ In a brief nutshell:
     ```shell
     uv run cite-runner
     ```
+
+    !!! warning
+
+         When using cite-runner with a local teamengine instance that is running via docker and also testing an
+         OGC service that is running locally on the same machine, you must not use `localhost` when providing the
+         service's URL to teamengine, but rather use `host.docker.internal`. As an example:
+
+         ```shell
+         uv run cite-runner execute-test-suite \
+             http://localhost:9081/teamengine \
+             ogcapi-features-1.0 \
+             --suite-input iut http://host.docker.internal:9082
+         ```
 
 9. Run tests with:
 
@@ -90,7 +106,7 @@ In a brief nutshell:
     act \
         --rm \
         --workflows .github/workflows/test-action.yaml \
-        -P ubuntu-24.04=ghcr.io/catthehacker/ubuntu:act-24.04
+        --platform ubuntu-24.04=ghcr.io/catthehacker/ubuntu:act-24.04
     ```
 
 10. If you want to work on documentation, you can start the mkdocs server with:
@@ -117,6 +133,7 @@ set up to run whenever a new tag named `v*` is pushed to the repository. This wo
 
 
 [act:material-open-in-new:]: https://nektosact.com/introduction.html
+[docker engine docs:material-open-in-new:]: https://docs.docker.com/reference/cli/docker/container/run/#add-host
 [GitHub actions workflow:material-open-in-new:]: https://github.com/OSGeo/cite-runner/blob/main/.github/workflows/release.yaml
 [httpx:material-open-in-new:]: https://www.python-httpx.org/
 [jinja:material-open-in-new:]: https://jinja.palletsprojects.com/en/stable/
