@@ -41,19 +41,23 @@ def wait_for_teamengine_to_be_ready(
     current_attempt = 1
     result = False
     while current_attempt <= num_attempts:
-        response = client.get(f"{teamengine_base_url}/")
-        if response.status_code == 200:
-            result = True
-            break
-        else:
+        try:
+            response = client.get(f"{teamengine_base_url}/")
+        except (httpx.HTTPError, httpx.ConnectError):
             logger.debug("teamengine is not ready yet.")
-            if current_attempt == num_attempts:
-                logger.error("teamengine did not become ready - aborting")
+        else:
+            if response.status_code == 200:
+                result = True
                 break
             else:
-                logger.debug(f"waiting {wait_seconds}s before trying again...")
-                current_attempt += 1
-                time.sleep(wait_seconds)
+                logger.debug("teamengine is not ready yet.")
+        if current_attempt == num_attempts:
+            logger.error("teamengine did not become ready - aborting")
+            break
+        else:
+            logger.debug(f"waiting {wait_seconds}s before trying again...")
+            current_attempt += 1
+            time.sleep(wait_seconds)
     return result
 
 

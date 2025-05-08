@@ -18,9 +18,6 @@ and specify which test suite to run, alongside any relevant parameters.
     Although cite-runner is not yet published in the [GitHub marketplace:material-open-in-new:]{: target="blank_" } it
     can still be used in GitHub CI workflows.
 
-[GitHub action:material-open-in-new:]: https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions
-[GitHub marketplace:material-open-in-new:]: https://github.com/marketplace
-
 Include it as any other GitHub action, by creating a workflow step that
 specifies `uses: OSGEO/cite-runner` and provide execution parameters in the
 `with` parameter.
@@ -202,10 +199,35 @@ When run as a GitHub action, cite-runner expects the following inputs to be prov
 
 
 
-[GitHub actions inputs:material-open-in-new:]: https://docs.github.com/en/actions/sharing-automations/creating-actions/metadata-syntax-for-github-actions#inputs
-[fromJSON() function:material-open-in-new:]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#fromjson
-[ternary operator:material-open-in-new:]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#operators
+## Outputs
 
+The cite-runner GitHub Action will provide a single output, which is a full report of the test suite results:
+
+
+### json_report
+
+This is a JSON document containing the full parsed test suite execution results. You can use it in further GitHub
+workflow steps to verify suite execution. As an example of further processing, you can pipe the result to
+[jq:material-open-in-new:]{: target="blank_" }, as seen below:
+
+```yaml
+- name: "Verify cite-runner results"
+  run: |
+  jq '.passed' <<EOF
+  ${{ steps.test_cite_runner_github_action.outputs.json_report }}
+  EOF
+```
+
+!!! tip
+
+    Handling outputs of a GitHub Action that represent JSON data can be a bit tricky. The previous example showcases
+    using a [HERE doc:material-open-in-new:]{: target="blank_" }, which has the benefit of preserving whatever
+    double/single quotes may be present in the underlying JSON data. We recommend always using this technique to
+    process cite-runner GitHub Action's output
+
+
+[cite-runner's own testing workflow:material-open-in-new:]{: target="blank_" } has an additional example of using
+the action's output and passing it to another command for further processing.
 
 ## Usage examples
 
@@ -422,6 +444,15 @@ relevant steps consist of calling cite-runner as a standalone CLI application. B
 7. Finally, set the action exit code. This is done by retrieving the exit code that had been stored in 4.2 and using it
    to set the overall action exit code.
 
+
+[cite-runner's own testing workflow:material-open-in-new:]: https://github.com/OSGeo/cite-runner/tree/main/.github/workflows/test-action.yaml
 [composite action:material-open-in-new:]: https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-composite-action
 [custom shell:material-open-in-new:]: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell
+[jq:material-open-in-new:]: https://jqlang.org/
+[fromJSON() function:material-open-in-new:]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#fromjson
+[GitHub action:material-open-in-new:]: https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions
+[GitHub actions inputs:material-open-in-new:]: https://docs.github.com/en/actions/sharing-automations/creating-actions/metadata-syntax-for-github-actions#inputs
+[GitHub marketplace:material-open-in-new:]: https://github.com/marketplace
+[HERE doc:material-open-in-new:]: https://linuxize.com/post/bash-heredoc/
 [set -e:material-open-in-new:]: https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#The-Set-Builtin
+[ternary operator:material-open-in-new:]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#operators

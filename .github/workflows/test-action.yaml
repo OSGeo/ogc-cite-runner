@@ -1,0 +1,57 @@
+name: Test cite-runner as a GitHub action
+
+on:
+  # will run both when pushing a branch and when pushing a tag
+  push:
+
+  pull_request:
+
+  # will run when called from another workflow
+  workflow_call:
+
+env:
+  COLUMNS: 120
+
+jobs:
+  test_cite_runner_github_action:
+    runs-on: ubuntu-24.04
+    env:
+      SIMPLESERVER_PORT: 9092
+    steps:
+      - name: "Grab code"
+        uses: actions/checkout@v4.2.2
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+      - name: "Launch simple test server"
+        run: |
+          nohup python tests/simpleserver.py --bind-address 0.0.0.0 --bind-port ${{ env.SIMPLESERVER_PORT }} > /dev/null 2>&1 &
+          echo $! > simpleserver.pid
+          sleep 1
+          if ps --pid $(cat simpleserver.pid) > /dev/null; then
+              echo "simpleserver is up and running with PID $(cat simpleserver.pid)"
+          else
+              echo "simpleserver failed to start"
+              exit 1
+          fi
+      - name: "Test cite-runner GitHub action"
+        id: test_cite_runner_github_action
+        uses: ./
+        with:
+          test_suite_identifier: ogcapi-features-1.0
+          test_session_arguments: iut=http://host.docker.internal:${{ env.SIMPLESERVER_PORT }}
+          exit_with_error: "false"
+      - name: "Verify cite-runner results"
+        run: |
+          jq '.' <<EOF | python tests/github_action_tests.py -
+          ${{ steps.test_cite_runner_github_action.outputs.json_report }}
+          EOF
+      - name: "Shut down simple test server"
+        if: always()
+        run: |
+          if [ -f server.pid ]; then
+              echo "Shutting down simpleserver with PID $(cat simpleserver.pid)..."
+              kill $(cat simpleserver.pid) || true
+              rm simpleserver.pid
+          fi

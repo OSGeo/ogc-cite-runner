@@ -50,9 +50,9 @@ inputs:
     description: Whether the action exits with an error if the test suite execution shows a result of failed.
 
 outputs:
-  results:
-    description: "Test results"
-    value: '${{ steps.run_cite_runner.outputs.MARKDOWN_RESULT_OUTPUT_PATH }}'
+  json_report:
+    description: "Full test suite execution result as JSON"
+    value: '${{ steps.run_cite_runner.outputs.JSON_REPORT }}'
 
 runs:
   using: 'composite'
@@ -60,19 +60,26 @@ runs:
     - name: "Add action path to the global path"
       shell: bash
       run: echo "${{ github.action_path }}" >> ${GITHUB_PATH}
+    - name: "normalize action path"
+      id: normalize_action_path
+      shell: "bash"
+      run: |
+        echo "ACTION_NORMALIZED_PATH=$(realpath -m ${{ github.action_path }})" >> "${GITHUB_OUTPUT}"
     - name: "Install uv"
       uses: astral-sh/setup-uv@v5
       with:
         version: "0.6.13"
         enable-cache: true
-        cache-dependency-glob: "${{ github.action_path }}/uv.lock"
+        cache-dependency-glob: "${{ steps.normalize_action_path.outputs.ACTION_NORMALIZED_PATH }}/uv.lock"
     - name: "Set up Python"
       uses: actions/setup-python@v5
       with:
         python-version-file: "${{ github.action_path }}/pyproject.toml"
     - name: "Install cite-runner"
       env:
-        SETUPTOOLS_SCM_PRETEND_VERSION_FOR_CITE_RUNNER: ${{ github.action_ref }}
+#        GITHUB_CONTEXT: ${{ toJSON(github) }}
+#        ENV_CONTEXT: ${{ toJSON(env) }}
+        SETUPTOOLS_SCM_PRETEND_VERSION_FOR_CITE_RUNNER: ${{ env.GITHUB_ACTION_REF }}
       shell: "bash"
       run: |
         cd ${{ github.action_path }}
@@ -85,7 +92,8 @@ runs:
         --detach
         --rm
         --name teamengine
-        --network host
+        --add-host=host.docker.internal:host-gateway
+        --publish 9080:8080
         ogccite/teamengine-production:1.0-SNAPSHOT
     - name: "Run cite-runner"
       id: "run_cite_runner"
@@ -96,13 +104,17 @@ runs:
         uv run cite-runner \
             --network-timeout=${{ inputs.network_timeout_seconds }} \
             execute-test-suite-from-github-actions \
-            ${{ inputs.teamengine_url || 'http://localhost:8080/teamengine' }} \
+            ${{ inputs.teamengine_url || 'http://localhost:9080/teamengine' }} \
             ${{ inputs.test_suite_identifier }} \
             --output-format=raw \
             --teamengine-username=${{ inputs.teamengine_username }} \
             --teamengine-password=${{ inputs.teamengine_password }} \
             $(echo -e ${{ inputs.test_session_arguments }}) 1> ${RAW_PATH}
-        echo "RAW_RESULT_OUTPUT_PATH=${{ github.action_path }}/${RAW_PATH}" >> "${GITHUB_OUTPUT}"
+        if [ $? -ne 0 ]; then
+            echo "Unable to use TeamEngine to execute test suite ${{ inputs.test_suite_identifier }} with arguments ${{ inputs.test_session_arguments }}"
+            exit 1
+        fi
+        echo "RAW_RESULT_OUTPUT_PATH=${{ steps.normalize_action_path.outputs.ACTION_NORMALIZED_PATH }}/${RAW_PATH}" >> "${GITHUB_OUTPUT}"
         echo "::group::cite-runner suite execution results"
         uv run cite-runner parse-result \
             --output-format console \
@@ -123,17 +135,20 @@ runs:
             ${{ fromJSON(inputs.with_passed) && '--with-passed \' || '--without-passed \'}}
             ${RAW_PATH} 1> ${MARKDOWN_PATH}
         cat ${MARKDOWN_PATH} >> ${GITHUB_STEP_SUMMARY}
-        echo "MARKDOWN_RESULT_OUTPUT_PATH=${{ github.action_path }}/${MARKDOWN_PATH}" >> "${GITHUB_OUTPUT}"
+        echo "MARKDOWN_RESULT_OUTPUT_PATH=${{ steps.normalize_action_path.outputs.ACTION_NORMALIZED_PATH }}/${MARKDOWN_PATH}" >> "${GITHUB_OUTPUT}"
+        echo "JSON_REPORT=$(uv run cite-runner parse-result \
+            --output-format json \
+            ${RAW_PATH}
+        )" >> "${GITHUB_OUTPUT}"
     - name: "Store execution results as artifacts"
-      if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
       with:
         name: 'execution-results-${{ inputs.test_suite_identifier }}'
         path: |
           ${{ steps.run_cite_runner.outputs.RAW_RESULT_OUTPUT_PATH }}
           ${{ steps.run_cite_runner.outputs.MARKDOWN_RESULT_OUTPUT_PATH }}
-    - name: "Stop TEAM engine container"
-      if: ${{ !cancelled() && !inputs.teamengine_url }}
+    - name: "Stop teamengine container"
+      if: ${{ always() && !inputs.teamengine_url }}
       shell: "bash"
       run: docker stop teamengine
     - name: "Set action exit code"

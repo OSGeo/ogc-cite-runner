@@ -47,19 +47,22 @@ docker pull ogccite/teamengine-production:1.0-SNAPSHOT
 docker run \
     --rm \
     --name=teamengine \
-    --network=host \
+    --add-host=host.docker.internal:host-gateway \
+    --publish=9080:8080 \
     ogccite/teamengine-production:1.0-SNAPSHOT
 ```
 
-!!! warning
+!!! note
 
-    You can only run the `host` networking driver on Linux machines. For more details, please refer to the
-    [official docker documentation:material-open-in-new:]{: target="blank_" }.
+    Using docker's `--add-host=host.docker.internal:host-gateway` is only necessary when running bare docker engine,
+    as discussed in the [docker engine docs:material-open-in-new:]{: target="blank_" }. If you are using docker
+    desktop you can omit this flag.
 
-This will spawn a teamengine instance, which will be running locally on port `8080` - it will thus be accessible
+
+This will spawn a teamengine instance, which will be running locally on port `9080` - it will thus be accessible
 at:
 
-<http://localhost:8080/teamengine>
+<http://localhost:9080/teamengine>
 
 !!! warning
 
@@ -106,7 +109,7 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
 
 ##### Arguments
 
-- `TEAMENGINE_BASE_URL` - Base URL of the teamengine service. Example: `http://localhost:8080/teamengine`
+- `TEAMENGINE_BASE_URL` - Base URL of the teamengine service. Example: `http://localhost:9080/teamengine`
 - `TEST_SUITE_IDENTIFIER` - Identifier of the test suite as known to teamengine. Look up known identifiers in the
   [section on OGC test suites](ogc-test-suites.md). Example: `ogcapi-features-1.0`
 
@@ -134,7 +137,7 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
 
     ```shell
     cite-runner execute-test-suite \
-        http://localhost:8080/teamengine \
+        http://localhost:9080/teamengine \
         ogcapi-features-1.0 \
         --suite-input iut http://localhost:5000
     ```
@@ -144,7 +147,7 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
 
     ```shell
     cite-runner execute-test-suite \
-        http://localhost:8080/teamengine \
+        http://localhost:9080/teamengine \
         ogcapi-features-1.0 \
         --suite-input iut https://demo.pygeoapi.io/stable \
         --suite-input noofcollections -1 \
@@ -160,7 +163,7 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
 
     ```shell
     cite-runner execute-test-suite \
-        http://localhost:8080/teamengine \
+        http://localhost:9080/teamengine \
         ogcapi-processes-1.0 \
         --suite-input iut http://localhost:5000 \
         --suite-input noofcollections -1 \
@@ -185,7 +188,7 @@ details from the same test run.
 
     ```shell
     cite-runner execute-test-suite \
-        http://localhost:8080/teamengine \
+        http://localhost:9080/teamengine \
         ogcapi-features-1.0 \
         --suite-input iut http://localhost:5000 \
     | cite-runner parse-result -
@@ -219,7 +222,7 @@ Accepts a subset of similar [options as the execute-test-suite-command](#options
     RAW_RESULT_PATH=raw-results.xml
 
     cite-runner execute-test-suite \
-        http://localhost:8080/teamengine \
+        http://localhost:9080/teamengine \
         ogcapi-processes-1.0 \
         --suite-input iut http://localhost:5000 \
         --suite-input noofcollections -1 \
@@ -261,7 +264,7 @@ before the command.
     ```
 
 
-
+[docker engine docs:material-open-in-new:]: https://docs.docker.com/reference/cli/docker/container/run/#add-host
 [docker image:material-open-in-new:]: https://hub.docker.com/r/ogccite/teamengine-production
 [pygeoapi demo service:material-open-in-new:]: https://demo.pygeoapi.io/stable
 [official docker documentation:material-open-in-new:]: https://docs.docker.com/engine/network/tutorials/host/#prerequisites
