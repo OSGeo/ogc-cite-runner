@@ -16,7 +16,7 @@ jobs:
   test_cite_runner_github_action:
     runs-on: ubuntu-24.04
     env:
-      SIMPLESERVER_PORT: 9082
+      SIMPLESERVER_PORT: 9092
     steps:
       - name: "Grab code"
         uses: actions/checkout@v4.2.2
@@ -26,9 +26,9 @@ jobs:
           python-version-file: "pyproject.toml"
       - name: "Launch simple test server"
         run: |
-          python tests/simpleserver.py --bind-address 0.0.0.0 --bind-port ${{ env.SIMPLESERVER_PORT }} > /dev/null &
+          nohup python tests/simpleserver.py --bind-address 0.0.0.0 --bind-port ${{ env.SIMPLESERVER_PORT }} > /dev/null 2>&1 &
           echo $! > simpleserver.pid
-          sleep 3
+          sleep 1
           if ps --pid $(cat simpleserver.pid) > /dev/null; then
               echo "simpleserver is up and running with PID $(cat simpleserver.pid)"
           else
@@ -36,10 +36,17 @@ jobs:
               exit 1
           fi
       - name: "Test cite-runner GitHub action"
+        id: test_cite_runner_github_action
         uses: ./
         with:
           test_suite_identifier: ogcapi-features-1.0
           test_session_arguments: iut=http://host.docker.internal:${{ env.SIMPLESERVER_PORT }}
+          exit_with_error: "false"
+      - name: "Verify cite-runner results"
+        run: |
+          jq '.' <<EOF | python tests/github_action_tests.py -
+          ${{ steps.test_cite_runner_github_action.outputs.json_report }}
+          EOF
       - name: "Shut down simple test server"
         if: always()
         run: |

@@ -62,7 +62,7 @@ In a brief nutshell:
         ogccite/teamengine-production:1.0-SNAPSHOT
     ```
 
-    You should now be able to use `http:localhost:9080/teamengine` in
+    You should now be able to use `http:localhost:9080/teamengine` as the teamengine URL in
     cite-runner.
 
     !!! note
@@ -71,10 +71,7 @@ In a brief nutshell:
         docker engine, as discussed in the [docker engine docs:material-open-in-new:]{: target="blank_" }. If
         you are using docker desktop you can omit this flag.
 
-
-7. Work on the cite-runner code
-
-8. You can run cite-runner via uv with:
+7.  You can run cite-runner via uv with:
 
     ```shell
     uv run cite-runner
@@ -84,7 +81,9 @@ In a brief nutshell:
 
          When using cite-runner with a local teamengine instance that is running via docker and also testing an
          OGC service that is running locally on the same machine, you must not use `localhost` when providing the
-         service's URL to teamengine, but rather use `host.docker.internal`. As an example:
+         service's URL to teamengine, but rather use `host.docker.internal`.
+
+         As an example:
 
          ```shell
          uv run cite-runner execute-test-suite \
@@ -93,27 +92,43 @@ In a brief nutshell:
              --suite-input iut http://host.docker.internal:9082
          ```
 
-9. Run tests with:
 
-    ```shell
-    uv run pytest
-    ```
+### Running tests
 
-9. If you want to test running cite-runner as a GitHub action, install [act:material-open-in-new:]{: target="blank_" }
-   and run:
+Most tests can be run with:
 
-    ```shell
-    act \
-        --rm \
-        --workflows .github/workflows/test-action.yaml \
-        --platform ubuntu-24.04=ghcr.io/catthehacker/ubuntu:act-24.04
-    ```
+ ```shell
+ uv run pytest
+ ```
 
-10. If you want to work on documentation, you can start the mkdocs server with:
+cite-runner also includes a workflow for testing itself when running as a GitHub action. This can be run locally
+with a tool like [act:material-open-in-new:]{: target="blank_" }.
 
-    ```shell
-    uv run mkdocs serve
-    ```
+ ```shell
+ act \
+     --workflows .github/workflows/test-action.yaml \
+     --rm \
+     --platform ubuntu-24.04=ghcr.io/catthehacker/ubuntu:act-24.04 \
+     --container-options="-p 9092:9092" \
+     --artifact-server-path $PWD/.artifacts
+ ```
+
+The `.github/workflows/test-action.yaml` workflow launches a simple HTTP server which contains a very incomplete
+implementation of OGC API - Features and then uses the cite-runner GitHub action to run the `ogcapi-features-1.0`
+test suite on it. It then captures the cite-runner output, and runs it through some Python tests to verify the
+result matches what is expected.
+
+
+### Documentation
+
+If you want to work on documentation, you can start the mkdocs server with:
+
+ ```shell
+ uv run mkdocs serve
+ ```
+
+Now edit files under the `/docs` directory and check whether they match your expected result in the mkdocs dev server,
+which would be running at `http://localhost:8000/cite-runner/
 
 
 ## Release management

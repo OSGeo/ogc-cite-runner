@@ -50,9 +50,9 @@ inputs:
     description: Whether the action exits with an error if the test suite execution shows a result of failed.
 
 outputs:
-  results:
-    description: "Test results"
-    value: '${{ steps.run_cite_runner.outputs.MARKDOWN_RESULT_OUTPUT_PATH }}'
+  json_report:
+    description: "Full test suite execution result as JSON"
+    value: '${{ steps.run_cite_runner.outputs.JSON_REPORT }}'
 
 runs:
   using: 'composite'
@@ -60,12 +60,17 @@ runs:
     - name: "Add action path to the global path"
       shell: bash
       run: echo "${{ github.action_path }}" >> ${GITHUB_PATH}
+    - name: "normalize action path"
+      id: normalize_action_path
+      shell: "bash"
+      run: |
+        echo "ACTION_NORMALIZED_PATH=$(realpath -m ${{ github.action_path }})" >> "${GITHUB_OUTPUT}"
     - name: "Install uv"
       uses: astral-sh/setup-uv@v5
       with:
         version: "0.6.13"
         enable-cache: true
-        cache-dependency-glob: "${{ github.action_path }}/uv.lock"
+        cache-dependency-glob: "${{ steps.normalize_action_path.outputs.ACTION_NORMALIZED_PATH }}/uv.lock"
     - name: "Set up Python"
       uses: actions/setup-python@v5
       with:
@@ -131,6 +136,10 @@ runs:
             ${RAW_PATH} 1> ${MARKDOWN_PATH}
         cat ${MARKDOWN_PATH} >> ${GITHUB_STEP_SUMMARY}
         echo "MARKDOWN_RESULT_OUTPUT_PATH=${{ github.action_path }}/${MARKDOWN_PATH}" >> "${GITHUB_OUTPUT}"
+        echo "JSON_REPORT=$(uv run cite-runner parse-result \
+            --output-format json \
+            ${RAW_PATH}
+        )" >> "${GITHUB_OUTPUT}"
     - name: "Store execution results as artifacts"
       uses: actions/upload-artifact@v4
       with:
