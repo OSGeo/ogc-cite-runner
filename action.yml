@@ -114,7 +114,7 @@ runs:
             echo "Unable to use TeamEngine to execute test suite ${{ inputs.test_suite_identifier }} with arguments ${{ inputs.test_session_arguments }}"
             exit 1
         fi
-        echo "RAW_RESULT_OUTPUT_PATH=${{ github.action_path }}/${RAW_PATH}" >> "${GITHUB_OUTPUT}"
+        echo "RAW_RESULT_OUTPUT_PATH=${{ steps.normalize_action_path.outputs.ACTION_NORMALIZED_PATH }}/${RAW_PATH}" >> "${GITHUB_OUTPUT}"
         echo "::group::cite-runner suite execution results"
         uv run cite-runner parse-result \
             --output-format console \
@@ -135,7 +135,7 @@ runs:
             ${{ fromJSON(inputs.with_passed) && '--with-passed \' || '--without-passed \'}}
             ${RAW_PATH} 1> ${MARKDOWN_PATH}
         cat ${MARKDOWN_PATH} >> ${GITHUB_STEP_SUMMARY}
-        echo "MARKDOWN_RESULT_OUTPUT_PATH=${{ github.action_path }}/${MARKDOWN_PATH}" >> "${GITHUB_OUTPUT}"
+        echo "MARKDOWN_RESULT_OUTPUT_PATH=${{ steps.normalize_action_path.outputs.ACTION_NORMALIZED_PATH }}/${MARKDOWN_PATH}" >> "${GITHUB_OUTPUT}"
         echo "JSON_REPORT=$(uv run cite-runner parse-result \
             --output-format json \
             ${RAW_PATH}
