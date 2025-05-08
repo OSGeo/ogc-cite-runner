@@ -79,7 +79,7 @@ runs:
       env:
 #        GITHUB_CONTEXT: ${{ toJSON(github) }}
 #        ENV_CONTEXT: ${{ toJSON(env) }}
-        SETUPTOOLS_SCM_PRETEND_VERSION_FOR_CITE_RUNNER: ${{ github.action_ref == 'main' && 'v0.0.0.dev' || github.action_ref }}
+        SETUPTOOLS_SCM_PRETEND_VERSION: ${{ github.action_ref == 'main' && 'v0.0.0.dev' || github.action_ref }}
       shell: "bash"
       run: |
         cd ${{ github.action_path }}
