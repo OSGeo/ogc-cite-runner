@@ -69,7 +69,7 @@ In a brief nutshell:
 
         Using docker's `--add-host=host.docker.internal:host-gateway` is necessary when running
         docker engine, as discussed in the [docker engine docs:material-open-in-new:]{: target="blank_" }. If
-        you are using docker desktop you can omit this flag.
+        you are using docker desktop on Windows or macOS you can omit this flag.
 
 7.  You can run cite-runner via uv with:
 

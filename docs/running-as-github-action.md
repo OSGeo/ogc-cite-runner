@@ -33,7 +33,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@v0.1.4
+        uses: OSGEO/cite-runner@v0.2.0
         with:
           test_suite_identifier: ogcapi-features-1.0
           test_session_arguments: iut=http://localhost:5001
@@ -249,7 +249,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@v0.1.4
+        uses: OSGEO/cite-runner@v0.2.0
         with:
           test_suite_identifier: 'ogcapi-features-1.0'
           test_session_arguments: iut=http://localhost:5001
@@ -275,7 +275,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@v0.1.4
+        uses: OSGEO/cite-runner@v0.2.0
         with:
           test_suite_identifier: 'ogcapi-tiles-1.0'
           test_session_arguments: >-
@@ -310,7 +310,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@v0.1.4
+        uses: OSGEO/cite-runner@v0.2.0
         with:
           test_suite_identifier: 'ogcapi-features-1.0'
           test_session_arguments: iut=http://localhost:5001
@@ -351,7 +351,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@v0.1.4
+        uses: OSGEO/cite-runner@v0.2.0
         with:
           test_suite_identifier: ${{ matrix.test-suite.suite-id }}
           test_session_arguments: ${{ matrix.test-suite.arguments }}
