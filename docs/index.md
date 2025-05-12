@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: test ogcapi-features compliancy
-        uses: OSGeo/cite-runner@v0.1.4
+        uses: OSGeo/cite-runner@v0.2.0
         with:
           test_suite_identifier: ogcapi-features-1.0
           test_session_arguments: iut=http://localhost:5001
