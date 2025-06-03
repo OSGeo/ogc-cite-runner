@@ -12,30 +12,30 @@ from rich.logging import RichHandler
 from . import models
 
 
-class OGCCiteRunnerSettings(BaseSettings):
+class CiteRunnerSettings(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="CITE_RUNNER__", env_nested_delimiter="__"
     )
-    default_json_serializer: str = "ogc_cite_runner.serializers.simple.to_json"
-    default_markdown_serializer: str = "ogc_cite_runner.serializers.simple.to_markdown"
-    default_console_serializer: str = "ogc_cite_runner.serializers.console.to_console"
-    default_parser: str = "ogc_cite_runner.parsers.earl.parse_test_suite_result"
+    default_json_serializer: str = "cite_runner.serializers.simple.to_json"
+    default_markdown_serializer: str = "cite_runner.serializers.simple.to_markdown"
+    default_console_serializer: str = "cite_runner.serializers.console.to_console"
+    default_parser: str = "cite_runner.parsers.earl.parse_test_suite_result"
     extra_templates_path: str | None = None
 
     # ogcapi_features_1_0_parser: str = (
-    #     "ogc_cite_runner.teamengine_runner.parse_test_suite_result")
+    #     "cite_runner.teamengine_runner.parse_test_suite_result")
     # ogcapi_features_1_0_markdown_serializer: str = (
-    #     "ogc_cite_runner.teamengine_runner.serialize_test_suite_result")
+    #     "cite_runner.teamengine_runner.serialize_test_suite_result")
     simple_serializer_template: str = "test-suite-result.md"
-    docs_url: str = "https://osgeo.github.io/ogc-cite-runner/"
+    docs_url: str = "https://osgeo.github.io/cite-runner/"
     disclaimer: str = (
-        "ogc-cite-runner is not affiliated with the OGC. Having a CITE test suite be declared as passed by ogc-cite-runner "
+        "cite-runner is not affiliated with the OGC. Having a CITE test suite be declared as passed by cite-runner "
         "does not mean the implementation under test is OGC certified nor does it mean that it is guaranteed to pass "
         "the official CITE certification program."
     )
 
 
-class OGCCiteRunnerContext(pydantic.BaseModel):
+class CiteRunnerContext(pydantic.BaseModel):
     model_config = pydantic.ConfigDict(arbitrary_types_allowed=True)
 
     debug: bool = False
@@ -43,16 +43,16 @@ class OGCCiteRunnerContext(pydantic.BaseModel):
     network_timeout_seconds: int = 20
     result_console: Console
     status_console: Console
-    settings: OGCCiteRunnerSettings
+    settings: CiteRunnerSettings
 
 
-def get_settings() -> OGCCiteRunnerSettings:
-    return OGCCiteRunnerSettings()
+def get_settings() -> CiteRunnerSettings:
+    return CiteRunnerSettings()
 
 
-def _get_jinja_environment(settings: OGCCiteRunnerSettings) -> jinja2.Environment:
+def _get_jinja_environment(settings: CiteRunnerSettings) -> jinja2.Environment:
     loaders = [
-        jinja2.PackageLoader("ogc_cite_runner", "templates"),
+        jinja2.PackageLoader("cite_runner", "templates"),
     ]
     if settings.extra_templates_path is not None:
         loaders.append(jinja2.FileSystemLoader(settings.extra_templates_path))
@@ -82,9 +82,9 @@ def configure_logging(rich_console: Console, debug: bool) -> None:
 def get_context(
     debug: bool,
     network_timeout_seconds: int,
-) -> OGCCiteRunnerContext:
+) -> CiteRunnerContext:
     settings = get_settings()
-    return OGCCiteRunnerContext(
+    return CiteRunnerContext(
         debug=debug,
         network_timeout_seconds=network_timeout_seconds,
         jinja_environment=_get_jinja_environment(settings),
