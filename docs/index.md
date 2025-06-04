@@ -43,7 +43,7 @@ jobs:
         uses: OSGeo/cite-runner@v0.2.0
         with:
           test_suite_identifier: ogcapi-features-1.0
-          test_session_arguments: iut=http://localhost:5001
+          test_session_arguments: iut=http://host.docker.internal:5001
 ```
 
 Run the same test suite as a standalone CLI application:
@@ -53,7 +53,7 @@ docker pull ogccite/teamengine-production:1.0-SNAPSHOT
 docker run \
     --rm \
     --name=teamengine \
-    --network=host \
+    --add-host=host.docker.internal:host-gateway \
     ogccite/teamengine-production:1.0-SNAPSHOT
 
 pipx install cite-runner
@@ -61,7 +61,7 @@ pipx install cite-runner
 cite-runner execute-test-suite \
     http://localhost:8080/teamengine \
     ogcapi-features-1.0 \
-    --test-suite-input iut http://localhost:5001
+    --test-suite-input iut http://host.docker.internal:5001
 ```
 
 
