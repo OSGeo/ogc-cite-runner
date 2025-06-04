@@ -54,6 +54,7 @@ docker run \
     --rm \
     --name=teamengine \
     --add-host=host.docker.internal:host-gateway \
+    --publish=9080:8080 \
     ogccite/teamengine-production:1.0-SNAPSHOT
 
 pipx install cite-runner
