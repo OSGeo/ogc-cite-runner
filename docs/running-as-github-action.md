@@ -12,15 +12,20 @@ hide:
 In order to run cite-runner as a [GitHub action:material-open-in-new:]{: target="blank_" }, include it in your workflow
 and specify which test suite to run, alongside any relevant parameters.
 
+Include it as any other GitHub action, by creating a workflow step that
+specifies `uses: OSGEO/cite-runner@<version>` and provide execution parameters in the
+`with` parameter.
+
+
+!!! tip
+
+    As a good practice, ensure you pin to a specific cite-runner version.
+
 
 !!! tip
 
     Although cite-runner is not yet published in the [GitHub marketplace:material-open-in-new:]{: target="blank_" } it
     can still be used in GitHub CI workflows.
-
-Include it as any other GitHub action, by creating a workflow step that
-specifies `uses: OSGEO/cite-runner` and provide execution parameters in the
-`with` parameter.
 
 Here is a simple example usage:
 
@@ -36,7 +41,7 @@ jobs:
         uses: OSGEO/cite-runner@v0.2.0
         with:
           test_suite_identifier: ogcapi-features-1.0
-          test_session_arguments: iut=http://localhost:5001
+          test_session_arguments: iut=http://host.docker.internal:5001
 ```
 
 ## Inputs
@@ -67,16 +72,42 @@ When run as a GitHub action, cite-runner expects the following inputs to be prov
 
     - A simple yaml string
       ```yaml
-      test_session_arguments: 'iut=http://localhost:5001 noofcollections=-1'
+      test_session_arguments: 'iut=http://host.docker.internal:5001 noofcollections=-1'
       ```
 
     - If you prefer to use a multiline string, then  we recommend use of YAML *folded blocks* with the _strip_
       chomping indicator (AKA put a dash after the folded block indicator, AKA this: `>-`)
       ```yaml
       test_session_arguments: >-
-        iut=http://localhost:5001
+        iut=http://host.docker.internal:5001
         noofcollections=-1
       ```
+
+
+    !!! warning "Specifying the URL of the OGC service being tested"
+
+        Special care must be given with respect to specifying the URL of the OGC service which is being tested:
+
+        1.  **The service is running on a public host** - If the OGC service is running on a public host, for example
+            if you have a live demo instance, you can just refer to its public name. Example:
+
+            ```yaml
+            test_session_arguments: 'iut=https://demo.pygeoapi.io/master'
+            ```
+
+        1.  **The service is running on the same host** - When you are testing an OGC service which is running on
+            the same host, as will often be the case if you start it on the same GitHub workflow, you must not refer
+            to the host as `localhost`, but rather as `host.docker.internal`. Example:
+
+            ```yaml
+            # Somewhere in the workflow there is a previous step which has started
+            # the service to be tested and it is running locally on port 5001
+            test_session_arguments: 'iut=http://host.docker.internal:5001'
+            ```
+
+            The reason for this is that the TeamEngine service that is started by cite-runner is running
+            as a docker container and is only able to recognize the host as `host.docker.internal`. Check the
+            [docker engine docs:material-open-in-new:]{: target="blank_" } for more detail.
 
 
 ### `teamengine_url`
@@ -201,7 +232,9 @@ When run as a GitHub action, cite-runner expects the following inputs to be prov
 
 ## Outputs
 
-The cite-runner GitHub Action will provide a single output, which is a full report of the test suite results:
+The cite-runner GitHub Action will provide a single output, which is a full report of the test suite results.
+Additionally, as mentioned below in the [results](#results) section, it also provides the generated execution
+reports as GitHub artifacts.
 
 
 ### json_report
@@ -252,7 +285,7 @@ jobs:
         uses: OSGEO/cite-runner@v0.2.0
         with:
           test_suite_identifier: 'ogcapi-features-1.0'
-          test_session_arguments: iut=http://localhost:5001
+          test_session_arguments: iut=http://host.docker.internal:5001
 ```
 
 
@@ -279,9 +312,9 @@ jobs:
         with:
           test_suite_identifier: 'ogcapi-tiles-1.0'
           test_session_arguments: >-
-            iut=http://localhost:5001
+            iut=http://host.docker.internal:5001
             tilematrixsetdefinitionuri=http://www.opengis.net/def/tilematrixset/OGC/1.0/WebMercatorQuad
-            urltemplatefortiles=http://localhost:5001/collections/lakes/tiles/WebMercatorQuad/{tileMatrix}/{tileRow}/{tileCol}?f=mvt
+            urltemplatefortiles=http://host.docker.internal:5001/collections/lakes/tiles/WebMercatorQuad/{tileMatrix}/{tileRow}/{tileCol}?f=mvt
             tilematrix=0
             mintilerow=0
             maxtilerow=1
@@ -313,7 +346,7 @@ jobs:
         uses: OSGEO/cite-runner@v0.2.0
         with:
           test_suite_identifier: 'ogcapi-features-1.0'
-          test_session_arguments: iut=http://localhost:5001
+          test_session_arguments: iut=http://host.docker.internal:5001
           with_failed: "true"
           with_skipped: "true"
           exit_with_error: "false"
@@ -338,11 +371,11 @@ jobs:
         test-suite:
           - suite-id: ogcapi-features-1.0
             arguments: >-
-              iut=http://localhost:5001
+              iut=http://host.docker.internal:5001
               noofcollections=-1
           - suite-id: ogcapi-processes-1.0
             arguments: >-
-              iut=http://localhost:5001
+              iut=http://host.docker.internal:5001
               noofcollections=-1
 
     runs-on: ubuntu-22.04
@@ -448,6 +481,7 @@ relevant steps consist of calling cite-runner as a standalone CLI application. B
 [cite-runner's own testing workflow:material-open-in-new:]: https://github.com/OSGeo/cite-runner/tree/main/.github/workflows/test-action.yaml
 [composite action:material-open-in-new:]: https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-composite-action
 [custom shell:material-open-in-new:]: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell
+[docker engine docs:material-open-in-new:]: https://docs.docker.com/reference/cli/docker/container/run/#add-host
 [jq:material-open-in-new:]: https://jqlang.org/
 [fromJSON() function:material-open-in-new:]: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#fromjson
 [GitHub action:material-open-in-new:]: https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions

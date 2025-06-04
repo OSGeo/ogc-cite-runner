@@ -116,12 +116,40 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
 
 ##### Options
 
+!!! warning "Specifying the URL of the OGC service being tested"
+
+    Special care must be given with respect to specifying the URL of the OGC service which is being tested:
+
+    1.  **The service is running on a public host** - If the OGC service is running on a public host, for example
+        if you have a live demo instance, you can just refer to its public name. Example:
+
+        ```shell
+        cite-runner execute-test-suite \
+            # other arguments
+            --suite-input iut https://demo.pygeoapi.io/master
+        ```
+
+    1.  **The service is running on the same host** - When you are testing an OGC service which is running on
+        the same host, you must not refer to the host as `localhost`, but rather as `host.docker.internal`. Example:
+
+        ```shell
+        # Assuming you have started the service to be tested and it is
+        # running locally on port 5001
+        cite-runner execute-test-suite \
+            # other arguments
+            --suite-input iut http://host.docker.internal:5001
+        ```
+
+        The reason for this is that the TeamEngine service that is started by cite-runner is running
+        as a docker container and is only able to recognize the host as `host.docker.internal`. Check the
+        [docker engine docs:material-open-in-new:]{: target="blank_" } for more detail.
+
 | name | description |
 | ---- | ----------- |
 | `--help` | Show information on how to run the command, including a description of arguments and options |
 | `--teamengine-username` | Username for authenticating with teamengine |
 | `--teamengine-password` | Password for authenticating with teamengine |
-| `--suite-input` | Inputs expected by teamengine for running the test suite specified with TEST_SUITE_IDENTIFIER. These vary depending on the test suite.<br><br>This parameter can be specified multiple times.<br><br>Each parameter must be specified as a name and a value, separated by the space character (_i.e._ `--suite-input {name} {value}`).<br><br>Example: `--suite-input iut http://localhost:5000 --suite-input noofcollections -1`|
+| `--suite-input` | Inputs expected by teamengine for running the test suite specified with TEST_SUITE_IDENTIFIER. These vary depending on the test suite.<br><br>This parameter can be specified multiple times.<br><br>Each parameter must be specified as a name and a value, separated by the space character (_i.e._ `--suite-input {name} {value}`).<br><br>**Ensure you read the warning above on how to provide the URL of the service being tested.**<br><br>Example: `--suite-input iut http://host.docker.internal:5000 --suite-input noofcollections -1`|
 | `--output-format` | Format for the cite-runner result. Available options are:<br><ul><li><code>console</code> - Return results in a format suitable for reading in the terminal - This is the default</li><li><code>json</code> - Return results as JSON. This is useful for piping the results to other commands for further processing.</li><li><code>markdown</code> - Return results as a Markdown document.</li><li><code>raw</code> - Return the raw results as provided by teamengine. This is an XML document.</li></ul>
 | `--with-summary`/`--without-summary` | Whether the output should include a summary. This is enabled by default. Disable it by providing `--without-summary` |
 | `--with-failed`/`--without-failed` | Whether the output should include a section with details about failed tests. This is disabled by default, enable it by providing `--with-failed`.|
@@ -139,7 +167,7 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
     cite-runner execute-test-suite \
         http://localhost:9080/teamengine \
         ogcapi-features-1.0 \
-        --suite-input iut http://localhost:5000
+        --suite-input iut http://host.docker.internal:5000
     ```
 
 2. Run the test suite for OGC API Features using the [pygeoapi demo service:material-open-in-new:]{: target="blank_" } and then output the
@@ -165,7 +193,7 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
     cite-runner execute-test-suite \
         http://localhost:9080/teamengine \
         ogcapi-processes-1.0 \
-        --suite-input iut http://localhost:5000 \
+        --suite-input iut http://host.docker.internal:5000 \
         --suite-input noofcollections -1 \
         --output-format json
     | jq '.passed'
@@ -190,7 +218,7 @@ details from the same test run.
     cite-runner execute-test-suite \
         http://localhost:9080/teamengine \
         ogcapi-features-1.0 \
-        --suite-input iut http://localhost:5000 \
+        --suite-input iut http://host.docker.internal:5000 \
     | cite-runner parse-result -
     ```
 
@@ -224,7 +252,7 @@ Accepts a subset of similar [options as the execute-test-suite-command](#options
     cite-runner execute-test-suite \
         http://localhost:9080/teamengine \
         ogcapi-processes-1.0 \
-        --suite-input iut http://localhost:5000 \
+        --suite-input iut http://host.docker.internal:5000 \
         --suite-input noofcollections -1 \
         --output-format raw
     > ${RAW_RESULT_PATH}
