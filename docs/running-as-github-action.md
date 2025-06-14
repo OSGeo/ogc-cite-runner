@@ -9,23 +9,23 @@ hide:
 
 ## Overview
 
-In order to run cite-runner as a [GitHub action:material-open-in-new:]{: target="blank_" }, include it in your workflow
-and specify which test suite to run, alongside any relevant parameters.
+In order to run ogc-cite-runner as a [GitHub action:material-open-in-new:]{: target="blank_" }, include
+it in your workflow and specify which test suite to run, alongside any relevant parameters.
 
 Include it as any other GitHub action, by creating a workflow step that
-specifies `uses: OSGEO/cite-runner@<version>` and provide execution parameters in the
+specifies `uses: OSGEO/ogc-cite-runner@<version>` and provide execution parameters in the
 `with` parameter.
 
 
 !!! tip
 
-    As a good practice, ensure you pin to a specific cite-runner version.
+    As a good practice, ensure you pin to a specific ogc-cite-runner version.
 
 
 !!! tip
 
-    Although cite-runner is not yet published in the [GitHub marketplace:material-open-in-new:]{: target="blank_" } it
-    can still be used in GitHub CI workflows.
+    Although ogc-cite-runner is not yet published in the
+    [GitHub marketplace:material-open-in-new:]{: target="blank_" } it can still be used in GitHub CI workflows.
 
 Here is a simple example usage:
 
@@ -38,7 +38,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@v0.2.0
+        uses: OSGEO/ogc-cite-runner@v0.2.0
         with:
           test_suite_identifier: ogcapi-features-1.0
           test_session_arguments: iut=http://host.docker.internal:5001
@@ -46,7 +46,7 @@ jobs:
 
 ## Inputs
 
-When run as a GitHub action, cite-runner expects the following inputs to be provided:
+When run as a GitHub action, ogc-cite-runner expects the following inputs to be provided:
 
 
 ### `test_suite_identfier`
@@ -105,7 +105,7 @@ When run as a GitHub action, cite-runner expects the following inputs to be prov
             test_session_arguments: 'iut=http://host.docker.internal:5001'
             ```
 
-            The reason for this is that the TeamEngine service that is started by cite-runner is running
+            The reason for this is that the TeamEngine service that is started by ogc-cite-runner is running
             as a docker container and is only able to recognize the host as `host.docker.internal`. Check the
             [docker engine docs:material-open-in-new:]{: target="blank_" } for more detail.
 
@@ -232,7 +232,7 @@ When run as a GitHub action, cite-runner expects the following inputs to be prov
 
 ## Outputs
 
-The cite-runner GitHub Action will provide a single output, which is a full report of the test suite results.
+The ogc-cite-runner GitHub Action will provide a single output, which is a full report of the test suite results.
 Additionally, as mentioned below in the [results](#results) section, it also provides the generated execution
 reports as GitHub artifacts.
 
@@ -244,7 +244,7 @@ workflow steps to verify suite execution. As an example of further processing, y
 [jq:material-open-in-new:]{: target="blank_" }, as seen below:
 
 ```yaml
-- name: "Verify cite-runner results"
+- name: "Verify ogc-cite-runner results"
   run: |
   jq '.passed' <<EOF
   ${{ steps.test_cite_runner_github_action.outputs.json_report }}
@@ -256,10 +256,10 @@ workflow steps to verify suite execution. As an example of further processing, y
     Handling outputs of a GitHub Action that represent JSON data can be a bit tricky. The previous example showcases
     using a [HERE doc:material-open-in-new:]{: target="blank_" }, which has the benefit of preserving whatever
     double/single quotes may be present in the underlying JSON data. We recommend always using this technique to
-    process cite-runner GitHub Action's output
+    process ogc-cite-runner GitHub Action's output
 
 
-[cite-runner's own testing workflow:material-open-in-new:]{: target="blank_" } has an additional example of using
+[ogc-cite-runner's own testing workflow:material-open-in-new:]{: target="blank_" } has an additional example of using
 the action's output and passing it to another command for further processing.
 
 ## Usage examples
@@ -282,7 +282,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@v0.2.0
+        uses: OSGEO/ogc-cite-runner@v0.2.0
         with:
           test_suite_identifier: 'ogcapi-features-1.0'
           test_session_arguments: iut=http://host.docker.internal:5001
@@ -308,7 +308,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@v0.2.0
+        uses: OSGEO/ogc-cite-runner@v0.2.0
         with:
           test_suite_identifier: 'ogcapi-tiles-1.0'
           test_session_arguments: >-
@@ -326,7 +326,7 @@ jobs:
 ### Customize report and exit status
 
 In this example we ask for inclusion of details on both failed and skipped tests in the generated Markdown report. We
-also tell cite-runner to not exit with an error in case the tests fail. This can be used for cases where you don't
+also tell ogc-cite-runner to not exit with an error in case the tests fail. This can be used for cases where you don't
 want CITE failures to be breaking your CI workflow.
 
 
@@ -343,7 +343,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@v0.2.0
+        uses: OSGEO/ogc-cite-runner@v0.2.0
         with:
           test_suite_identifier: 'ogcapi-features-1.0'
           test_session_arguments: iut=http://host.docker.internal:5001
@@ -384,7 +384,7 @@ jobs:
       # other steps which start your OGC implementation and wait for it to become available
 
       - name: test ogcapi-features compliancy
-        uses: OSGEO/cite-runner@v0.2.0
+        uses: OSGEO/ogc-cite-runner@v0.2.0
         with:
           test_suite_identifier: ${{ matrix.test-suite.suite-id }}
           test_session_arguments: ${{ matrix.test-suite.arguments }}
@@ -394,7 +394,7 @@ jobs:
 
 ## Results
 
-The cite-runner GitHub action stores both:
+The ogc-cite-runner GitHub action stores both:
 
 - Raw suite results, as output directly by OGC TeamEngine. This is an XML file that uses a schema based on the
   W3C EARL format
@@ -403,8 +403,8 @@ The cite-runner GitHub action stores both:
 These results are saved as [workflow artifacts:material-open-in-new:]{: target="blank_" } and are available for
 download for further processing.
 
-Additionally, cite-runner also adds the contents of the parsed Markdown file as the job summary, making them directly
-visible in the GitHub workflow run overview page:
+Additionally, ogc-cite-runner also adds the contents of the parsed Markdown file as the job summary, making
+them directly visible in the GitHub workflow run overview page:
 
 ![github-workflow-job-sumary](assets/github-action-summary.png)
 
@@ -430,24 +430,24 @@ Furthermore, the full suite execution results are also shown in the job logs:
 
 !!! note
 
-    The information below is ony relevant if you wish to learn about the internals of the cite-runner GitHub action.
+    The information below is ony relevant if you wish to learn about the internals of the ogc-cite-runner GitHub action.
 
 The GitHub action is implemented as a [composite action:material-open-in-new:]{: target="blank_" } in which the most
-relevant steps consist of calling cite-runner as a standalone CLI application. Brief overview of the execution flow:
+relevant steps consist of calling ogc-cite-runner as a standalone CLI application. Brief overview of the execution flow:
 
 1. Install uv and set up Python
-2. Install cite-runner
+2. Install ogc-cite-runner
 3. If needed, start a TeamEngine docker container
-4. Run cite-runner multiple times
+4. Run ogc-cite-runner multiple times
 
-    1. The first execution is where the test suite is actually run. The cite-runner
+    1. The first execution is where the test suite is actually run. The ogc-cite-runner
        `execute-test-suite-from-github-actions` CLI command is invoked with the `--output-format raw` flag
        and the raw XML result returned by TeamEngine is stored as `raw-result.xml`
 
-    2. The second execution parses the raw result and outputs a full report to the logs. cite-runner's `parse-result`
-       CLI command is invoked with the `--output-format console` flag. Depending on the value of the `exit_with_error`
-       action input, the cite-runner `--exit-with-error/--exit-without-error` flag is set accordingly and the exit code
-       of cite-runner is stored in a variable
+    2. The second execution parses the raw result and outputs a full report to the logs.
+       ogc-cite-runner's `parse-result` CLI command is invoked with the `--output-format console` flag. Depending on
+       the value of the `exit_with_error` action input, the ogc-cite-runner `--exit-with-error/--exit-without-error`
+       flag is set accordingly and the exit code of ogc-cite-runner is stored in a variable
 
         !!! tip
 
@@ -462,12 +462,12 @@ relevant steps consist of calling cite-runner as a standalone CLI application. B
             means [set -e:material-open-in-new:]{: target="blank_" } and has the effect of immediately failing the
             step if one of it's underlying commands exits with a non-zero code.
 
-            The reason why this step does not use `bash -e` is that cite-runner's GitHub action needs to check the
-            exit code of the `cite-runner parse-result` CLI command (which can be non-zero) and also take into
+            The reason why this step does not use `bash -e` is that ogc-cite-runner's GitHub action needs to check the
+            exit code of the `ogc-cite-runner parse-result` CLI command (which can be non-zero) and also take into
             account the value of its `exit_with_error` input in order to set the final exit code.
 
     3. The third execution parses the raw result again and outputs a Markdown report, which is used for the GitHub
-       step summary. cite-runner's `parse-result` CLI command is thus invoked with the `--output-format markdown`
+       step summary. ogc-cite-runner's `parse-result` CLI command is thus invoked with the `--output-format markdown`
        flag. The contents of the Markdown report are generated in accordance with the values of the
        action's `with_failed`, `with_skipped` and `with_passed` input values.
 
@@ -478,7 +478,7 @@ relevant steps consist of calling cite-runner as a standalone CLI application. B
    to set the overall action exit code.
 
 
-[cite-runner's own testing workflow:material-open-in-new:]: https://github.com/OSGeo/cite-runner/tree/main/.github/workflows/test-action.yaml
+[ogc-cite-runner's own testing workflow:material-open-in-new:]: https://github.com/OSGeo/ogc-cite-runner/tree/main/.github/workflows/test-action.yaml
 [composite action:material-open-in-new:]: https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-composite-action
 [custom shell:material-open-in-new:]: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell
 [docker engine docs:material-open-in-new:]: https://docs.docker.com/reference/cli/docker/container/run/#add-host

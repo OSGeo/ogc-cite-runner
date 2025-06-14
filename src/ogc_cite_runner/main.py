@@ -154,7 +154,7 @@ def parse_test_result(
     include_passed: _include_passed_option = _DEFAULT_INCLUDE_PASSED,
     exit_with_error: _exit_with_error_option = _DEFAULT_EXIT_WITH_ERROR,
 ):
-    context: config.CiteRunnerContext = ctx.obj
+    context: config.OgcCiteRunnerContext = ctx.obj
     context.status_console.print("Parsing test suite execution results...")
     with click.open_file(test_suite_result) as fh:
         raw_result = fh.read()
@@ -189,7 +189,7 @@ def execute_test_suite_from_github_actions(
             help=(
                 "Space-separated list of inputs to be passed to teamengine. Each "
                 "input must be formatted as key=value. Ex: "
-                "iut=http://localhost:5000 noofcollections=-1"
+                "iut=http://host.docker.internal:5000 noofcollections=-1"
             )
         ),
     ],
@@ -227,7 +227,7 @@ def execute_test_suite_from_github_actions(
             include_passed_detail=include_passed,
         ),
     )
-    context: config.CiteRunnerContext = ctx.obj
+    context: config.OgcCiteRunnerContext = ctx.obj
     if output_format.print_pretty():
         context.result_console.print(serialized)
     else:
@@ -252,7 +252,7 @@ def execute_test_suite(
             click_type=click.Tuple([str, str]),
             help=(
                 "Input name and value separated by a space. "
-                "Ex: --suite-input iut http://localhost:5000"
+                "Ex: --suite-input iut http://host.docker.internal:5000"
             ),
         ),
     ] = None,
@@ -268,7 +268,7 @@ def execute_test_suite(
     for param_name, param_value in suite_input:
         param_values = suite_inputs.setdefault(param_name, [])
         param_values.append(param_value)
-    context: config.CiteRunnerContext = ctx.obj
+    context: config.OgcCiteRunnerContext = ctx.obj
     parsed, serialized = _execute_test_suite(
         context,
         teamengine_base_url=teamengine_base_url,
@@ -298,7 +298,7 @@ def execute_test_suite(
 
 
 def _execute_test_suite(
-    context: config.CiteRunnerContext,
+    context: config.OgcCiteRunnerContext,
     teamengine_base_url: str,
     test_suite_identifier: str,
     teamengine_username: pydantic.SecretStr,
@@ -324,7 +324,7 @@ def _execute_test_suite(
                 teamengine_username=teamengine_username,
                 teamengine_password=teamengine_password,
             )
-        except exceptions.CiteRunnerException:
+        except exceptions.OgcCiteRunnerException:
             logger.exception("Unable to collect test suite execution results")
             raise SystemExit(1)
         else:

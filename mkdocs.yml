@@ -5,9 +5,9 @@ nav:
   - OGC Test suites: ogc-test-suites.md
   - Development: development.md
 
-site_name: CITE Runner
-site_url: https://osgeo.github.io/cite-runner
-repo_url: https://github.com/OSGeo/cite-runner
+site_name: ogc-cite-runner
+site_url: https://osgeo.github.io/ogc-cite-runner
+repo_url: https://github.com/OSGeo/ogc-cite-runner
 markdown_extensions:
   - admonition
   - attr_list

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Changed name from 'cite-runner' to 'ogc-cite-runner'
+
+
 ### Fixed
 
 - Fixed incorrect mentions to `localhost` in the docs, replacing them with `host.docker.internal`.
