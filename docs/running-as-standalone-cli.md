@@ -195,7 +195,7 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
         ogcapi-processes-1.0 \
         --suite-input iut http://host.docker.internal:5000 \
         --suite-input noofcollections -1 \
-        --output-format json
+        --output-format json \
     | jq '.passed'
     ```
 
