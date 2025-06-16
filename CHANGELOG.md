@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [v0.3.0] - 2025-05-16
+
 ### Changed
 
 - Changed name from 'cite-runner' to 'ogc-cite-runner'
@@ -63,10 +66,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - First release
 
 
-[unreleased]: https://github.com/OSGeo/cite-runner/compare/v0.2.0...HEAD
-[v0.2.0]: https://github.com/OSGeo/cite-runner/compare/v0.1.4...v0.2.0
-[v0.1.4]: https://github.com/OSGeo/cite-runner/compare/v0.1.3...v0.1.4
-[v0.1.3]: https://github.com/OSGeo/cite-runner/compare/v0.1.2...v0.1.3
-[v0.1.2]: https://github.com/OSGeo/cite-runner/compare/v0.1.1...v0.1.2
-[v0.1.1]: https://github.com/OSGeo/cite-runner/compare/v0.1.0...v0.1.1
-[v0.1.0]: https://github.com/OSGeo/cite-runner/releases/tag/v0.1.0
+[unreleased]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.3.0...HEAD
+[v0.3.0]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.2.0...v0.3.0
+[v0.2.0]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.1.4...v0.2.0
+[v0.1.4]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.1.3...v0.1.4
+[v0.1.3]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.1.2...v0.1.3
+[v0.1.2]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.1.1...v0.1.2
+[v0.1.1]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.1.0...v0.1.1
+[v0.1.0]: https://github.com/OSGeo/ogc-cite-runner/releases/tag/v0.1.0
