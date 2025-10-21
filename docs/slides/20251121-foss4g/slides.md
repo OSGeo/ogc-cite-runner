@@ -1,7 +1,5 @@
 # OGC CITE Runner
 
-{Cover slide}
-
 A runner for OGC test suites
 
 - Ricardo Garcia Silva <ricardo.garcia.silva@gmail.com>
@@ -11,8 +9,6 @@ A runner for OGC test suites
 ---
 
 # OGC CITE Runner
-
-{Part 1 - Explain what OCR is and why it exists}
 
 - OGC CITE Runner is a test runner for OGC CITE test suites
 - It is a thin layer of automation over OGC TeamEngine
@@ -26,14 +22,14 @@ A runner for OGC test suites
 
 # OGC CITE
 
-{what is OGC CITE}
-
 - CITE - Compliance and Interoperability Testing & Evaluation
 - Compliance and testing program operated by OGC
 - Set of procedures for verifying compliance of an application to OGC standards
 - An organization submits an application for CITE
-- Compliant applications are granted an OGC Certification Trademark License, certifying that a specific version of a software application complies with an OGC standard
-- A large part of the CITE procedure is demonstrating that the application passes OGC test suite for the standard being certified
+- Compliant applications are granted an OGC Certification Trademark License, certifying that a 
+  specific version of a software application complies with an OGC standard
+- A large part of the CITE procedure is demonstrating that the application passes OGC test 
+  suite for the standard being certified
 
 
 ---
@@ -47,8 +43,6 @@ A runner for OGC test suites
 ---
 
 # OGC TeamEngine
-
-{what is TeamEngine and how to run CITE tests with it}
 
 - Official OGC test runner
 - Runs OGC test suites
@@ -71,9 +65,7 @@ A runner for OGC test suites
 
 ---
 
-# Quickstart
-
-{Part 2 - Show how it can be used as a standalone tool}
+# Quickstart(1) - OGC TeamEngine
 
 Start a local instance of OGC TeamEngine:
 
@@ -86,7 +78,16 @@ docker run \
     ogccite/teamengine-production:1.0-SNAPSHOT
 ```
 
-Install OGC CITE Runner:
+TeamEngine is now available at
+
+    http://localhost:9080
+
+
+---
+
+# Quickstart(2) - OGC CITE Runner
+
+Install ogc cite runner with `pipx` (or `pip`)
 
 ```shell
 # install ogc-cite-runner
@@ -98,13 +99,19 @@ source .venv/bin/activate
 pip install ogc-cite-runner
 ```
 
-Start your service under test, for example pygeoapi:
 
-```shell
-git clone https://github.com/geopython/pygeoapi.git
-cd pygeoapi/tests/cite
-docker compose up -d
-```
+---
+
+# Quickstart(3) - Application under test
+
+Start the application to be tested, for example the pygeoapi demo server:
+
+    https://demo.pygeoapi.io/master
+
+
+---
+
+# Quickstart(4) - Use ogc-cite-runner
 
 Use OGC CITE Runner to test your implementation:
 
@@ -112,16 +119,78 @@ Use OGC CITE Runner to test your implementation:
 ogc-cite-runner execute-test-suite \
     http://localhost:9080/teamengine \
     ogcapi-features-1.0 \
-    --test-suite-input iut http://host.docker.internal:5001
+    --test-suite-input iut https://demo.pygeoapi.io/master
+```
+
+
+---
+
+# Additional features - output formats
+
+ogc-cite-runner is able to produce results in four different **output formats**:
+
+- console (default) - useful for quick inspection
+- json - allows further processing with other tools
+- markdown - for embedding into HTML or producing PDF reports
+- raw - raw XML in EARL format - useful for two-step workflow
+
+
+# raw output format - two-step workflow
+
+By leveraging the `raw` output format together with the `parse-result` command,
+it is possible to break ogc-cite-runner workflows down into two steps:
+
+1. Run the test suite and store the raw XML output
+2. Produce a report
+
+```shell
+# 1. run the tests and store raw result
+ogc-cite-runner execute-test-suite \
+    http://localhost:9080/teamengine \
+    ogcapi-features-1.0 \
+    --suite-input iut https://demo.pygeoapi.io/master \
+    --output-format raw \
+    > execution-result.xml
+    
+# 2. generate output
+ogc-cite-runner parse-result \
+    --output-format markdown \
+    execution-result.xml
+```
+
+
+# JSON output format example
+
+Output JSON and then use `jq` to further process results:
+
+```shell
+ogc-cite-runner parse-result \
+    --output-format json \
+    execution-result.xml
+| jq '.passed'
+```
+
+
+---
+
+# Additional features - report sections
+
+ogc-cite-runner's output report contains three sections,
+which can be toggled:
+
+- summary (on by default)
+- failed
+- skipped
+- passed
+
+```shell
+ogc-cite-runner parse-result \
+    --with-skipped \
+    execution-result.xml
 ```
 
 ---
-
 {Part 3 - Show how it can be used in github actions}
-
----
-
-{Part 4- Go through the various options and output formats}
 
 ---
 
