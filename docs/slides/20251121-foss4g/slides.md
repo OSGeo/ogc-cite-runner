@@ -125,6 +125,18 @@ ogc-cite-runner execute-test-suite \
 
 ---
 
+# Anatomy of an ogc-cite-runner execution
+
+`ogc-cite-runner execute-test-suite` performs three steps in sequence:
+
+1. Asks OGC TeamEngine to run desired test suite;
+2. Captures TeamEngine suite execution results in the W3C EARL (Evaluation and Report Language) 
+   format (XML-based)
+3. Parses results, filtering and converting them into a more human-readable output format
+
+
+---
+
 # Additional features - output formats
 
 ogc-cite-runner is able to produce results in four different **output formats**:
@@ -135,13 +147,28 @@ ogc-cite-runner is able to produce results in four different **output formats**:
 - raw - raw XML in EARL format - useful for two-step workflow
 
 
-# raw output format - two-step workflow
+---
 
-By leveraging the `raw` output format together with the `parse-result` command,
+# raw output format - two-step workflow (1)
+
+In addition to 
+
+`ogc-cite-runner execute-test-suite` 
+
+there is also 
+
+`ogc-cite-runner parse-result`.
+
+By leveraging the `raw` output format together with the `parse-result` sub-command,
 it is possible to break ogc-cite-runner workflows down into two steps:
 
 1. Run the test suite and store the raw XML output
 2. Produce a report
+
+
+---
+
+# raw output format - two-step workflow (2)
 
 ```shell
 # 1. run the tests and store raw result
@@ -159,9 +186,14 @@ ogc-cite-runner parse-result \
 ```
 
 
+---
+
 # JSON output format example
 
-Output JSON and then use `jq` to further process results:
+Using `--output-format json`, ogc-cite-runner can easily be 
+integrated into a larger pipeline.
+
+Example: output JSON and then use `jq` to further process results:
 
 ```shell
 ogc-cite-runner parse-result \
@@ -195,3 +227,7 @@ ogc-cite-runner parse-result \
 ---
 
 {Part 5 - Talk about future developments}
+
+- publish action in the github marketplace
+- option to allow managing TeamEngine execution internally
+- ...
