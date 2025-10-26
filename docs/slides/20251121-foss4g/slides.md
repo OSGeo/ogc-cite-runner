@@ -1,4 +1,4 @@
-# OGC CITE Runner
+## OGC CITE Runner
 
 A runner for OGC test suites
 
@@ -8,7 +8,7 @@ A runner for OGC test suites
 
 ---
 
-# OGC CITE Runner
+## OGC CITE Runner
 
 - OGC CITE Runner is a test runner for OGC CITE test suites
 - It is a thin layer of automation over OGC TeamEngine
@@ -20,7 +20,7 @@ A runner for OGC test suites
 
 ---
 
-# OGC CITE
+## OGC CITE
 
 - CITE - Compliance and Interoperability Testing & Evaluation
 - Compliance and testing program operated by OGC
@@ -34,7 +34,7 @@ A runner for OGC test suites
 
 ---
 
-# OGC Test Suites
+## OGC Test Suites
 
 - Official test suites which are used in the CITE procedure
 - Published by OGC
@@ -42,7 +42,7 @@ A runner for OGC test suites
 
 ---
 
-# OGC TeamEngine
+## OGC TeamEngine
 
 - Official OGC test runner
 - Runs OGC test suites
@@ -54,7 +54,7 @@ A runner for OGC test suites
 
 ---
 
-# OGC CITE Runner
+## OGC CITE Runner(1)
 
 - OGC CITE Runner is a thin layer over OGC TeamEngine
 - Provides a CLI useful for automating the running of OGC test suites
@@ -62,10 +62,30 @@ A runner for OGC test suites
 - Can be integrated into application CI pipelines
 - Allows setting up quick feedback loop between development and possible compliance
 
+---
+
+## OGC CITE Runner(2)
+
+```mermaid
+flowchart TD
+
+ocr[OGC CITE Runner]
+te[OGC TeamEngine]
+suites
+iut[application being tested]
+client[you]
+
+ocr -- 1. asks for execution --> te
+te --- suites
+te ---iut
+te -- 2. returns execution result --> ocr
+ocr -- 3. formats results --> client
+```
+
 
 ---
 
-# Quickstart(1) - OGC TeamEngine
+## Quickstart(1) - OGC TeamEngine
 
 Start a local instance of OGC TeamEngine:
 
@@ -85,7 +105,7 @@ TeamEngine is now available at
 
 ---
 
-# Quickstart(2) - OGC CITE Runner
+## Quickstart(2) - OGC CITE Runner
 
 Install ogc cite runner with `pipx` (or `pip`)
 
@@ -102,7 +122,7 @@ pip install ogc-cite-runner
 
 ---
 
-# Quickstart(3) - Application under test
+## Quickstart(3) - Application under test
 
 Start the application to be tested, for example the pygeoapi demo server:
 
@@ -111,7 +131,7 @@ Start the application to be tested, for example the pygeoapi demo server:
 
 ---
 
-# Quickstart(4) - Use ogc-cite-runner
+## Quickstart(4) - Use ogc-cite-runner
 
 Use OGC CITE Runner to test your implementation:
 
@@ -125,7 +145,7 @@ ogc-cite-runner execute-test-suite \
 
 ---
 
-# Anatomy of an ogc-cite-runner execution
+## Anatomy of an ogc-cite-runner execution
 
 `ogc-cite-runner execute-test-suite` performs three steps in sequence:
 
@@ -137,7 +157,7 @@ ogc-cite-runner execute-test-suite \
 
 ---
 
-# Additional features - output formats
+## Additional features - output formats
 
 ogc-cite-runner is able to produce results in four different **output formats**:
 
@@ -149,7 +169,7 @@ ogc-cite-runner is able to produce results in four different **output formats**:
 
 ---
 
-# raw output format - two-step workflow (1)
+## raw output format - two-step workflow (1)
 
 In addition to 
 
@@ -168,7 +188,7 @@ it is possible to break ogc-cite-runner workflows down into two steps:
 
 ---
 
-# raw output format - two-step workflow (2)
+## raw output format - two-step workflow (2)
 
 ```shell
 # 1. run the tests and store raw result
@@ -188,7 +208,7 @@ ogc-cite-runner parse-result \
 
 ---
 
-# JSON output format example
+## JSON output format example
 
 Using `--output-format json`, ogc-cite-runner can easily be 
 integrated into a larger pipeline.
@@ -205,7 +225,7 @@ ogc-cite-runner parse-result \
 
 ---
 
-# Additional features - report sections
+## Additional features - report sections
 
 ogc-cite-runner's output report contains three sections,
 which can be toggled:
@@ -222,12 +242,49 @@ ogc-cite-runner parse-result \
 ```
 
 ---
-{Part 3 - Show how it can be used in github actions}
+
+## Using OGC-CITE-Runner in GitHub actions(1)
+
+- OGC CITE Runner is not published on the GitHub marketplace yet
+- You can use it regardless
+- just include the action in your workflow
+
+```yaml
+jobs:
+  demo-ci-job:
+    steps:
+      - name: "Grab your code and perform whatever setup"
+        
+      - name: "Launch your application"
+          
+      - name: "Use ogc-cite-runner GitHub action"
+        id: test_ogc_cite_runner_github_action
+        uses: OSGeo/ogc-cite-runner@v0.3.0
+        with:
+          test_suite_identifier: ogcapi-features-1.0
+          test_session_arguments: iut=http://host.docker.internal:${{ env.SIMPLESERVER_PORT }}
+          
+      - name: "Perform whatever cleanup"
+```
 
 ---
 
-{Part 5 - Talk about future developments}
+## Using OGC-CITE-Runner in GitHub actions(2)
 
-- publish action in the github marketplace
-- option to allow managing TeamEngine execution internally
-- ...
+OGC-CITE-Runner outputs become available in multiple places:
+
+1. In the GitHub actions log (using the `console` output format) - for detailed inspection
+2. In the GitHub actions job summary (using the `markdown` output format) - for a quick glance of results
+3. As job artifacts (both the `raw` and `markdown` output formats) - if further offline processing is needed
+4. As step output (using the `json` output format) - if further workflow-related processing is needed
+
+
+---
+
+## OGC-CITE-Runner future tasks
+
+- Publish action in the GitHub marketplace
+- Option to allow managing TeamEngine execution internally
+- Raise awareness for OGC CITE Runner existence
+- Become adopted by open source projects that implement OGC standards
+  
