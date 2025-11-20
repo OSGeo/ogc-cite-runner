@@ -1,74 +1,73 @@
 ## OGC CITE Runner
 
-A runner for OGC test suites
+A Pythonic convenience runner for OGC compliance testing
 
 - Ricardo Garcia Silva <ricardo.garcia.silva@gmail.com>
-- Tom Kralidis <tom.kralidis@somewhere.com>
+- Tom Kralidis <tomkralidis@gmail.com>
 
+[FOSS4G 2025](https://2025.foss4g.org)
+---
+
+## Outline
+
+- OGC Standards and Compliance
+- OGC CITE overview
+- Introducing OGC CITE Runner
+- Future work
 
 ---
 
-## OGC CITE Runner
+## OGC Standards and Compliance
 
-- OGC CITE Runner is a test runner for OGC CITE test suites
-- It is a thin layer of automation over OGC TeamEngine
-- Lowers effort required for running CITE tests
-- Allows projects implementing OGC standards to have quick feedback on compliance
-- Can be run as a standalone tool
-- Available as a GitHub Action - also usable on other platforms
+- Certified OGC Compliant: product has passed compliance testing
+  - compliance matrix:
+    - supported standard * product version
+- Uncertified: product has implemented and registered
 
-
----
-
-## OGC CITE
-
-- CITE - Compliance and Interoperability Testing & Evaluation
-- Compliance and testing program operated by OGC
-- Set of procedures for verifying compliance of an application to OGC standards
-- An organization submits an application for CITE
-- Compliant applications are granted an OGC Certification Trademark License, certifying that a 
-  specific version of a software application complies with an OGC standard
-- A large part of the CITE procedure is demonstrating that the application passes OGC test 
-  suite for the standard being certified
-
+[ogc.org/how-our-compliance-program-works](https://www.ogc.org/how-our-compliance-program-works)
 
 ---
 
-## OGC Test Suites
+## OGC CITE overview
 
-- Official test suites which are used in the CITE procedure
-- Published by OGC
+- Compliance & Interoperability Testing & Evaluation
+- repository of conformance tests
+- uses Test Evaluation And Measurement (TEAM) Engine (FOSS) as baseline
+  - [OSGeo Community project](https://www.osgeo.org/projects/teamengine)
+- Executable Test Suites (ETS) are developed foreach OGC standard
 
+-v-
 
----
+## OGC CITE overview
 
-## OGC TeamEngine
+- CITE is typically run as an interactive web service
+  - [cite.opengeospatial.org/teamengine](https://cite.opengeospatial.org/teamengine)
+- Docker: supports containerized/local build/invocation
 
-- Official OGC test runner
-- Runs OGC test suites
-- Has a web interface
-- Official instance hosted by OGC at https://cite.opengeospatial.org/teamengine/
-- Open source software
-- Can also be run locally via native install or through docker
+-v-
 
+## Value proposition for further automation of OGC CITE
 
----
-
-## OGC CITE Runner(1)
-
-- OGC CITE Runner is a thin layer over OGC TeamEngine
-- Provides a CLI useful for automating the running of OGC test suites
-- Outputs results in multiple formats
-- Can be integrated into application CI pipelines
-- Allows setting up quick feedback loop between development and possible compliance
+- CI/CD workflows
+  - schedule
+  - on commit/push
 
 ---
 
-## OGC CITE Runner(2)
+## Introducing OGC CITE Runner
+
+- a test runner for OGC CITE test suites
+- thin, composable layer of automation atop OGC Team Engine
+- lowers the developer barrier to CITE testing
+- enables rapid compliance feedback, corrective action
+- CI/CD: can be run as a GitHub Action, pipeline or standalone CLI
+
+-v-
+
+## Introducing OGC CITE Runner
 
 ```mermaid
 flowchart TD
-
 ocr[OGC CITE Runner]
 te[OGC TeamEngine]
 suites
@@ -82,14 +81,13 @@ te -- 2. returns execution result --> ocr
 ocr -- 3. formats results --> client
 ```
 
-
 ---
 
-## Quickstart(1) - OGC TeamEngine
+## Quickstart
 
-Start a local instance of OGC TeamEngine:
+Start a local instance of OGC Team Engine:
 
-```shell
+```bash
 docker run \
     --rm \
     --name teamengine \
@@ -98,18 +96,17 @@ docker run \
     ogccite/teamengine-production:1.0-SNAPSHOT
 ```
 
-TeamEngine is now available at
+Team Engine is now available at
 
     http://localhost:9080
 
+-v-
 
----
+## Quickstart
 
-## Quickstart(2) - OGC CITE Runner
+Install ogc-cite-runner with `pipx` (or `pip`)
 
-Install ogc cite runner with `pipx` (or `pip`)
-
-```shell
+```bash
 # install ogc-cite-runner
 pipx install ogc-cite-runner
 
@@ -119,29 +116,26 @@ source .venv/bin/activate
 pip install ogc-cite-runner
 ```
 
+-v-
 
----
+## Quickstart
 
-## Quickstart(3) - Application under test
-
-Start the application to be tested, for example the pygeoapi demo server:
+Start the application to be tested, for example the [pygeoapi](https://pygeoapi.io) demo server:
 
     https://demo.pygeoapi.io/master
 
+-v-
 
----
+## Quickstart
 
-## Quickstart(4) - Use ogc-cite-runner
+Use ogc-cite-runner to test your implementation:
 
-Use OGC CITE Runner to test your implementation:
-
-```shell
+```bash
 ogc-cite-runner execute-test-suite \
     http://localhost:9080/teamengine \
     ogcapi-features-1.0 \
     --test-suite-input iut https://demo.pygeoapi.io/master
 ```
-
 
 ---
 
