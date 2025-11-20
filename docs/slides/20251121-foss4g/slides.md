@@ -48,6 +48,7 @@ A Pythonic convenience runner for OGC compliance testing
 
 ## Value proposition for further automation of OGC CITE
 
+- use by any project looking for automated lower barrier CITE testing
 - CI/CD workflows
   - schedule
   - on commit/push
@@ -69,7 +70,7 @@ A Pythonic convenience runner for OGC compliance testing
 ```mermaid
 flowchart TD
 ocr[OGC CITE Runner]
-te[OGC TeamEngine]
+te[OGC Team Engine]
 suites
 iut[application being tested]
 client[you]
@@ -143,27 +144,26 @@ ogc-cite-runner execute-test-suite \
 
 `ogc-cite-runner execute-test-suite` performs three steps in sequence:
 
-1. Asks OGC TeamEngine to run desired test suite;
-2. Captures TeamEngine suite execution results in the W3C EARL (Evaluation and Report Language) 
+1. Asks OGC Team Engine to run desired test suite;
+2. Captures Team Engine suite execution results in the W3C EARL (Evaluation and Report Language) 
    format (XML-based)
 3. Parses results, filtering and converting them into a more human-readable output format
 
 
 ---
 
-## Additional features - output formats
+## Features: output formats
 
-ogc-cite-runner is able to produce results in four different **output formats**:
+ogc-cite-runner is able to produce results in numerous **output formats**:
 
-- console (default) - useful for quick inspection
-- json - allows further processing with other tools
-- markdown - for embedding into HTML or producing PDF reports
-- raw - raw XML in EARL format - useful for two-step workflow
+- console (default): useful for quick inspection
+- json: allows further processing with other tools
+- markdown: for embedding into HTML or producing PDF reports
+- raw: raw XML in EARL format - useful for two-step workflow
 
+-v-
 
----
-
-## raw output format - two-step workflow (1)
+## raw output format: two-step workflow
 
 In addition to 
 
@@ -171,20 +171,19 @@ In addition to
 
 there is also 
 
-`ogc-cite-runner parse-result`.
+`ogc-cite-runner parse-result`
 
-By leveraging the `raw` output format together with the `parse-result` sub-command,
-it is possible to break ogc-cite-runner workflows down into two steps:
+By leveraging the `raw` output format together with the `parse-result` subcommand,
+it is possible to break `ogc-cite-runner` workflows down into two steps:
 
 1. Run the test suite and store the raw XML output
 2. Produce a report
 
+-v-
 
----
+## raw output format: two-step workflow
 
-## raw output format - two-step workflow (2)
-
-```shell
+```bash
 # 1. run the tests and store raw result
 ogc-cite-runner execute-test-suite \
     http://localhost:9080/teamengine \
@@ -199,8 +198,7 @@ ogc-cite-runner parse-result \
     execution-result.xml
 ```
 
-
----
+-v-
 
 ## JSON output format example
 
@@ -209,27 +207,26 @@ integrated into a larger pipeline.
 
 Example: output JSON and then use `jq` to further process results:
 
-```shell
+```bash
 ogc-cite-runner parse-result \
     --output-format json \
     execution-result.xml
 | jq '.passed'
 ```
 
-
 ---
 
-## Additional features - report sections
+## Features: report sections
 
-ogc-cite-runner's output report contains three sections,
+`ogc-cite-runner` output report contains the following sections,
 which can be toggled:
 
-- summary (on by default)
+- summary (default)
 - failed
 - skipped
 - passed
 
-```shell
+```bash
 ogc-cite-runner parse-result \
     --with-skipped \
     execution-result.xml
@@ -237,48 +234,50 @@ ogc-cite-runner parse-result \
 
 ---
 
-## Using OGC-CITE-Runner in GitHub actions(1)
+## GitHub Actions
 
-- OGC CITE Runner is not published on the GitHub marketplace yet
-- You can use it regardless
-- just include the action in your workflow
+- OGC CITE Runner is not yet published on GitHub Marketplace
+- can still be used regardless
+  - simply include the action in your workflow
 
 ```yaml
 jobs:
   demo-ci-job:
     steps:
       - name: "Grab your code and perform whatever setup"
-        
       - name: "Launch your application"
-          
       - name: "Use ogc-cite-runner GitHub action"
         id: test_ogc_cite_runner_github_action
         uses: OSGeo/ogc-cite-runner@v0.3.0
         with:
           test_suite_identifier: ogcapi-features-1.0
           test_session_arguments: iut=http://host.docker.internal:${{ env.SIMPLESERVER_PORT }}
-          
       - name: "Perform whatever cleanup"
 ```
 
+-v-
+
+## GitHub Actions
+
+`ogc-cite-runner` outputs become available in multiple places:
+
+1. In the GitHub actions log (using the `console` output format): for detailed inspection
+2. In the GitHub actions job summary (using the `markdown` output format): for a quick glance of results
+3. As job artifacts (both the `raw` and `markdown` output formats): if further offline processing is needed
+4. As step output (using the `json` output format): if further workflow-related processing is needed
+
 ---
 
-## Using OGC-CITE-Runner in GitHub actions(2)
+## Future work
 
-OGC-CITE-Runner outputs become available in multiple places:
-
-1. In the GitHub actions log (using the `console` output format) - for detailed inspection
-2. In the GitHub actions job summary (using the `markdown` output format) - for a quick glance of results
-3. As job artifacts (both the `raw` and `markdown` output formats) - if further offline processing is needed
-4. As step output (using the `json` output format) - if further workflow-related processing is needed
-
+- publish action to GitHub Marketplace
+- add option to allow managing Team Engine execution internally
+- become adopted by FOSS projects that implement OGC standards
 
 ---
 
-## OGC-CITE-Runner future tasks
+## Thanks
 
-- Publish action in the GitHub marketplace
-- Option to allow managing TeamEngine execution internally
-- Raise awareness for OGC CITE Runner existence
-- Become adopted by open source projects that implement OGC standards
-  
+- Ricardo Garcia Silva <ricardo.garcia.silva@gmail.com>
+- Tom Kralidis <tomkralidis@gmail.com>
+---
