@@ -1,5 +1,6 @@
 slides:
   theme: dracula
+  separator_vertical: ^\s*-v-\s*$
 
 plugins:
   - name: RevealMermaid

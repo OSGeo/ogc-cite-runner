@@ -1,76 +1,76 @@
 ## OGC CITE Runner
 
-A runner for OGC test suites
+A Pythonic convenience runner for OGC compliance testing
 
 - Ricardo Garcia Silva <ricardo.garcia.silva@gmail.com>
-- Tom Kralidis <tom.kralidis@somewhere.com>
+- Tom Kralidis <tomkralidis@gmail.com>
 
+[FOSS4G 2025](https://2025.foss4g.org)
+---
+
+## Outline
+
+- OGC Standards and Compliance
+- OGC CITE overview
+- Introducing OGC CITE Runner
+- Future work
 
 ---
 
-## OGC CITE Runner
+## OGC Standards and Compliance
 
-- OGC CITE Runner is a test runner for OGC CITE test suites
-- It is a thin layer of automation over OGC TeamEngine
-- Lowers effort required for running CITE tests
-- Allows projects implementing OGC standards to have quick feedback on compliance
-- Can be run as a standalone tool
-- Available as a GitHub Action - also usable on other platforms
+- Certified OGC Compliant: product has passed compliance testing
+  - compliance matrix:
+    - supported standard * product version
+- Uncertified: product has implemented and registered
 
-
----
-
-## OGC CITE
-
-- CITE - Compliance and Interoperability Testing & Evaluation
-- Compliance and testing program operated by OGC
-- Set of procedures for verifying compliance of an application to OGC standards
-- An organization submits an application for CITE
-- Compliant applications are granted an OGC Certification Trademark License, certifying that a 
-  specific version of a software application complies with an OGC standard
-- A large part of the CITE procedure is demonstrating that the application passes OGC test 
-  suite for the standard being certified
-
+[ogc.org/how-our-compliance-program-works](https://www.ogc.org/how-our-compliance-program-works)
 
 ---
 
-## OGC Test Suites
+## OGC CITE overview
 
-- Official test suites which are used in the CITE procedure
-- Published by OGC
+- Compliance & Interoperability Testing & Evaluation
+- repository of conformance tests
+- uses Test Evaluation And Measurement (TEAM) Engine (FOSS) as baseline
+  - [OSGeo Community project](https://www.osgeo.org/projects/teamengine)
+- Executable Test Suites (ETS) are developed foreach OGC standard
 
+-v-
 
----
+## OGC CITE overview
 
-## OGC TeamEngine
+- CITE is typically run as an interactive web service
+  - [cite.opengeospatial.org/teamengine](https://cite.opengeospatial.org/teamengine)
+- Docker: supports containerized/local build/invocation
 
-- Official OGC test runner
-- Runs OGC test suites
-- Has a web interface
-- Official instance hosted by OGC at https://cite.opengeospatial.org/teamengine/
-- Open source software
-- Can also be run locally via native install or through docker
+-v-
 
+## Value proposition for further automation of OGC CITE
 
----
-
-## OGC CITE Runner(1)
-
-- OGC CITE Runner is a thin layer over OGC TeamEngine
-- Provides a CLI useful for automating the running of OGC test suites
-- Outputs results in multiple formats
-- Can be integrated into application CI pipelines
-- Allows setting up quick feedback loop between development and possible compliance
+- use by any project looking for automated lower barrier CITE testing
+- CI/CD workflows
+  - schedule
+  - on commit/push
 
 ---
 
-## OGC CITE Runner(2)
+## Introducing OGC CITE Runner
+
+- a test runner for OGC CITE test suites
+- thin, composable layer of automation atop OGC Team Engine
+- lowers the developer barrier to CITE testing
+- enables rapid compliance feedback, corrective action
+- CI/CD: can be run as a GitHub Action, pipeline or standalone CLI
+
+-v-
+
+## Introducing OGC CITE Runner
 
 ```mermaid
 flowchart TD
-
 ocr[OGC CITE Runner]
-te[OGC TeamEngine]
+te[OGC Team Engine]
 suites
 iut[application being tested]
 client[you]
@@ -82,14 +82,13 @@ te -- 2. returns execution result --> ocr
 ocr -- 3. formats results --> client
 ```
 
-
 ---
 
-## Quickstart(1) - OGC TeamEngine
+## Quickstart
 
-Start a local instance of OGC TeamEngine:
+Start a local instance of OGC Team Engine:
 
-```shell
+```bash
 docker run \
     --rm \
     --name teamengine \
@@ -98,18 +97,17 @@ docker run \
     ogccite/teamengine-production:1.0-SNAPSHOT
 ```
 
-TeamEngine is now available at
+Team Engine is now available at
 
     http://localhost:9080
 
+-v-
 
----
+## Quickstart
 
-## Quickstart(2) - OGC CITE Runner
+Install ogc-cite-runner with `pipx` (or `pip`)
 
-Install ogc cite runner with `pipx` (or `pip`)
-
-```shell
+```bash
 # install ogc-cite-runner
 pipx install ogc-cite-runner
 
@@ -119,29 +117,26 @@ source .venv/bin/activate
 pip install ogc-cite-runner
 ```
 
+-v-
 
----
+## Quickstart
 
-## Quickstart(3) - Application under test
-
-Start the application to be tested, for example the pygeoapi demo server:
+Start the application to be tested, for example the [pygeoapi](https://pygeoapi.io) demo server:
 
     https://demo.pygeoapi.io/master
 
+-v-
 
----
+## Quickstart
 
-## Quickstart(4) - Use ogc-cite-runner
+Use ogc-cite-runner to test your implementation:
 
-Use OGC CITE Runner to test your implementation:
-
-```shell
+```bash
 ogc-cite-runner execute-test-suite \
     http://localhost:9080/teamengine \
     ogcapi-features-1.0 \
     --test-suite-input iut https://demo.pygeoapi.io/master
 ```
-
 
 ---
 
@@ -149,27 +144,26 @@ ogc-cite-runner execute-test-suite \
 
 `ogc-cite-runner execute-test-suite` performs three steps in sequence:
 
-1. Asks OGC TeamEngine to run desired test suite;
-2. Captures TeamEngine suite execution results in the W3C EARL (Evaluation and Report Language) 
+1. Asks OGC Team Engine to run desired test suite;
+2. Captures Team Engine suite execution results in the W3C EARL (Evaluation and Report Language) 
    format (XML-based)
 3. Parses results, filtering and converting them into a more human-readable output format
 
 
 ---
 
-## Additional features - output formats
+## Features: output formats
 
-ogc-cite-runner is able to produce results in four different **output formats**:
+ogc-cite-runner is able to produce results in numerous **output formats**:
 
-- console (default) - useful for quick inspection
-- json - allows further processing with other tools
-- markdown - for embedding into HTML or producing PDF reports
-- raw - raw XML in EARL format - useful for two-step workflow
+- console (default): useful for quick inspection
+- json: allows further processing with other tools
+- markdown: for embedding into HTML or producing PDF reports
+- raw: raw XML in EARL format - useful for two-step workflow
 
+-v-
 
----
-
-## raw output format - two-step workflow (1)
+## raw output format: two-step workflow
 
 In addition to 
 
@@ -177,20 +171,19 @@ In addition to
 
 there is also 
 
-`ogc-cite-runner parse-result`.
+`ogc-cite-runner parse-result`
 
-By leveraging the `raw` output format together with the `parse-result` sub-command,
-it is possible to break ogc-cite-runner workflows down into two steps:
+By leveraging the `raw` output format together with the `parse-result` subcommand,
+it is possible to break `ogc-cite-runner` workflows down into two steps:
 
 1. Run the test suite and store the raw XML output
 2. Produce a report
 
+-v-
 
----
+## raw output format: two-step workflow
 
-## raw output format - two-step workflow (2)
-
-```shell
+```bash
 # 1. run the tests and store raw result
 ogc-cite-runner execute-test-suite \
     http://localhost:9080/teamengine \
@@ -205,8 +198,7 @@ ogc-cite-runner parse-result \
     execution-result.xml
 ```
 
-
----
+-v-
 
 ## JSON output format example
 
@@ -215,27 +207,26 @@ integrated into a larger pipeline.
 
 Example: output JSON and then use `jq` to further process results:
 
-```shell
+```bash
 ogc-cite-runner parse-result \
     --output-format json \
     execution-result.xml
 | jq '.passed'
 ```
 
-
 ---
 
-## Additional features - report sections
+## Features: report sections
 
-ogc-cite-runner's output report contains three sections,
+`ogc-cite-runner` output report contains the following sections,
 which can be toggled:
 
-- summary (on by default)
+- summary (default)
 - failed
 - skipped
 - passed
 
-```shell
+```bash
 ogc-cite-runner parse-result \
     --with-skipped \
     execution-result.xml
@@ -243,48 +234,50 @@ ogc-cite-runner parse-result \
 
 ---
 
-## Using OGC-CITE-Runner in GitHub actions(1)
+## GitHub Actions
 
-- OGC CITE Runner is not published on the GitHub marketplace yet
-- You can use it regardless
-- just include the action in your workflow
+- OGC CITE Runner is not yet published on GitHub Marketplace
+- can still be used regardless
+  - simply include the action in your workflow
 
 ```yaml
 jobs:
   demo-ci-job:
     steps:
       - name: "Grab your code and perform whatever setup"
-        
       - name: "Launch your application"
-          
       - name: "Use ogc-cite-runner GitHub action"
         id: test_ogc_cite_runner_github_action
         uses: OSGeo/ogc-cite-runner@v0.3.0
         with:
           test_suite_identifier: ogcapi-features-1.0
           test_session_arguments: iut=http://host.docker.internal:${{ env.SIMPLESERVER_PORT }}
-          
       - name: "Perform whatever cleanup"
 ```
 
+-v-
+
+## GitHub Actions
+
+`ogc-cite-runner` outputs become available in multiple places:
+
+1. In the GitHub actions log (using the `console` output format): for detailed inspection
+2. In the GitHub actions job summary (using the `markdown` output format): for a quick glance of results
+3. As job artifacts (both the `raw` and `markdown` output formats): if further offline processing is needed
+4. As step output (using the `json` output format): if further workflow-related processing is needed
+
 ---
 
-## Using OGC-CITE-Runner in GitHub actions(2)
+## Future work
 
-OGC-CITE-Runner outputs become available in multiple places:
-
-1. In the GitHub actions log (using the `console` output format) - for detailed inspection
-2. In the GitHub actions job summary (using the `markdown` output format) - for a quick glance of results
-3. As job artifacts (both the `raw` and `markdown` output formats) - if further offline processing is needed
-4. As step output (using the `json` output format) - if further workflow-related processing is needed
-
+- publish action to GitHub Marketplace
+- add option to allow managing Team Engine execution internally
+- become adopted by FOSS projects that implement OGC standards
 
 ---
 
-## OGC-CITE-Runner future tasks
+## Thanks
 
-- Publish action in the GitHub marketplace
-- Option to allow managing TeamEngine execution internally
-- Raise awareness for OGC CITE Runner existence
-- Become adopted by open source projects that implement OGC standards
-  
+- Ricardo Garcia Silva <ricardo.garcia.silva@gmail.com>
+- Tom Kralidis <tomkralidis@gmail.com>
+---
