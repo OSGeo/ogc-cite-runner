@@ -145,7 +145,7 @@ ogc-cite-runner execute-test-suite \
 `ogc-cite-runner execute-test-suite` performs three steps in sequence:
 
 1. Asks OGC Team Engine to run desired test suite;
-2. Captures Team Engine suite execution results in the W3C EARL (Evaluation and Report Language) 
+2. Captures Team Engine suite execution results in the W3C EARL (Evaluation and Report Language)
    format (XML-based)
 3. Parses results, filtering and converting them into a more human-readable output format
 
@@ -165,11 +165,11 @@ ogc-cite-runner is able to produce results in numerous **output formats**:
 
 ## raw output format: two-step workflow
 
-In addition to 
+In addition to
 
-`ogc-cite-runner execute-test-suite` 
+`ogc-cite-runner execute-test-suite`
 
-there is also 
+there is also
 
 `ogc-cite-runner parse-result`
 
@@ -191,7 +191,7 @@ ogc-cite-runner execute-test-suite \
     --suite-input iut https://demo.pygeoapi.io/master \
     --output-format raw \
     > execution-result.xml
-    
+
 # 2. generate output
 ogc-cite-runner parse-result \
     --output-format markdown \
@@ -202,7 +202,7 @@ ogc-cite-runner parse-result \
 
 ## JSON output format example
 
-Using `--output-format json`, ogc-cite-runner can easily be 
+Using `--output-format json`, ogc-cite-runner can easily be
 integrated into a larger pipeline.
 
 Example: output JSON and then use `jq` to further process results:
@@ -248,7 +248,7 @@ jobs:
       - name: "Launch your application"
       - name: "Use ogc-cite-runner GitHub action"
         id: test_ogc_cite_runner_github_action
-        uses: OSGeo/ogc-cite-runner@v0.3.0
+        uses: OSGeo/ogc-cite-runner@v0.3.1
         with:
           test_suite_identifier: ogcapi-features-1.0
           test_session_arguments: iut=http://host.docker.internal:${{ env.SIMPLESERVER_PORT }}

@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: test ogcapi-features compliancy
-        uses: OSGeo/ogc-cite-runner@v0.3.0
+        uses: OSGeo/ogc-cite-runner@v0.3.1
         with:
           test_suite_identifier: ogcapi-features-1.0
           test_session_arguments: iut=http://host.docker.internal:5001
