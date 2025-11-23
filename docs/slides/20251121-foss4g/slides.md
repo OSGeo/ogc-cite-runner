@@ -135,7 +135,7 @@ Use ogc-cite-runner to test your implementation:
 ogc-cite-runner execute-test-suite \
     http://localhost:9080/teamengine \
     ogcapi-features-1.0 \
-    --test-suite-input iut https://demo.pygeoapi.io/master
+    --suite-input iut https://demo.pygeoapi.io/master
 ```
 
 ---

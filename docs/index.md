@@ -62,7 +62,7 @@ pipx install ogc-cite-runner
 ogc-cite-runner execute-test-suite \
     http://localhost:8080/teamengine \
     ogcapi-features-1.0 \
-    --test-suite-input iut http://host.docker.internal:5001
+    --suite-input iut http://host.docker.internal:5001
 ```
 
 
