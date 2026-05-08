@@ -8,8 +8,10 @@ branding:
 
 inputs:
   test_suite_identifier:
+    required: true
     description: 'Identifier of the Executable Test Suite (etscode) to be run. Example: ogcapi-features-1.0'
   test_session_arguments:
+    required: true
     description: >
       Space-separated string with arguments that are to be sent for running the test session. example:
       'iut=http://pygeoapi:5000'
@@ -17,9 +19,17 @@ inputs:
     required: false
     description: >
       URL for the teamengine instance to use for running the test suite. If not provided, this will spin up a docker
-      container using the [ogccite/teamengine-production:1.0-SNAPSHOT](https://hub.docker.com/r/ogccite/teamengine-production) image.
-      If you specify a custom teamengine URL you may also optonally supply authentication credentials by defining
-      them as secrets - Expected secret names are: `teamengine_username` and `teamengine_password`.
+      container using one of [ogccite/teamengine-beta:1.0-SNAPSHOT](https://hub.docker.com/r/ogccite/teamengine-beta)
+      or [ogccite/teamengine-production:1.0-SNAPSHOT](https://hub.docker.com/r/ogccite/teamengine-production) image,
+      according to the value of the `use_production_ogccite_teamengine_docker_image` input (see below).
+      If you specify a custom teamengine URL you may also optionally supply authentication credentials by defining
+      them as secrets - Expected secret names are: `teamengine_username` and `teamengine_password` (see below).
+  use_production_ogccite_teamengine_docker_image:
+    required: false
+    default: "false"
+    description: >
+      Whether to use the `ogccite/teamengine-production` docker image instead of `ogccite/teamengine-beta`. The beta
+      image is used by default, as it contains more recent versions of test suites.
   teamengine_username:
     required: false
     default: "ogctest"
@@ -56,6 +66,10 @@ outputs:
 
 runs:
   using: 'composite'
+  # Security note: user-controlled inputs are never interpolated directly into shell scripts via ${{ inputs.* }}.
+  # Instead, they are passed through each step's `env:` block and referenced as quoted shell variables ("$VAR").
+  # This prevents script injection, since ${{ }} expressions are expanded textually before the shell runs,
+  # while environment variable expansion treats values as data rather than code.
   steps:
     - name: "Add action path to the global path"
       shell: bash
@@ -66,13 +80,13 @@ runs:
       run: |
         echo "ACTION_NORMALIZED_PATH=$(realpath -m ${{ github.action_path }})" >> "${GITHUB_OUTPUT}"
     - name: "Install uv"
-      uses: astral-sh/setup-uv@v5
+      uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       with:
         version: "0.6.13"
         enable-cache: true
         cache-dependency-glob: "${{ steps.normalize_action_path.outputs.ACTION_NORMALIZED_PATH }}/uv.lock"
     - name: "Set up Python"
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version-file: "${{ github.action_path }}/pyproject.toml"
     - name: "Install ogc-cite-runner"
@@ -86,32 +100,53 @@ runs:
         uv sync --frozen
     - name: "Start TEAM engine container"
       if: ${{ !inputs.teamengine_url }}
+      env:
+        USE_PRODUCTION_IMAGE: ${{ inputs.use_production_ogccite_teamengine_docker_image }}
       shell: "bash"
-      run: >
-        docker run
-        --detach
-        --rm
-        --name teamengine
-        --add-host=host.docker.internal:host-gateway
-        --publish 9080:8080
-        ogccite/teamengine-production:1.0-SNAPSHOT
+      run: |
+        if [ "$USE_PRODUCTION_IMAGE" = "true" ]; then
+          TEAMENGINE_IMAGE="ogccite/teamengine-production:1.0-SNAPSHOT"
+        else
+          TEAMENGINE_IMAGE="ogccite/teamengine-beta:1.0-SNAPSHOT"
+        fi
+        docker run \
+          --detach \
+          --rm \
+          --name teamengine \
+          --add-host=host.docker.internal:host-gateway \
+          --publish 9080:8080 \
+          ${TEAMENGINE_IMAGE}
     - name: "Run ogc-cite-runner"
       id: "run_cite_runner"
+      env:
+        TEAMENGINE_URL_INPUT: ${{ inputs.teamengine_url }}
+        USE_PRODUCTION_IMAGE: ${{ inputs.use_production_ogccite_teamengine_docker_image }}
+        NETWORK_TIMEOUT: ${{ inputs.network_timeout_seconds }}
+        TEST_SUITE_ID: ${{ inputs.test_suite_identifier }}
+        TEAMENGINE_USERNAME: ${{ inputs.teamengine_username }}
+        TEAMENGINE_PASSWORD: ${{ inputs.teamengine_password }}
+        TEST_SESSION_ARGS: ${{ inputs.test_session_arguments }}
       shell: "bash --noprofile --norc -o pipefail {0}"
       run: |
         cd ${{ github.action_path }}
         RAW_PATH=raw-result.xml
+        if [ -n "$TEAMENGINE_URL_INPUT" ]; then
+          TEAMENGINE_URL="$TEAMENGINE_URL_INPUT"
+        elif [ "$USE_PRODUCTION_IMAGE" = "true" ]; then
+          TEAMENGINE_URL="http://localhost:9080/teamengine"
+        else
+          TEAMENGINE_URL="http://localhost:9080/te2"
+        fi
+        read -ra session_args <<< "$TEST_SESSION_ARGS"
         uv run ogc-cite-runner \
-            --network-timeout=${{ inputs.network_timeout_seconds }} \
+            --network-timeout="$NETWORK_TIMEOUT" \
             execute-test-suite-from-github-actions \
-            ${{ inputs.teamengine_url || 'http://localhost:9080/teamengine' }} \
-            ${{ inputs.test_suite_identifier }} \
+            "$TEAMENGINE_URL" \
+            "$TEST_SUITE_ID" \
             --output-format=raw \
-            --teamengine-username=${{ inputs.teamengine_username }} \
-            --teamengine-password=${{ inputs.teamengine_password }} \
-            $(echo -e ${{ inputs.test_session_arguments }}) 1> ${RAW_PATH}
+            "${session_args[@]}" 1> ${RAW_PATH}
         if [ $? -ne 0 ]; then
-            echo "Unable to use TeamEngine to execute test suite ${{ inputs.test_suite_identifier }} with arguments ${{ inputs.test_session_arguments }}"
+            echo "Unable to use TeamEngine to execute test suite $TEST_SUITE_ID with arguments $TEST_SESSION_ARGS"
             exit 1
         fi
         echo "RAW_RESULT_OUTPUT_PATH=${{ steps.normalize_action_path.outputs.ACTION_NORMALIZED_PATH }}/${RAW_PATH}" >> "${GITHUB_OUTPUT}"
@@ -141,7 +176,7 @@ runs:
             ${RAW_PATH}
         )" >> "${GITHUB_OUTPUT}"
     - name: "Store execution results as artifacts"
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: 'execution-results-${{ inputs.test_suite_identifier }}'
         path: |
@@ -150,11 +185,12 @@ runs:
     - name: "Stop teamengine container"
       if: ${{ always() && !inputs.teamengine_url }}
       shell: "bash"
-      run: docker stop teamengine
+      run: docker stop teamengine || true
     - name: "Set action exit code"
       shell: "bash"
       run: |
-        if [ ${{ steps.run_cite_runner.outputs.CITE_RUNNER_EXIT_CODE}} -eq 0 ]; then
+        EXIT_CODE="${{ steps.run_cite_runner.outputs.CITE_RUNNER_EXIT_CODE }}"
+        if [ "${EXIT_CODE:-1}" -eq 0 ]; then
             echo "::notice::Test suite has passed"
             exit 0
         else

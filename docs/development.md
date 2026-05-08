@@ -53,17 +53,34 @@ In a brief nutshell:
 
 6. Stand up a docker container with a local teamengine instance:
 
-    ```shell
-    docker run \
-        --rm \
-        --name=teamengine \
-        --add-host=host.docker.internal:host-gateway \
-        --publish=9080:8080 \
-        ogccite/teamengine-production:1.0-SNAPSHOT
-    ```
+    === "teamengine-beta"
 
-    You should now be able to use `http:localhost:9080/teamengine` as the teamengine URL in
-    ogc-cite-runner.
+        ```shell
+        docker run \
+            --rm \
+            --name=teamengine \
+            --add-host=host.docker.internal:host-gateway \
+            --publish=9080:8080 \
+            ogccite/teamengine-beta:1.0-SNAPSHOT
+        ```
+
+        You should now be able to use `http:localhost:9080/te2` as the teamengine URL in
+        ogc-cite-runner.
+
+    === "teamengine-production"
+
+        ```shell
+        docker run \
+            --rm \
+            --name=teamengine \
+            --add-host=host.docker.internal:host-gateway \
+            --publish=9080:8080 \
+            ogccite/teamengine-production:1.0-SNAPSHOT
+        ```
+
+        You should now be able to use `http:localhost:9080/teamengine` as the teamengine URL in
+        ogc-cite-runner.
+
 
     !!! note
 
@@ -124,11 +141,16 @@ result matches what is expected.
 If you want to work on documentation, you can start the mkdocs server with:
 
  ```shell
- uv run mkdocs serve
+ uv run mkdocs serve --livereload
  ```
 
+!!! note
+
+    The `--livereload` flag must be passed explicitly due to a [known issue with mkdocs and click](https://github.com/mkdocs/mkdocs/issues/4055)
+    that causes live reload to be silently disabled when omitted.
+
 Now edit files under the `/docs` directory and check whether they match your expected result in the mkdocs dev server,
-which would be running at `http://localhost:8000/ogc-cite-runner/
+which would be running at `http://localhost:8000/ogc-cite-runner/`
 
 
 ## Release management

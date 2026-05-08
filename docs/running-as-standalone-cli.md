@@ -147,8 +147,8 @@ cite runner execute-test-suite [OPTIONS] TEAMENGINE_BASE_URL TEST_SUITE_IDENTIFI
 | name | description |
 | ---- | ----------- |
 | `--help` | Show information on how to run the command, including a description of arguments and options |
-| `--teamengine-username` | Username for authenticating with teamengine |
-| `--teamengine-password` | Password for authenticating with teamengine |
+| `--teamengine-username` | Username for authenticating with teamengine. Can also be set via the `TEAMENGINE_USERNAME` environment variable. |
+| `--teamengine-password` | Password for authenticating with teamengine. Can also be set via the `TEAMENGINE_PASSWORD` environment variable. Prefer the environment variable over the CLI flag to avoid the password being visible in process listings. |
 | `--suite-input` | Inputs expected by teamengine for running the test suite specified with TEST_SUITE_IDENTIFIER. These vary depending on the test suite.<br><br>This parameter can be specified multiple times.<br><br>Each parameter must be specified as a name and a value, separated by the space character (_i.e._ `--suite-input {name} {value}`).<br><br>**Ensure you read the warning above on how to provide the URL of the service being tested.**<br><br>Example: `--suite-input iut http://host.docker.internal:5000 --suite-input noofcollections -1`|
 | `--output-format` | Format for the ogc-cite-runner result. Available options are:<br><ul><li><code>console</code> - Return results in a format suitable for reading in the terminal - This is the default</li><li><code>json</code> - Return results as JSON. This is useful for piping the results to other commands for further processing.</li><li><code>markdown</code> - Return results as a Markdown document.</li><li><code>raw</code> - Return the raw results as provided by teamengine. This is an XML document.</li></ul>
 | `--with-summary`/`--without-summary` | Whether the output should include a summary. This is enabled by default. Disable it by providing `--without-summary` |

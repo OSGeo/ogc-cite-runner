@@ -110,6 +110,22 @@ When run as a GitHub action, ogc-cite-runner expects the following inputs to be 
             [docker engine docs:material-open-in-new:]{: target="blank_" } for more detail.
 
 
+### `use_production_ogccite_teamengine_docker_image`
+
+- **Required**: No (defaults to `'false'`)
+- **Description**: Whether to use the `ogccite/teamengine-production` docker image instead of
+  `ogccite/teamengine-beta` when spinning up a local TeamEngine container. The beta image is used
+  by default, as it contains more recent versions of test suites.
+
+    This input is only relevant when `teamengine_url` is not provided.
+
+    Example:
+
+    ```yaml
+    use_production_ogccite_teamengine_docker_image: "true"
+    ```
+
+
 ### `teamengine_url`
 
 - **Required**: No (defaults to not set)
@@ -123,8 +139,11 @@ When run as a GitHub action, ogc-cite-runner expects the following inputs to be 
     authentication credentials.
 
     !!! note
-        The value of `teamengine_url` must be the URL of the landing page of
-        the TeamEngine service, which usually is located at the `/teamengine` path.
+        The value of `teamengine_url` must be the URL of the landing page of the TeamEngine service.
+        The path depends on the image being used:
+
+        - `ogccite/teamengine-production` — landing page is at `/teamengine`
+        - `ogccite/teamengine-beta` — landing page is at `/te2`
 
     Examples:
 
@@ -442,7 +461,8 @@ relevant steps consist of calling ogc-cite-runner as a standalone CLI applicatio
 
     1. The first execution is where the test suite is actually run. The ogc-cite-runner
        `execute-test-suite-from-github-actions` CLI command is invoked with the `--output-format raw` flag
-       and the raw XML result returned by TeamEngine is stored as `raw-result.xml`
+       and the raw XML result returned by TeamEngine is stored as `raw-result.xml`. TeamEngine credentials
+       are passed via environment variables rather than CLI flags.
 
     2. The second execution parses the raw result and outputs a full report to the logs.
        ogc-cite-runner's `parse-result` CLI command is invoked with the `--output-format console` flag. Depending on

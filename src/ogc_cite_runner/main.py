@@ -47,6 +47,7 @@ _teamengine_username_option = typing.Annotated[
     typer.Option(
         help="Username for authenticating with teamengine",
         parser=_parse_pydantic_secret_str,
+        envvar="TEAMENGINE_USERNAME",
     ),
 ]
 _teamengine_password_option = typing.Annotated[
@@ -54,6 +55,7 @@ _teamengine_password_option = typing.Annotated[
     typer.Option(
         help="Password for authenticating with teamengine",
         parser=_parse_pydantic_secret_str,
+        envvar="TEAMENGINE_PASSWORD",
     ),
 ]
 _output_format_option = typing.Annotated[

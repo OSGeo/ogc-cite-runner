@@ -49,20 +49,20 @@ jobs:
 Run the same test suite as a standalone CLI application:
 
 ```shell
-docker pull ogccite/teamengine-production:1.0-SNAPSHOT
+docker pull ogccite/teamengine-beta:1.0-SNAPSHOT
 docker run \
     --rm \
     --name=teamengine \
     --add-host=host.docker.internal:host-gateway \
     --publish=9080:8080 \
-    ogccite/teamengine-production:1.0-SNAPSHOT
+    ogccite/teamengine-beta:1.0-SNAPSHOT
 
 pipx install ogc-cite-runner
 
 ogc-cite-runner execute-test-suite \
-    http://localhost:8080/teamengine \
+    http://localhost:9080/te2 \
     ogcapi-features-1.0 \
-    --test-suite-input iut http://host.docker.internal:5001
+    --suite-input iut http://host.docker.internal:5001
 ```
 
 
