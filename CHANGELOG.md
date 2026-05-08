@@ -8,6 +8,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [v0.3.2] - 2026-05-08
+
+### Added
+
+- GitHub action now has an extra option in order to allow specifying which ogccite-teamengine image to use,
+  either beta or production
+
+### Changed
+
+- GitHub action now defaults to using ogccite-teamengine-beta docker image
+
+### Fixed
+
+- Improved robustness of GitHub action
+- Improved documentation
+
+
 ## [v0.3.1] - 2025-11-20
 
 ### Fixed
@@ -73,7 +90,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - First release
 
 
-[unreleased]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.3.0...HEAD
+[unreleased]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.3.2...HEAD
+[v0.3.2]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.3.1...v0.3.2
+[v0.3.1]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.3.0...v0.3.1
 [v0.3.0]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.1.4...v0.2.0
 [v0.1.4]: https://github.com/OSGeo/ogc-cite-runner/compare/v0.1.3...v0.1.4
