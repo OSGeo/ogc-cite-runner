@@ -62,7 +62,7 @@ pipx install ogc-cite-runner
 ogc-cite-runner execute-test-suite \
     http://localhost:9080/te2 \
     ogcapi-features-1.0 \
-    --suite-input iut http://host.docker.internal:5001
+    --suite-input iut=http://host.docker.internal:5001
 ```
 
 

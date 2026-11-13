@@ -249,12 +249,11 @@ def execute_test_suite(
     teamengine_username: _teamengine_username_option = "ogctest",
     teamengine_password: _teamengine_password_option = "ogctest",
     suite_input: typing.Annotated[
-        typing.Optional[list[click.Tuple]],
+        typing.Optional[list[str]],
         typer.Option(
-            click_type=click.Tuple([str, str]),
             help=(
-                "Input name and value separated by a space. "
-                "Ex: --suite-input iut http://host.docker.internal:5000"
+                "Input name and value separated by an equals sign. "
+                "Ex: --suite-input iut=http://host.docker.internal:5000"
             ),
         ),
     ] = None,
@@ -267,7 +266,8 @@ def execute_test_suite(
 ):
     """Execute a CITE test suite."""
     suite_inputs = {}
-    for param_name, param_value in suite_input:
+    for raw_suite_input in suite_input:
+        param_name, param_value = raw_suite_input.partition("=")[::2]
         param_values = suite_inputs.setdefault(param_name, [])
         param_values.append(param_value)
     context: config.OgcCiteRunnerContext = ctx.obj

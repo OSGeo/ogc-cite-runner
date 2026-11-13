@@ -106,7 +106,7 @@ In a brief nutshell:
          uv run ogc-cite-runner execute-test-suite \
              http://localhost:9081/teamengine \
              ogcapi-features-1.0 \
-             --suite-input iut http://host.docker.internal:9082
+             --suite-input iut=http://host.docker.internal:9082
          ```
 
 
