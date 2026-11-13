@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- `execute-test-suite` now takes `--suite-input` as `{name}={value}`, the same format as
+  `execute-test-suite-from-github-actions`, instead of `{name} {value}` (breaking change)
+
+### Fixed
+- Compatibility with typer 0.29.0, which removed the `click_type` parameter
+- Declare `click` as a dependency, since it is imported directly
+- Raise the minimum typer version to 0.16.0, since older releases crash with click 8.2 and later
+
 
 ## [v0.3.4] - 2026-09-27
 
